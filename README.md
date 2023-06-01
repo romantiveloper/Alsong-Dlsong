@@ -1,4 +1,11 @@
 # final-project
+
+## Architecture
+
+<img width="773" alt="image" src="https://github.com/sexyzun/ddip/assets/88064555/3a9c9f96-32fd-4214-8fac-21c147a962bb">
+
+## Rule
+
 2023 Play Data - Data Engineering 22nd
 
 - 코드 작성은 스네이크 표기법을 따른다.
