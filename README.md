@@ -13,7 +13,37 @@
 ## 🗺️ Django Architecture
 > Django로 구현되는 애플리케이션 구조에 대한 아키텍처 입니다   
 ![3  django_architecture](https://github.com/sexyzun/ddip/assets/42824372/90e1bb70-4908-404e-9312-9acba04fc175)
- 
+
+### Django API Speicification
+
+> 1️⃣ 회원 API
+> 
+>   |  HTTP |  Path |  Method |  Permission |  목적 |
+>   | --- | --- | --- | --- | --- |
+>   |**POST** |/api/user/signup|CREATE| AllowAny |사용자 회원가입|
+>   |**POST** |/api/user/signin|NONE| AllowAny |사용자 로그인, access_token 생성 및 반환|
+>   |**API** |/api/user/login/kakao/|NONE| AllowAny |카카오 소셜 로그인, access_token 생성 및 반환|
+>   |**API** |/api/user/login/naver/|NONE| AllowAny |네이버 소셜 로그인, access_token 생성 및 반환|    
+> 
+> 
+> 2️⃣ 싱잉 리스트 API
+> 
+>   |  HTTP |  Path |  Method |  Permission |  목적 |
+>   | --- | --- | --- | --- | --- |
+>   | **GET**|/api/song/|LIST|Access_token or ReadOnly| 사용자의 싱잉 리스트 확인 |
+>   | **GET**|/api/song/<int:pk>/|LIST|Access_token or ReadOnly| 싱잉 리스트의 특정 곡 상세 정보 확인 |
+>
+>
+> 3️⃣ 게시판 API
+> 
+>   |  HTTP |  Path |  Method |  Permission |  목적 |
+>   | --- | --- | --- | --- | --- |
+>   |**GET** |/api/posts/|LIST| AllowAny |모든 게시글 목록 확인|
+>   |**GET**, **PUT**, **DELETE** |/api/posts/<int:pk>/|RETRIEVE, UPDATE, DESTORY| Access_token or ReadOnly OR IsOwner |게시글 하나 확인, 수정, 삭제|
+>   |**POST** |/api/posts/create/|CREATE| Access_token |게시글 생성|
+>   |**POST** |/api/posts/<int:pk>/comments/create|CREATE| Access_token | 해당 게시글에 댓글 생성|
+>   |**GET**, **PUT**, **DELETE**|/api/posts/<int:pk>/comments/|RETRIEVE, UPDATE, DESTORY| Access_token |댓글 확인, 수정, 삭제|
+>   |**GET**|/api/posts/search/category/|LIST|AllowAny|카테고리별 검색|
 
 ## 🗺️ ML Architecture
 > 추천시스템 머신러닝 구조에 대한 아키텍처 입니다   
@@ -23,7 +53,7 @@
 ## 🗺️ Layer Architecture
 > 서비스 레이어에 따른 아키텍처 입니다   
 ![5  layer_architecture](https://github.com/sexyzun/ddip/assets/42824372/3a948f97-1b85-438b-8c40-6e66d4f2caef)
- 
+
 
 ## ⚖️ Rule
 
