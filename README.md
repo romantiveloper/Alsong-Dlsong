@@ -30,8 +30,9 @@
 > 
 >   |  HTTP |  Path |  Method |  Permission |  목적 |
 >   | --- | --- | --- | --- | --- |
->   | **GET**|/api/song/|LIST|Access_token or ReadOnly| 사용자의 싱잉 리스트 확인 |
->   | **GET**|/api/song/<int:pk>/|LIST|Access_token or ReadOnly| 싱잉 리스트의 특정 곡 상세 정보 확인 |
+>   |**GET** |/api/songs/|LIST| AllowAny |모든 곡  목록 확인|
+>   |**GET**, **PUT**, **DELETE** |/api/songs/<int:pk>/|RETRIEVE, DESTORY| Access_token or ReadOnly OR IsOwner |곡 하나 확인, 삭제|
+>   |**POST** |/api/songs/add/|CREATE| Access_token |곡 추가|
 >
 >
 > 3️⃣ 게시판 API
