@@ -46,6 +46,8 @@
 >   |**GET**, **PUT**, **DELETE**|/api/posts/<int:pk>/comments/|RETRIEVE, UPDATE, DESTORY| Access_token |댓글 확인, 수정, 삭제|
 >   |**GET**|/api/posts/search/category/|LIST|AllowAny|카테고리별 검색|
 
+> 4 대시보드 
+
 ## 🗺️ ML Architecture
 > 추천시스템 머신러닝 구조에 대한 아키텍처 입니다   
 ![4  ML_architecture](https://github.com/sexyzun/ddip/assets/42824372/8b70f957-840a-454d-bfdd-1f4bc4de97fd)
@@ -75,3 +77,4 @@
 - Ex) play-data
 - 함수의 시작은 동사형으로
 - 코드는 가독성을 우선시 한다. comprehension 사용 자제
+- 미안해 X -> 고마워 O
