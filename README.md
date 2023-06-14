@@ -1,4 +1,4 @@
-# (가제)알song달song🎤✨
+# 알song달song🎤✨
 
 ## 🗺️ Project Architecture
 > 전체 프로젝트 구성에 대한 아키텍처 입니다   
