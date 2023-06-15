@@ -81,7 +81,7 @@
 
 
 <body>
-    <h1>노래 리스트</h1>
+    <h1><a href="/song-list/">노래 리스트</a></h1>
     <table>
         <thead>
             <tr>
@@ -112,14 +112,14 @@
             </tr>
         </thead>
         <tbody>
-            {% for song in results %}
+            {% for result in results %}
             <tr>
-                <td>{{ song.ky_song_num }}</td>
-                <td>{{ song.tj_song_num }}</td>
-                <td>{{ song.title }}</td>
-                <td>{{ song.artist }}</td>
-                <td>{{ song.cmp }}</td>
-                <td>{{ song.writer }}</td>
+                <td>{{ result.ky_song_num }}</td>
+                <td>{{ result.tj_song_num }}</td>
+                <td>{{ result.title }}</td>
+                <td>{{ result.artist }}</td>
+                <td>{{ result.cmp }}</td>
+                <td>{{ result.writer }}</td>
                 <td>
                     <button>추가</button>
                 </td>

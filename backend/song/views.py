@@ -20,7 +20,7 @@ def song_list(request):
     
     print(songs)
 
-    return render(request, 'songlist/song_list.html', {'songs': songs})
+    return render(request, 'songlist/song-list.html', {'songs': songs})
 
 
 
