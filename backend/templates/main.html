@@ -1,0 +1,44 @@
+{% extends "navbar.html" %}
+{% block title %}Main{% endblock %}
+
+{% block font %}'Dongle', sans-serif{% endblock %}
+
+{% block style %}
+/* 선택된 버튼 스타일 */
+    .selected {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+{% endblock %}
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+    <ul style="list-style-type: none; display: flex;">
+        <li>
+            <button id="myListButton">내 리스트</button>
+        </li>
+        <li>
+            <button id="groupListButton">그룹 리스트</button>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
+<script>
+    // 페이지 로드 시 "내 리스트" 버튼을 선택된 상태로 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        var myListButton = document.getElementById("myListButton");
+        myListButton.classList.add("selected");
+    });
+
+    // 버튼 클릭 시 선택 상태 변경
+    var buttons = document.querySelectorAll("button");
+    buttons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            buttons.forEach(function(btn) {
+                btn.classList.remove("selected");
+            });
+            this.classList.add("selected");
+        });
+    });
+</script>

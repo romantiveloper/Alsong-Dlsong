@@ -3,4 +3,4 @@ from .models import mylist
 # Create your views here.
 
 def mylist(request):
-    pass
+    return render(request, 'main.html')
