@@ -1,0 +1,132 @@
+<style>
+    .main_body {
+        display: flex;
+        justify-content: center;
+        padding-top: 5px;
+        padding-left: 150px;
+        background-color: #f7f7f7;
+    }
+</style>
+<head>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>노래 차트</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // CSRF 토큰 설정
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // 이름으로 쿠키 찾기
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": csrftoken }
+    });
+
+    $(document).ready(function() {
+    $("button").click(function() {
+        var category = $(this).val();  // 버튼의 값(category)을 가져옴
+        var query = $("input[name='query']").val();  // 검색어를 가져옴
+
+        $.ajax({
+            type: 'POST',
+            url: '/song-list/',
+            data: {
+                'category': category,
+                'query': query  // 검색어(query)를 데이터에 포함시킴
+            },
+            success: function(response) {
+                // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                console.log(response);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+<body>
+    <h1><a href="/song-list/">노래 리스트</a></h1>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <div style="text-align: center;">
+                        <form method="post" action="/song-list/">
+                            {% csrf_token %}
+                            <button type="submit" name="category" value="TJ">TJ</button>
+                            <button type="submit" name="category" value="KY">KY</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="/song-list/search/" method="GET">
+                            <input type="text" name="query" placeholder="검색어를 입력하세요">
+                            <button type="submit">검색</button>
+                        </form>                          
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>곡번호</th>
+                <th>곡명</th>
+                <th>아티스트</th>
+                <th>작곡가</th>
+                <th>작사가</th>
+                <th>Mylist</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+            <tr>
+                <td>{{ song.song_num }}</td>
+                <td>{{ song.title }}</td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.cmp }}</td>
+                <td>{{ song.writer }}</td>
+                <td>
+                    <button>추가</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+
