@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class KysongConfig(AppConfig):
-    name = 'kysong'
+class SongConfig(AppConfig):
+    name = 'song'
