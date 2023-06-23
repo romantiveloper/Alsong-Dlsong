@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from .models import mylist
+from .models import Mylist, Myfolder
 # Create your views here.
 
 def mylist(request):
-    return render(request, 'main.html')
+    forder_list = Myfolder.objects.all()
+    print(forder_list)
+    return render(request, 'main.html', {'forder_list':forder_list})
