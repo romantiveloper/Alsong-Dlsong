@@ -50,7 +50,8 @@
 
 ## 🗺️ ML Architecture
 > 추천시스템 머신러닝 구조에 대한 아키텍처 입니다   
-![4  ML_architecture](https://github.com/sexyzun/ddip/assets/42824372/8b70f957-840a-454d-bfdd-1f4bc4de97fd)
+
+아직 미완성 ...
  
 
 ## 🗺️ Layer Architecture
