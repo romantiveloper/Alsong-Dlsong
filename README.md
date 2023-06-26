@@ -51,7 +51,22 @@
 ## 🗺️ ML Architecture
 > 추천시스템 머신러닝 구조에 대한 아키텍처 입니다   
 
-아직 미완성 ...
+(추후 제작 예정)
+
+
+## ML Tools
+
+- Crawling batch : 
+    - Airflow
+    - lambda
+- DB : 
+    - 몽고DB( lyricstranslate.com 크롤링 결과)
+    - RDB (tj,ky,spotify) -> AWS Dynamo , Amazon RDS
+    - Storage : 구글 cloud -> AWS S3
+- Hadoop : 로컬 VM -> AWS EMR
+- Hive : 로컬 -> AWS EMR
+- Spark : 로컬 -> AWS EMR
+- BI : Tableau
  
 
 ## 🗺️ Layer Architecture
