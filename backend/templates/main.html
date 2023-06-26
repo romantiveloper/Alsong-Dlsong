@@ -1,14 +1,198 @@
-{% block style %}
+<head>
 
-{% endblock %}
+<!-- jquery 사용하기 위해 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
+
+<style>
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 300px;
+        height: 200px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_content_write{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+</style>
+
+</head>
 {% block content %}
+
 <div style="padding-left: 300px;">
-    <div style="background-color: aqua; display: flex; width: 700px; height: 2000px;">
-        <div class="border" style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
-            <button> 추가 </button>
+    <div id="list_container" style="background-color: aqua; display: flex; width: 700px; height: 2000px;">
+        {% for list in folder_list %}
+        <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
+            <button class="list_button" data-list-number="{{ list.list_number }}">{{ list.list_name }}</button>    
+        </div>
+        {% endfor %}
+
+        <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
+            <button id="button_add_list" type="button">
+                추가
+            </button>
         </div>
     </div>
 </div>
+
+
+<!-- 모달 content 부분-->
+<div id="modal_add_feed_content" class="modal modal_overlay_content">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 15px">
+                    X
+                </span>
+            </div>
+        </div>
+            <div class="modal_content_write">
+                <div style="height: 150px">
+                    <textarea id="input_list_name" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요"></textarea>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 추가하기</button>
+                </div>
+            </div>
+    </div>
+</div>
+
 {% endblock %}
 
+<script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+</script>
 
+<script>
+    //모달 띄우기 코드
+    const modal = document.getElementById("modal_add_feed_content");
+    const buttonAddFeed = document.getElementById("button_add_list");
+    buttonAddFeed.addEventListener("click", e=> {
+        modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y 위치를 바꿔줌
+        modal.style.display = "flex";
+        document.body.style.overflowY = "hidden"; //스크롤 없애기
+
+        console.log(window.pageYOffset + " 위치"); //로그 찍기
+    });
+
+    //모달 닫기 코드
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+    let listCount = 0; // 추가된 리스트 개수를 추적하기 위한 변수
+
+    
+
+
+    function addList(fd) {
+        $.ajax({
+            url: 'add_list/', // 데이터를 전송할 URL
+            type: 'POST', // POST 메서드 사용
+            data: fd, // FormData를 전송 데이터로 사용
+            processData: false, // FormData를 문자열로 변환하지 않음
+            contentType: false, // 컨텐츠 유형을 설정하지 않음
+            success: function(response) {
+                // 성공적으로 응답을 받았을 때 실행할 코드
+                console.log(response);
+
+                // 새로운 리스트를 추가하는 코드
+                const newList = `
+                    <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
+                        <span>${list_name}</span>
+                    </div>
+                `;
+
+                $('#list_container').append(newList);
+                listCount++;
+
+                // 추가 버튼을 오른쪽으로 이동하는 코드
+                const buttonWidth = 170; // 추가 버튼을 감싸는 <div> 요소의 너비 + 마진값
+                const containerWidth = 700; // 리스트 컨테이너의 너비
+                const maxButtonsPerRow = Math.floor(containerWidth / buttonWidth);
+
+                if (listCount % maxButtonsPerRow === 0) {
+                    $('#button_add_list').css('float', 'left');
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                // 요청이 실패했을 때 실행할 코드
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    }
+
+    $('#button_write_feed').on('click', () => {
+        const list_name = $('#input_list_name').val();
+
+        let fd = new FormData();
+
+        fd.append('list_name', list_name); 
+
+        addList(fd); // 리스트 추가 함수 호출
+
+        // 추가 버튼 클릭 후 모달 닫기 및 페이지 새로고침
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
+        location.reload(); // 페이지 새로고침
+    });
+
+    // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
+    const listButtons = document.querySelectorAll('.list_button');
+    listButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const listNumber = button.dataset.listNumber;
+            const url = `/mylist/${listNumber}/`; // 이동할 URL 설정
+            window.location.href = url; // URL로 이동
+        });
+    });
+</script>

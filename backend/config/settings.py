@@ -80,11 +80,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'final2',
-        'USER' : 'root',
-        'PASSWORD' : '1234',
-        'HOST' : '127.0.0.1',
-        'PORT' : '4000'
+        'NAME': 'final2', # db 이름
+        'USER' : 'root', # 사용자 이름
+        'PASSWORD' : '1234', # 비밀번호
+        'HOST' : '127.0.0.1', # db 호스트
+        'PORT' : '4000' # 포트 번호
     }
 }
 

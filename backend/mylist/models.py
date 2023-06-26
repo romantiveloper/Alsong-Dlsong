@@ -1,11 +1,16 @@
 from django.db import models
 from song.models import Kysong, Tjsong
 from user.models import User
+import random
+
+
+def list_number():
+    return random.randint(100000, 999999)
 
 class Myfolder(models.Model):
     list_name = models.CharField(max_length=30, default='노래')
     user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='user_id')
-    list_number = models.IntegerField(primary_key=True)
+    list_number = models.IntegerField(primary_key=True, default=list_number)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
