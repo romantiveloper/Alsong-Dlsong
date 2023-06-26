@@ -26,7 +26,7 @@
 >   |**API** |/api/user/login/naver/|NONE| AllowAny |네이버 소셜 로그인, access_token 생성 및 반환|    
 > 
 > 
-> 2️⃣ 싱잉 리스트 API
+> 2️⃣ 노래 리스트 API
 > 
 >   |  HTTP |  Path |  Method |  Permission |  목적 |
 >   | --- | --- | --- | --- | --- |
@@ -46,7 +46,7 @@
 >   |**GET**, **PUT**, **DELETE**|/api/posts/<int:pk>/comments/|RETRIEVE, UPDATE, DESTORY| Access_token |댓글 확인, 수정, 삭제|
 >   |**GET**|/api/posts/search/category/|LIST|AllowAny|카테고리별 검색|
 
-> 4 대시보드 
+> 4️⃣ 대시보드 API
 
 ## 🗺️ ML Architecture
 > 추천시스템 머신러닝 구조에 대한 아키텍처 입니다   
@@ -56,6 +56,15 @@
 ## 🗺️ Layer Architecture
 > 서비스 레이어에 따른 아키텍처 입니다   
 ![5  layer_architecture](https://github.com/sexyzun/ddip/assets/42824372/3a948f97-1b85-438b-8c40-6e66d4f2caef)
+
+## Role
+
+- 박지빈(팀장): 로그인, ...
+- 장진혁: 노래 리스트, ...
+
+- 오준: TJ 크롤링, ...
+- 장희수: 금영 크롤링, ...
+- 정기원: Spotify 크롤링, ...
 
 ## Schedule
 
