@@ -163,6 +163,8 @@
                 if (listCount % maxButtonsPerRow === 0) {
                     $('#button_add_list').css('float', 'left');
                 }
+
+                location.reload(); // 페이지 새로고침 추가
             },
             error: function(xhr, errmsg, err) {
                 // 요청이 실패했을 때 실행할 코드
@@ -180,10 +182,9 @@
 
         addList(fd); // 리스트 추가 함수 호출
 
-        // 추가 버튼 클릭 후 모달 닫기 및 페이지 새로고침
+        // 추가 버튼 클릭 후 모달 닫기
         modal.style.display = "none";
         document.body.style.overflowY = "visible";
-        location.reload(); // 페이지 새로고침
     });
 
     // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록

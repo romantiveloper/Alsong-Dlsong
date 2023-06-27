@@ -114,14 +114,14 @@
         <tbody>
             {% for result in results %}
             <tr>
-                <td>{{ result.ky_song_num }}</td>
-                <td>{{ result.tj_song_num }}</td>
+                <td>{{ result.ky_song_num_id }}</td>
+                <td>{{ result.tj_song_num_id }}</td>
                 <td>{{ result.title }}</td>
                 <td>{{ result.artist }}</td>
                 <td>{{ result.cmp }}</td>
                 <td>{{ result.writer }}</td>
                 <td>
-                    <button>추가</button>
+                    <button onclick="addToDatabase('{{ result.ky_song_num_id }}', '{{ result.tj_song_num_id }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
                 </td>
             </tr>
             {% endfor %}
