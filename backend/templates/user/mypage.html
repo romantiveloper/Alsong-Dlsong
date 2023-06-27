@@ -1,0 +1,331 @@
+{% extends 'navbar.html' %}
+{% block content%}
+    <html>
+        <head>
+            <style>
+                .showcase::after {
+                    background: rgba(0, 0, 0, 0);
+
+                }
+                .showcase {
+                    z-index: 0;
+                }
+                .my-page-container {
+                    width: 60%;
+                    background: rgba(0, 0, 0, 0.5);
+                    position: absolute;
+                    top : 20%;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                    border-radius: 30px;
+
+                }
+                .my-page-wrapper {
+                    display: flex;
+                    margin-bottom: 50px;
+
+                }
+                .my-page-img {
+
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                }
+                .my-page-img img {
+                    border-radius: 20px;
+                    width: 50%;
+                }
+                .my-page-info {
+                    border-left: 2px dashed gainsboro;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                    height: 600px;
+                    width: 50%;
+
+                }
+
+
+                .my-favorite-movies {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    padding-bottom: 50px;
+                }
+                .footer {
+                    display: none;
+                }
+                .title1 {
+                    margin-top: 10px;
+                    text-align: center;
+                }
+                .movie {
+                    margin: 0 10px;
+                }
+                .movie:hover {
+                    transform: translate(-2%,-2%);
+                    transition: 0.4s;
+                }
+                .change-pw {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-pw button{
+                    width: 100%;
+                }
+                .change-pw .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-id {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-id .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-id button{
+                    width: 100%;
+                }
+
+                .change-birth {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-birth .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-birth button{
+                    width: 100%;
+                }
+                .change-gender {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-gender .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-gender button{
+                    width: 100%;
+                }
+            </style>
+        </head>
+    </html>
+    
+
+    {% if err %}
+        <script>
+            alert("{{ err }}")
+        </script>
+    {% endif %}
+    <div class="my-page-container">
+        <div class="my-page-wrapper">
+            <div class="my-page-img">
+                <h1 class="my-page-h1">{{ user.username }}</h1>
+                <img src="{{user.profile_img}}"/>
+                <a href=/logout class="btn btn-rounded">로그아웃</a>
+            </div>
+
+            <div class="my-page-info">
+                {% if err %}
+                    <button class="to-change-birth btn btn-primary btn-lg">생년원일 변경</button>
+                    <form action="/birth-change/" method="post" class="change-birth" hidden>
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
+                            <label for="birth">생년월일</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
+
+
+
+                    <button class="to-change-gender btn btn-primary btn-lg">성별</button>
+                    <form action="/gender-change/" method="post" class="change-gender" hidden>
+                        {% csrf_token %}
+                        <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                            <option value="1" selected="">성별</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
+                {% endif %}
+
+
+                <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
+                <form action="/idchange/" method="post" class="change-id" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="id" placeholder="Password" name="id">
+                        <label for="id">변경할 아이디</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+                <button class="to-change-pw btn btn-primary btn-lg">비밀 번호 변경</button>
+                <form action="/pwchange/" method="post" class="change-pw" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
+                        <label for="floatingPassword">변경할 비밀번호</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password2">
+                        <label for="floatingPassword">비밀번호 확인</label>
+                    </div>
+                    <div class="err_box">
+                        {%if error %}
+                            {{error}}
+                        {%endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+                <button class="to-change-img btn btn-primary btn-lg"><p>프로필사진 변경</p></button>
+                <form method="POST" enctype="multipart/form-data" action="/my-modify/" class="change-img" hidden>
+                    {% csrf_token %}
+                    <input type="file" name="file">
+                    <button type="submit">사진 업로드</button>
+                </form>
+            </div>
+        </div>
+        <div class="title1">
+            {% if movie_list %}
+                <h1>내가 찜한 영화</h1>
+            {% endif %}
+        </div>
+        <div class="my-favorite-movies">
+
+            
+            <div class="remv_wrapper">
+                <section id="remv_section1">
+                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                    {% for remv_movie in movie_list|slice:":5" %}
+                        <div class="remv_item">
+                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                        </div>
+                    {% endfor %}
+                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                </section>
+                <section id="remv_section2">
+                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                    {% for remv_movie in movie_list|slice:"5:10" %}
+                        <div class="remv_item">
+                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                        </div>
+                    {% endfor %}
+                    <a href="#remv_section1" class="remv_arrow__btn">›</a>
+                </section>
+            </div>
+           
+        </div>
+
+    </div>
+
+    {% include 'main/detail.html' %}
+
+
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        const toChangeImg = document.querySelector('.to-change-img')
+        const toChangePw = document.querySelector('.to-change-pw')
+        const toChangeId = document.querySelector('.to-change-id')
+        const toChangeBirth = document.querySelector('.to-change-birth')
+        const toChangeGender = document.querySelector('.to-change-gender')
+
+
+
+
+        const change1 = ()=> {
+            document.querySelector('.change-img').hidden = false
+            toChangeImg.removeEventListener('click', change1)
+            toChangeImg.addEventListener('click',backTo1)
+        }
+        function backTo1(){
+            document.querySelector('.change-img').hidden = true
+            toChangeImg.addEventListener('click', change1)
+            toChangeImg.removeEventListener('click', backTo1)
+        }
+        toChangeImg.addEventListener('click',change1)
+        const change2 = ()=> {
+            document.querySelector('.change-pw').hidden = false
+            toChangePw.removeEventListener('click', change2)
+            toChangePw.addEventListener('click',backTo2)
+        }
+        function backTo2(){
+            document.querySelector('.change-pw').hidden = true
+            toChangePw.addEventListener('click', change2)
+            toChangePw.removeEventListener('click', backTo2)
+        }
+        toChangePw.addEventListener('click',change2)
+
+        const change3 = ()=> {
+            document.querySelector('.change-id').hidden = false
+            toChangeId.removeEventListener('click', change3)
+            toChangeId.addEventListener('click',backTo3)
+        }
+        function backTo3(){
+            document.querySelector('.change-id').hidden = true
+            toChangeId.addEventListener('click', change3)
+            toChangeId.removeEventListener('click', backTo3)
+        }
+        toChangeId.addEventListener('click',change3)
+
+        const change4 = ()=> {
+            document.querySelector('.change-birth').hidden = false
+            toChangeBirth.removeEventListener('click', change4)
+            toChangeBirth.addEventListener('click',backTo4)
+        }
+        function backTo4(){
+            document.querySelector('.change-birth').hidden = true
+            toChangeBirth.addEventListener('click', change4)
+            toChangeBirth.removeEventListener('click', backTo4)
+        }
+        toChangeBirth.addEventListener('click',change4)
+        const change5 = ()=> {
+            document.querySelector('.change-gender').hidden = false
+            toChangeGender.removeEventListener('click', change5)
+            toChangeGender.addEventListener('click',backTo5)
+        }
+        function backTo5(){
+            document.querySelector('.change-gender').hidden = true
+            toChangeGender.addEventListener('click', change5)
+            toChangeGender.removeEventListener('click', backTo5)
+        }
+        toChangeGender.addEventListener('click',change5)
+
+        
+
+        function view(user_id, mv_id, genre) {
+            $.ajax({
+                type: 'POST',
+                url: `{% url 'view' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                datatype: 'json',
+                data: {
+                    'user_id' : user_id,
+                    'movie_id': mv_id,
+                    'genre': genre
+                },
+                success: function (response){
+                }
+            });
+        }
+
+
+
+    </script>
+{% endblock %}

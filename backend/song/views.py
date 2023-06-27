@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import kysong, tjsong, song
+from .models import Kysong, Tjsong, Song
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
@@ -10,9 +10,9 @@ def song_list(request):
     if request.method == 'POST':  
         category = request.POST.get('category')
         if category == 'TJ':
-            songs = tjsong.objects.all()
+            songs = Tjsong.objects.all()
         elif category == 'KY':
-            songs = kysong.objects.all()
+            songs = Kysong.objects.all()
         else:
             songs = []
     else:
@@ -37,7 +37,7 @@ def search_view(request):
         for word in words:
             conditions |= Q(title__icontains=word)  # 대소문자 구분 없이 단어 포함 여부 검색
 
-        results = song.objects.filter(conditions)
+        results = Song.objects.filter(conditions)
 
     else:
         results = []

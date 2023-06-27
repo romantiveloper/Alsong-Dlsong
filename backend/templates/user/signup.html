@@ -1,0 +1,125 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+    회원가입
+{% endblock %}
+{% block content %}
+    <html>
+        <head>
+            <style>
+                .showcase {
+                    z-index: 0;
+                }
+                .container {
+                    position: absolute;
+                    top: 10%;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                    width : 40%;
+                    padding: 20px;
+                }
+                .footer {
+                    display: none;
+                }
+            </style>
+        </head>
+    </html>
+    <div class="container">
+     
+            <h2 > 회원가입 </h2>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="username" name="username" value="{{form.username}}" placeholder="아이디">
+                  <label for="username">아이디</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control"  id="password1" name="password1" value="{{form.password1}}"  placeholder="Password">
+                  <label for="password1">비밀번호</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control"  id="password2" name="password2" value="{{form.password2}}"  placeholder="Password">
+                  <label for="password2">비밀번호 확인</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="Password">
+                  <label for="nickname">닉네임</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" name="email" id="email" value="{{form.email}}" placeholder="name@example.com">
+                    <label for="email">이메일</label>
+                </div>
+                <!-- <div class="form-floating mb-3">
+                    <button id="submit" class="btn btn-primary">인증번호 보내기</button></div>
+                <div  class="form-floating mb-3">
+                    <input type="text" class="form-control" name="text2" id="text2" placeholder="인증 번호">
+                    <label for="text2">인증번호</label>
+                </div> -->
+                <div  class="form-floating mb-3">
+                    <input type="date" class="form-control" name="birthday" id="birthday" value="{{form.birthday}}" placeholder="인증 번호">
+                    <label for="birthday">생년월일</label>
+                </div>
+
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                        <option value="1" selected="">성별</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-floating mb-3">
+                    <button id='signBtn' class="btn btn-primary" >회원가입</button>
+                </div>
+
+            
+            <!-- </form> -->
+            <a href="{% url 'user:sign-in' %}">로그인 페이지로</a>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    const signBtn = document.getElementById('signBtn')
+    signBtn.addEventListener('click', function(e){
+        const username = $('#username').val();
+        const password1 = $('#password1').val();
+        const password2 = $('#password2').val();
+        const nickname = $('#nickname').val();
+        const email = $('#email').val();
+        const birthday = $('#birthday').val();
+        const gender = $('#gender').val();
+       
+        data = {
+            'username':username,
+            'password1':password1,
+            'password2':password2,
+            'nickname':nickname,
+            'email':email,
+            'birthday':birthday,
+            'gender':gender
+        }
+        
+        $.ajax({
+            type:'POST',
+            url:'/user/sign-up/',
+            data: data, // JSON.stringify(data),
+            success:function(data){
+                console.log(data)
+                if (data.error){
+                    alert(data.error);
+                }
+                if (data.ok){
+                    alert(data.ok);
+                    location.replace('{% url "user:sign-in" %}')
+                }  
+            }
+       }); 
+    
+    })
+    
+    
+    
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{ csrf_token }}' }
+    });
+</script>
+{% endblock%}
