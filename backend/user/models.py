@@ -6,6 +6,8 @@ from django.contrib.auth.models import AbstractUser, Permission
 class User(AbstractUser):
     class Meta:
         db_table = 'user'
+
+    id = models.AutoField(primary_key = True)
     GENDER_MAIL = 'Male'
     GENDER_FEMAIL = 'Female'
     GENDER_CHOICES = ((GENDER_MAIL, 'Male'),(GENDER_FEMAIL, 'Female'))

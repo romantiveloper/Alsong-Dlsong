@@ -3,7 +3,9 @@ from .models import Kysong, Tjsong, Song
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
-
+from django.http import JsonResponse
+from mylist.models import Mylist, Myfolder
+import json
 # Create your views here.
 
 def song_list(request):
@@ -50,3 +52,21 @@ def search_view(request):
     return render(request, 'songlist/search.html', {'results': results})
 
 
+def add_to_database(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)  # 전송된 데이터 파싱
+
+        # 데이터베이스에 값을 추가하는 로직
+        mylist = Mylist(
+            ky_number_id=data['kySongNum'],
+            tj_number_id=data['tjSongNum'],
+            title=data['title'],
+            artist=data['artist'],
+            cmp=data['cmp'],
+            writer=data['writer']
+        )
+        mylist.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})

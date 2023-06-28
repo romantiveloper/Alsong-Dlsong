@@ -23,6 +23,7 @@
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
 
   <!-- diary/main.html style-->
+{% block style %}
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gowun+Batang&family=Jua&display=swap');
 
@@ -42,37 +43,14 @@
     }
 
 
-    .main_body{
-        display: flex;
-        justify-content: center;
-        padding-top: 50px;
-        background-color: #f7f7f7;
-    }
 
-    .left_body{
-        {#background-color: skyblue;#} margin-right: 100px;
-        margin-right: 100px;
-        width: 500px;
-        height: 2000px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .right_body{
-        {#background-color: yellow;#} padding-top: 20px;
-        width: 300px;
-        height: 1000px;
-        left: 72%;
-        position: fixed;
-    }
     @media screen and (max-width: 1280px) {
         .right_body{
             display: none;
         }
     }
-    {% block style %}{% endblock %}
     </style>
-
+{% endblock %}
 </head>
 
 
@@ -149,7 +127,15 @@
                 부를 곡 추천
             </div>
         </button>
+        
        {% block write %}{% endblock %}
+       {% if user.is_authenticated %}
+        <!-- 로그인 상태일 때 표시할 버튼들 -->
+        <a href="{% url 'user:logout' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Logout</a>
+    {% else %}
+        <!-- 로그인 상태가 아닐 때 표시할 버튼들 -->
+        <a href="{% url 'user:sign-in' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Login</a>
+    {% endif %}
     </nav>  
 </aside>
 
@@ -159,5 +145,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
+{% block script %}
+{% endblock %}
 </body>
 </html>

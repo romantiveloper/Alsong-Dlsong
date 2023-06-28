@@ -13,7 +13,9 @@ from django.contrib.auth.decorators import login_required
 from . import models
 # from movie import models as movie_models
 from django.core.mail import send_mail
-
+import json
+with open('secrets.json') as f:
+    secrets = json.loads(f.read())
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
 def base(request):
@@ -21,7 +23,7 @@ def base(request):
     # True, False반환
     if not user: # 가입 안 한 사람이라면
         return render(request, 'landing.html') # 가입 유도 랜딩 페이지로
-    return redirect('/main') # 가입 한 사람이면 그냥 일반 메인 페이지로
+    return redirect('/') # 가입 한 사람이면 그냥 일반 메인 페이지로
 
 
 @login_required # 로그인 된 사람
@@ -45,7 +47,7 @@ def sign_up_view(request):
 
     elif request.method == 'POST':  # 요청이 post로 들어온다면
         global certify_num
-        data = json.loads(request.body) # POST 요청에서 전달받은 본문(body) 가져와 "data"라는 변수에 저장, JSON 형식의 문자열을 딕셔너리로 변환
+        data = json.loads(request.body.decode('utf-8')) # POST 요청에서 전달받은 본문(body) 가져와 "data"라는 변수에 저장, JSON 형식의 문자열을 딕셔너리로 변환
         username = data['username'] 
         password1 = data['password1']
         password2 = data['password2']
@@ -130,16 +132,17 @@ def user_view(request):
 
 # 카카오 로그인 시도
 def to_kakao(request):
-    REST_API_KEY = '6312b6842ef1fb302228da6420377113'
-    REDIRECT_URI = 'http://localhost:8000/kakao/callback'
+    REST_API_KEY = secrets['REST_API_KEY']
+    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
+    
     return redirect(
         f'https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code')
 
 
 # 카카오 로그인에서 필요 정보 가져오기
 def from_kakao(request):
-    REST_API_KEY = '6312b6842ef1fb302228da6420377113'
-    REDIRECT_URI = 'http://localhost:8000/kakao/callback'
+    REST_API_KEY = secrets['REST_API_KEY']
+    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
     code = request.GET.get('code', 'None')
     if code is None:
         # 코드 발급 x일 경우
@@ -166,13 +169,13 @@ def from_kakao(request):
     email = kakao_account.get('email', None)
     if email is None:
         # 이메일 동의 안하면 로그인 불가 처리
-        return redirect('/sign-in')
+        return redirect('/user/sign-in')
     try:
         user = get_user_model().objects.get(email=email)
 
         if user.login_method != models.User.LOGIN_KAKAO:
             print('카카오로 가입하지 않은 다른 아이디가 존재합니다')
-            return redirect('/')
+            return redirect('/user')
 
 
     except:
@@ -182,7 +185,7 @@ def from_kakao(request):
         user.save()
 
     auth.login(request, user)
-    return redirect('/mypage')
+    return redirect('/')
 
 
 @login_required

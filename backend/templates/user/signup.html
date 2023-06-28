@@ -3,6 +3,10 @@
 {% block title %}
     회원가입
 {% endblock %}
+
+
+
+
 {% block content %}
     <html>
         <head>
@@ -75,11 +79,15 @@
             <a href="{% url 'user:sign-in' %}">로그인 페이지로</a>
         </div>
     </div>
+
+
+    
 {% endblock %}
+
 {% block script %}
 <script>
-    const signBtn = document.getElementById('signBtn')
-    signBtn.addEventListener('click', function(e){
+    $('#signBtn').on('click',()=>{
+        console.log('클릭');
         const username = $('#username').val();
         const password1 = $('#password1').val();
         const password2 = $('#password2').val();
@@ -88,38 +96,34 @@
         const birthday = $('#birthday').val();
         const gender = $('#gender').val();
        
-        data = {
-            'username':username,
-            'password1':password1,
-            'password2':password2,
-            'nickname':nickname,
-            'email':email,
-            'birthday':birthday,
-            'gender':gender
-        }
         
         $.ajax({
             type:'POST',
             url:'/user/sign-up/',
-            data: data, // JSON.stringify(data),
+            data: JSON.stringify({
+                username:username,
+                password1:password1,
+                password2:password2,
+                nickname:nickname,
+                email:email,
+                birthday:birthday,
+                gender:gender
+            }), // JSON.stringify(data),
             success:function(data){
-                console.log(data)
-                if (data.error){
-                    alert(data.error);
-                }
-                if (data.ok){
-                    alert(data.ok);
-                    location.replace('{% url "user:sign-in" %}')
-                }  
+                alert(data.message);
+                location.replace('{% url "user:sign-in" %}');
+            },
+            error:function(request, status, error){
+                const data = JSON.parse(request.responseText);
+                console.log(data.message);
+                alert(data.message);
             }
+            })
        }); 
-    
-    })
-    
     
     
     $.ajaxSetup({
         headers: { "X-CSRFToken": '{{ csrf_token }}' }
     });
 </script>
-{% endblock%}
+{% endblock %}

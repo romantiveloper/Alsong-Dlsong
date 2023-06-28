@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import json
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,9 +23,8 @@ CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-import json
 with open('secrets.json') as f:
-    secrets = json.loads(f.read())
+   secrets = json.loads(f.read())
 
 SECRET_KEY = secrets['SECRET_KEY']
 
