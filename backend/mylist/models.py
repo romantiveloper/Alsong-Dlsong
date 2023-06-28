@@ -9,7 +9,7 @@ def list_number():
 
 class Myfolder(models.Model):
     list_name = models.CharField(max_length=30, default='노래')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='user_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='user_id', default='none')
     list_number = models.IntegerField(primary_key=True, default=list_number)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
@@ -29,3 +29,4 @@ class Mylist(models.Model):
 
     def __str__(self):
         return self.title
+    

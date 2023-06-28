@@ -61,3 +61,4 @@ class Tj_pop(models.Model):
     cmp = models.CharField(max_length=30)
     writer = models.CharField(max_length=30)
     tj_number = models.ForeignKey(Tjsong, on_delete=models.CASCADE, related_name='tjpop_set', to_field='song_num')
+
