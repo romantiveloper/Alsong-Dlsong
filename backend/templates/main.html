@@ -1,3 +1,4 @@
+{% extends 'navbar.html' %}
 <head>
 
 <!-- jquery 사용하기 위해 -->
@@ -103,6 +104,7 @@
 
 {% endblock %}
 
+{% block script %}
 <script>
     $.ajaxSetup({
         headers: { "X-CSRFToken": '{{csrf_token}}' }
@@ -197,3 +199,4 @@
         });
     });
 </script>
+{% endblock %}

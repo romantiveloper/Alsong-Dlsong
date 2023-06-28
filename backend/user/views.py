@@ -21,13 +21,13 @@ def base(request):
     # True, False반환
     if not user: # 가입 안 한 사람이라면
         return render(request, 'landing.html') # 가입 유도 랜딩 페이지로
-    return redirect('/main') # 가입 한 사람이면 그냥 일반 메인 페이지로
+    return redirect('/') # 가입 한 사람이면 그냥 일반 메인 페이지로
 
 
 @login_required # 로그인 필요
 def main(request): 
     print('ho') 
-    return render(request, 'main/main.html') # 일반 메인 페이지로 랜딩
+    return render(request, 'main.html') # 일반 메인 페이지로 랜딩
 
 
 certify = False # 메일 인증 상태 False로 초기화

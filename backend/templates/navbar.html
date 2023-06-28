@@ -127,7 +127,15 @@
                 부를 곡 추천
             </div>
         </button>
+        
        {% block write %}{% endblock %}
+       {% if user.is_authenticated %}
+        <!-- 로그인 상태일 때 표시할 버튼들 -->
+        <a href="{% url 'user:logout' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Logout</a>
+    {% else %}
+        <!-- 로그인 상태가 아닐 때 표시할 버튼들 -->
+        <a href="{% url 'user:sign-in' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Login</a>
+    {% endif %}
     </nav>  
 </aside>
 
