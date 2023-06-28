@@ -24,10 +24,10 @@ def base(request):
     return redirect('/main') # 가입 한 사람이면 그냥 일반 메인 페이지로
 
 
-@login_required # 로그인 필요
+@login_required # 로그인 된 사람
 def main(request): 
-    print('ho') 
-    return render(request, 'main/main.html') # 일반 메인 페이지로 랜딩
+    print('로그인 된 사람') 
+    return render(request, 'main.html') # 일반 메인 페이지로 랜딩
 
 
 certify = False # 메일 인증 상태 False로 초기화
