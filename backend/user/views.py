@@ -26,7 +26,7 @@ def base(request):
     return redirect('/') # 가입 한 사람이면 그냥 일반 메인 페이지로
 
 
-@login_required # 로그인 된 사람
+#@login_required # 로그인 된 사람
 def main(request): 
     print('로그인 된 사람') 
     return render(request, 'main.html') # 일반 메인 페이지로 랜딩
