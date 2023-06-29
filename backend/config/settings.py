@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "song",
     "mylist",
     "user",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

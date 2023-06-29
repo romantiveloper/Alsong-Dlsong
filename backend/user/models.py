@@ -15,7 +15,7 @@ class User(AbstractUser):
     LOGIN_KAKAO = 'kakao'
     #favorite_movies = models.ManyToManyField(mv_models.Movie,blank=True, related_name='users')
     LOGIN_CHOICES = ((LOGIN_EMAIL,'Email'),(LOGIN_KAKAO, 'Kakao'))
-    user_id = models.CharField(max_length=30,blank=True, unique=True)
+    user_id = models.CharField(max_length=40,blank=True, unique=True)
     birthday = models.DateField(blank=True, null=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, default=GENDER_MAIL)
     nickname = models.CharField(max_length=30,blank=True)

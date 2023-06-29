@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from . import models
 # from movie import models as movie_models
 from django.core.mail import send_mail
+import uuid
 
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
@@ -53,8 +54,10 @@ def sign_up_view(request):
         email = data['email']
         birthday = data['birthday']
         gender = data['gender']
-        
+ 
         err_msg = '' # 에러 메시지 초기화
+
+        user_id = str(uuid.uuid4())
 
         if username == '' or password1 == '': # 아이디/비번 공백으로 로그인 시도 때
             err_msg = '아이디 및 패스워드를 확인해주세요'
@@ -71,7 +74,7 @@ def sign_up_view(request):
         # if not certify: # 이메일 인증 하지 않았을 때
         #     err_msg = '이메일을 인증해주세요.'
             
-        is_it = get_user_model().objects.filter(username=username) # 지금 POST 요청에서 받은 username과 기존 DB의 username이 일치할 경우
+        is_it = get_user_model().objects.filter(username=username) # 지금 POST 요청에서 받은 user_id과 기존 DB의 user_id이 일치할 경우
         is_it2 = get_user_model().objects.filter(email=email) # 지금 POST 요청에서 받은 email과 기존 DB의 email이 일치할 경우
         
         if is_it:
@@ -88,7 +91,7 @@ def sign_up_view(request):
 
         # get_user_model() 함수: Django에서 제공하는 내장 함수로서, 장고의 auth 앱에서 사용자 모델을 가져오는 역할
         get_user_model().objects.create_user(username=username, password=password1, birthday=birthday, email=email,
-                                             gender=gender, nickname=nickname)
+                                             gender=gender, nickname=nickname, user_id=user_id)
        
        # 다 끝나면 회원가입 완료 처리
         context = {'ok': '회원가입완료'}
