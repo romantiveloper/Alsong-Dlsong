@@ -103,6 +103,7 @@
                 </th>
             </tr>
             <tr>
+                <th>순위</th>
                 <th>곡번호</th>
                 <th>곡명</th>
                 <th>아티스트</th>
@@ -114,7 +115,8 @@
         <tbody>
             {% for song in songs %}
             <tr>
-                <td>{{ song.song_num }}</td>
+                <td>{{ song.rank }}</td>
+                <td>{{ song.song_num_id }}</td>
                 <td>{{ song.title }}</td>
                 <td>{{ song.artist }}</td>
                 <td>{{ song.cmp }}</td>

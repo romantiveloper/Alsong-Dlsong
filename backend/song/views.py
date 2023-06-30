@@ -1,20 +1,21 @@
 from django.shortcuts import render
-from .models import Kysong, Tjsong, Song
+from .models import Kysong, Tjsong, Song,Ky_pop,Tj_pop
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 from django.http import JsonResponse
 from mylist.models import Mylist, Myfolder
 import json
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def song_list(request):
     if request.method == 'POST':  
         category = request.POST.get('category')
         if category == 'TJ':
-            songs = Tjsong.objects.all()
+            songs = Tj_pop.objects.all()
         elif category == 'KY':
-            songs = Kysong.objects.all()
+            songs = Ky_pop.objects.all()
         else:
             songs = []
     else:
@@ -28,6 +29,7 @@ def song_list(request):
 
 def search_view(request):
     query = request.GET.get('query')
+    folders = Myfolder.objects.all()
     
     print(query)
 
@@ -49,21 +51,33 @@ def search_view(request):
 
     print(results)
 
-    return render(request, 'songlist/search.html', {'results': results})
+    data = {'results': results, 'folders':folders}
+    return render(request, 'songlist/search.html', data)
 
 
+@login_required
 def add_to_database(request):
     if request.method == 'POST':
-        data = json.loads(request.body)  # 전송된 데이터 파싱
+        data = json.loads(request.body)
+
+        # 현재 로그인한 사용자 정보 가져오기
+        user = request.user
+
+        # 선택한 My_folder의 list_number와 list_name 가져오기
+        list_number = data['listNumber']
+        list_name = data['listName']
 
         # 데이터베이스에 값을 추가하는 로직
         mylist = Mylist(
-            ky_number_id=data['kySongNum'],
-            tj_number_id=data['tjSongNum'],
+            list_name=list_name,
+            user=user,
             title=data['title'],
             artist=data['artist'],
             cmp=data['cmp'],
-            writer=data['writer']
+            writer=data['writer'],
+            ky_number_id=data['kySongNum'],
+            tj_number_id=data['tjSongNum'],
+            list_number_id=list_number
         )
         mylist.save()
 

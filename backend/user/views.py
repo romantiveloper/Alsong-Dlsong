@@ -109,11 +109,11 @@ def sign_in_view(request):
         if not me:  # ID/PW 맞지 않는다면
             return render(request, 'user/signin.html', {'error': '아이디 혹은 비밀번호가 틀렸습니다.'}) # 에러 발생 후 로그인 창으로 랜딩
         auth.login(request, me) # me 정보로 로그인
-        return redirect('/main') # 로그인 된 채로 main 페이지로 랜딩
+        return redirect('/') # 로그인 된 채로 main 페이지로 랜딩
     else: # POST 방식 아니라면
         is_user = request.user.is_authenticated 
         if is_user:
-            return redirect('/main')
+            return redirect('/')
         return render(request, 'user/signin.html')
     
 
@@ -178,7 +178,7 @@ def from_kakao(request):
 
         if user.login_method != models.User.LOGIN_KAKAO:
             print('카카오로 가입하지 않은 다른 아이디가 존재합니다')
-            return redirect('/user')
+            return redirect('/user/sign-in')
 
 
     except:
@@ -205,24 +205,24 @@ def my_page(request):
         return render(request, 'user/mypage.html') # .html 뒤에 , {'movie_list': movie_list, 'err': err}
     
 
-# 비밀번호 변경
-@login_required
-def pw_change(request):
-    if request.method == 'POST':
-        pw1 = request.POST.get('password1', None)
-        pw2 = request.POST.get('password2', None)
-        if pw1 != pw2:
-            return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
-        user = request.user
-        user.set_password(pw2)
-        user.save()
-        auth.logout(request)
-        return redirect('/')
+# # 비밀번호 변경
+# @login_required
+# def pw_change(request):
+#     if request.method == 'POST':
+#         pw1 = request.POST.get('password1', None)
+#         pw2 = request.POST.get('password2', None)
+#         if pw1 != pw2:
+#             return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
+#         user = request.user
+#         user.set_password(pw2)
+#         user.save()
+#         auth.logout(request)
+#         return redirect('/')
 
-    else:
-        if request.user.login_method != 'email':
-            return redirect('/mypage')
-        return render(request, 'user/pwchange.html')
+#     else:
+#         if request.user.login_method != 'email':
+#             return redirect('/mypage')
+#         return render(request, 'user/pwchange.html')
 
 
 # certify_num = ''
