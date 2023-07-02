@@ -1,0 +1,109 @@
+:root {
+    --text-color: rgb(52, 48, 52);
+    --background-color: white;
+    --accent-color: rgb(182, 0, 206);
+    --icons-color: rgb(152, 187, 201);
+    --bodybackground-color: white;
+  }
+  
+  body { 
+    margin: 0;
+    background-color: var(--bodybackground-color);
+    font-family: 'STIX Two Math';
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--background-color);
+    padding: 8px 12px;
+    font-family: 'STIX Two Math';
+  }
+  
+  .navbar__logo i {
+    color: var(--accent-color);
+    padding-left: 0;
+  }
+  
+  .navbar__menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding-left: 0;
+  }
+  
+  .navbar__menu li {
+    padding: 8px 30px;
+  }
+  
+  .navbar__menu li:hover {
+    background-color: var(--accent-color);
+    border-radius: 30px;
+    --text-color: rgb(255, 255, 255);
+  }
+
+  .navbar__icons {
+    list-style: none;
+    display: flex;
+    color: var(--icons-color);
+    margin: 0;
+    padding-left: 0;
+  }
+  
+  .navbar__icons li {
+    padding: 8px 12px;
+    margin: 0;
+  }
+
+  .navbar__toggleBtn {
+    color: var(--accent-color);
+    position: absolute;
+    right: 15px;
+    font-size: 20px;
+    display: none;
+  }
+  
+  @media screen and (max-width: 700px) {
+
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 0;
+    }
+    
+    .navbar__menu {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      --text-color: rgb(56, 49, 49);
+    }
+      
+    .navbar__menu li {
+      width: 100%;
+      text-align: center;
+      --text-color: rgb(56, 49, 49);
+    }
+
+    .navbar__icons {
+      display: none;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .navbar__toggleBtn {
+      display: block;
+    }
+
+    .navbar__menu.active,
+    .navbar__icons.active {
+      display: flex;
+    }
+
+  }

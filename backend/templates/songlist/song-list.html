@@ -30,7 +30,6 @@
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     // CSRF 토큰 설정
     function getCookie(name) {
@@ -95,6 +94,7 @@
                         </form>
                     </div>
                     <div>
+                        <!-- 곡 검색용 서치바 form -->
                         <form action="/song-list/search/" method="GET">
                             <input type="text" name="query" placeholder="검색어를 입력하세요">
                             <button type="submit">검색</button>

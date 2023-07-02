@@ -22,4 +22,9 @@ urlpatterns = [
     #path('birth-change/', views.birth_change, name='birth-change'), # 생년월일 수정
     #path('gender-change/', views.gender_change, name='gender-change'), #성별 수정
     #path('like-or-donlike/',views.like_or_donlike,name='like_or_donlike'), # 좋아요 싫어요
+    path("nav-test/", views.nav_test),
 ]
+
+"""
+nav-test/는 네비바 테스트용 tmp 페이지 입니다.
+"""

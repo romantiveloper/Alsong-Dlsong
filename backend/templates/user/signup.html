@@ -114,6 +114,7 @@
                 location.replace('{% url "user:sign-in" %}');
             },
             error:function(request, status, error){
+                // 요청이 실패했을 때 실행할 코드
                 const data = JSON.parse(request.responseText);
                 console.log(data.message);
                 alert(data.message);
