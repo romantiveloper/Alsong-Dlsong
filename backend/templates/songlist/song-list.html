@@ -1,4 +1,5 @@
 {% extends 'navbar.html' %}
+{% block style %}
 <style>
     .main_body {
         display: flex;
@@ -7,29 +8,34 @@
         padding-left: 150px;
         background-color: #f7f7f7;
     }
-</style>
-<head>
-</head>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>노래 차트</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
 
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .th {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+{% endblock %}
+
+{% block title %}노래 차트{% endblock %}
+
+
+{% block script %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     // CSRF 토큰 설정
@@ -74,13 +80,10 @@
         });
     });
 </script>
+{% endblock %}
 
 
-
-
-
-
-<body>
+{% block content %}
     <h1><a href="/">Home</a></h1>
     <h2><a href="/song-list/">노래 리스트</a></h2>
     <table>
@@ -129,8 +132,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
-
-
-
+{% endblock %}

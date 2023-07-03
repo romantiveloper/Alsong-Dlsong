@@ -347,5 +347,3 @@ def is_id(request):
 #         user.save()
 #     return redirect('/mypage')
 
-def nav_test(request):
-    return render(request, 'user/nav-test.html')
