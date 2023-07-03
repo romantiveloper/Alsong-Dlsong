@@ -143,39 +143,39 @@
     });
 
     function addToDatabase(kySongNum, tjSongNum, title, artist, cmp, writer) {
-    // 선택한 My_folder의 list_number와 list_name 가져오기
-    var folderSelect = document.getElementById("folderSelect");
-    var listNumber = folderSelect.value;
-    var listName = folderSelect.options[folderSelect.selectedIndex].text;
+        // 선택한 My_folder의 list_number와 list_name 가져오기
+        var folderSelect = document.getElementById("folderSelect");
+        var listNumber = folderSelect.value;
+        var listName = folderSelect.options[folderSelect.selectedIndex].text;
 
-    // AJAX 요청을 생성
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/song-list/add-to-database/', true);
+        // AJAX 요청을 생성
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/song-list/add-to-database/', true);
 
-    // 서버 응답 처리
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log('데이터 추가 성공');
-        }
-    };
+        // 서버 응답 처리
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('데이터 추가 성공');
+            }
+        };
 
-    // 요청 헤더에 CSRF 토큰을 추가
-    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    xhr.setRequestHeader("Content-Type", "application/json");
+        // 요청 헤더에 CSRF 토큰을 추가
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.setRequestHeader("Content-Type", "application/json");
 
-    // 데이터 전송
-    var data = {
-        kySongNum: kySongNum,
-        tjSongNum: tjSongNum,
-        title: title,
-        artist: artist,
-        cmp: cmp,
-        writer: writer,
-        listNumber: listNumber,
-        listName: listName
-    };
-    xhr.send(JSON.stringify(data));
-}
+        // 데이터 전송
+        var data = {
+            kySongNum: kySongNum,
+            tjSongNum: tjSongNum,
+            title: title,
+            artist: artist,
+            cmp: cmp,
+            writer: writer,
+            listNumber: listNumber,
+            listName: listName
+        };
+        xhr.send(JSON.stringify(data));
+    }
 
 </script>
 
