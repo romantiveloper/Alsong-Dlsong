@@ -1,3 +1,4 @@
+{% extends 'navbar.html' %}
 <style>
     .main_body {
         display: flex;
@@ -30,7 +31,7 @@
 </head>
 
 
-
+{% block content %}
 <body>
     <h1><a href="/">Home</a></h1>
     <h2><a href="/song-list/">노래 리스트</a></h2>
@@ -87,28 +88,44 @@
     </table>
 </body>
 </html>
+{% endblock %}
 
 
-
+{% block script %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
-    // CSRF 토큰 설정
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // 이름으로 쿠키 찾기
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+    function addToDB(song_num_id) {
+        // 선택한 My_folder의 list_number와 list_name 가져오기
+        var folderSelect = document.getElementById("folderSelect");
+        var listNumber = folderSelect.value;
+        var listName = folderSelect.options[folderSelect.selectedIndex].text;
+        var category = $("input[name='category']:checked").val();
+
+        // AJAX 요청을 생성
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/song-list/add-to-poplist/', true);
+
+        // 서버 응답 처리
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('데이터 추가 성공');
             }
-        }
-        return cookieValue;
+        };
+
+        // 요청 헤더에 CSRF 토큰을 추가
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        //데이터 전송
+        var data = {
+            song_num_id: song_num_id,
+            listNumber: listNumber,
+            listName: listName,
+            category: category
+        };
+        xhr.send(JSON.stringify(data));
     }
-    const csrftoken = getCookie('csrftoken');
 
     $.ajaxSetup({
         headers: { "X-CSRFToken": csrftoken }
@@ -134,35 +151,8 @@
         });
     });
 
-    function addToDB(song_num_id) {
-        // 선택한 My_folder의 list_number와 list_name 가져오기
-        var folderSelect = document.getElementById("folderSelect");
-        var listNumber = folderSelect.value;
-        var listName = folderSelect.options[folderSelect.selectedIndex].text;
-
-        // AJAX 요청을 생성
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/song-list/add-to-poplist/', true);
-
-        // 서버 응답 처리
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log('데이터 추가 성공');
-            }
-        };
-
-        // 요청 헤더에 CSRF 토큰을 추가
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        //데이터 전송
-        var data = {
-            song_num_id: song_num_id,
-            listNumber: listNumber,
-            listName: listName
-        };
-        xhr.send(JSON.stringify(data));
-    }
-
     
+
 </script>
+
+{% endblock %}
