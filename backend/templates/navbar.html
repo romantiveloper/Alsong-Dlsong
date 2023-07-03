@@ -1,151 +1,113 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-<head>
-  
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
-  <!-- 요기에 구글 머티리얼 아이콘 -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Material+Icons%7CMaterial+Icons+Outlined%7CMaterial+Icons+Two+Tone%7CMaterial+Icons+Round%7CMaterial+Icons+Sharp"
-    rel="stylesheet">
-    <title>Alsong-Dlsong{% block title %}{% endblock %}</title>
-
-  <!-- jquery 사용하기 위해 -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/nav_style.css' %}">
+    {% block style %}{% endblock %}
+    </head>
+    
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
+    <script src="{% static 'css/nav.js' %}" defer></script>
 
-  <!-- diary/main.html style-->
-{% block style %}
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gowun+Batang&family=Jua&display=swap');
-
-    @font-face {
-        font-family: 'SUITE-Regular';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    aside{
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-    }
-
-
-
-    @media screen and (max-width: 1280px) {
-        .right_body{
-            display: none;
+    <!-- 서치바 버튼 기능 구현용 script -->
+    <script>
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+    </script>
+    
+    <script>
+        // CSRF 토큰 설정
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 이름으로 쿠키 찾기
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
-    }
-    </style>
-{% endblock %}
-</head>
+        const csrftoken = getCookie('csrftoken');
+    
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": csrftoken }
+        });
+    
+        $(document).ready(function() {
+        $("submit-button").click(function() {
+            var category = $(this).val();  // 버튼의 값(category)을 가져옴
+            var query = $("input[name='query']").val();  // 검색어를 가져옴
+    
+            $.ajax({
+                type: 'POST',
+                url: '/song-list/',
+                data: {
+                    'category': category,
+                    'query': query  // 검색어(query)를 데이터에 포함시킴
+                },
+                success: function(response) {
+                    // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
 
+    <title>🎤알song달song: {% block title %}{% endblock %}</title>
+    
 
-<body>
-<!-- 상단 내비게이션 바 -->
-<aside style="float: right;">
-    <nav>
-        <button class="home" type="button" onclick="location.href='http://127.0.0.1:8000/'">
-            <div style="font-family: 'SUITE-Regular'; font-size:18px;">
-                <div class="icon">
-                    <svg class="house" viewBox="0 0 24 24">
-                        <g class="outline">
-                            <path d="M22.601 7.49432L12.3602 1.97113C12.1341 1.84963 11.8635 1.84963 11.6375 1.97113L1.3987 7.49432C1.02974 7.69378 0.89188 8.15447 1.09157 8.52403C1.22841 8.77716 1.49094 8.92194 1.76057 8.92194C1.8822 8.92194 2.00688 8.89157 2.12142 8.83082L2.94754 8.38532L4.59875 20.0422C4.81567 21.2724 5.92459 22.13 7.29301 22.13H16.7016C18.072 22.13 19.1799 21.2714 19.4009 20.0169L21.0491 8.38329L21.8782 8.83082C22.2472 9.02623 22.7094 8.89157 22.9091 8.52302C23.1078 8.15548 22.9699 7.69479 22.601 7.49432V7.49432ZM17.8997 19.779C17.7913 20.3926 17.1871 20.6113 16.7036 20.6113H7.29503C6.80849 20.6113 6.20537 20.3926 6.10097 19.8033L4.37575 7.61582L11.9983 3.50304L19.6229 7.61379L17.8997 19.779V19.779Z" />
-                            <path d="M8.21973 12.3C8.21973 14.384 9.91473 16.08 11.9997 16.08C14.0847 16.08 15.7797 14.384 15.7797 12.3C15.7797 10.216 14.0847 8.52002 11.9997 8.52002C9.91473 8.52002 8.21973 10.216 8.21973 12.3ZM14.2797 12.3C14.2797 13.558 13.2577 14.58 11.9997 14.58C10.7417 14.58 9.71973 13.558 9.71973 12.3C9.71973 11.042 10.7417 10.02 11.9997 10.02C13.2577 10.02 14.2797 11.042 14.2797 12.3Z" />
-                        </g>
-                        <path class="fill" d="M22.4824 7.448L12.4695 1.995C12.1753 1.835 11.8215 1.835 11.5282 1.995L1.52027 7.448C1.0387 7.712 0.859349 8.318 1.11896 8.804C1.29732 9.139 1.63918 9.329 1.99094 9.329C2.14948 9.329 2.31199 9.291 2.46161 9.209L3.18892 8.813L4.76442 20.063C4.97846 21.277 6.06248 22.125 7.40018 22.125H16.5976C17.9353 22.125 19.0193 21.277 19.2353 20.037L20.8088 8.812L21.5391 9.21C22.0197 9.473 22.6212 9.292 22.8808 8.806C23.1414 8.32 22.96 7.713 22.4805 7.451L22.4824 7.448ZM11.9989 15.533C10.2202 15.533 8.7785 14.078 8.7785 12.283C8.7785 10.488 10.2202 9.033 11.9989 9.033C13.7775 9.033 15.2192 10.488 15.2192 12.283C15.2192 14.078 13.7775 15.533 11.9989 15.533Z" />
-                    </svg>
-                    <svg class="feather left" viewBox="0 0 14 7">
-                        <path d="M9.16667 1L13.5 3.94648C11.6429 6.89297 4.83333 6.89297 0.5 2.47324C3.59524 1 6.69048 2.47324 6.69048 2.47324L5.45238 1L9.16667 2.47324V1Z" />
-                        <path d="M12 4.1C9 4.65 4.5 3.5 4.5 3.5" />
-                    </svg>
-                    <svg class="feather right" viewBox="0 0 14 7">
-                        <path d="M4.83333 1L0.499999 3.94648C2.35714 6.89297 9.16667 6.89297 13.5 2.47324C10.4048 1 7.30952 2.47324 7.30952 2.47324L8.54762 1L4.83333 2.47324V1Z" />
-                        <path d="M2 4.1C5 4.65 9.5 3.5 9.5 3.5" />
-                    </svg>
-                </div>
-                Home
-            </div>
-        </button>
-        <button class="profile" type="button" onclick="location.href='http://127.0.0.1:8000/user/'">
-            <div style="font-family: 'SUITE-Regular'; font-size:18px;">
-                <div class="icon">
-                    <svg viewBox="0 0 24 24">
-                        <path class="head" d="M16 7C16 9.76142 15.7614 11 12 11C8.23858 11 8 9.76142 8 7C8 4.23858 9.23858 2.25 12 2.25C14.7614 2.25 16 4.23858 16 7Z" />
-                        <path d="M11.9999 14C15.9613 14 18.962 16.5405 19.4799 19.5352C19.6485 20.5106 18.7676 21.25 17.7778 21.25H6.22181C5.23198 21.25 4.35113 20.5106 4.51978 19.5352C5.03763 16.5405 8.03845 14 11.9999 14Z" />
-                    </svg>
-                </div>
-                Profile
-            </div>
-        </button>
-        <button class="lists" type="button" onclick="location.href='http://127.0.0.1:8000/song-list/'">
-            <div style="font-family: 'SUITE-Regular'; font-size:18px;">
-                <div class="icon">
-                    <svg class="pencil" viewBox="0 0 8 22">
-                        <path d="M1.34869 4.87898L6.65199 4.87898M6.65193 16.8942L4.00028 20.6065L1.34863 16.8942L1.34863 2.66652C1.34869 2.26878 1.50672 1.88734 1.78797 1.60609C2.06922 1.32484 2.45066 1.16681 2.84841 1.16675L5.15216 1.16675C5.54991 1.16681 5.93134 1.32484 6.21259 1.60609C6.49384 1.88734 6.65187 2.26878 6.65193 2.66652V16.8942Z" />
-                    </svg>
-                    <svg class="list" viewBox="0 0 24 24">
-                        <rect x="2.5" y="2.5" width="19" height="19" rx="2.25" />
-                        <path class="top" d="M7 8H17" />
-                        <path class="middle" d="M7 12H17" />
-                        <path class="bottom" d="M7 16H12" />
-                    </svg>
-                </div>
-                인기차트
-            </div>
-        </button>
-        <button class="messages" type="button" onclick="location.href='http://127.0.0.1:8000/song-list/'">
-            <div style="font-family: 'SUITE-Regular'; font-size: 18px;">
-                <div class="icon">
-                    <div class="top">
-                        <svg class="default" viewBox="0 0 24 13">
-                            <path d="M11.1321 11.4858L11.133 11.4864C11.6584 11.8379 12.3416 11.8379 12.867 11.4864L22.417 5.09804L22.75 4.87529V4.47466V4.2579C22.75 2.60182 21.4067 1.25 19.75 1.25H4.25C2.59331 1.25 1.25 2.60182 1.25 4.2579V4.45559V4.85556L1.58214 5.0784L11.1321 11.4858Z" />
-                        </svg>
-                        <svg class="inner" viewBox="0 0 24 13">
-                            <path d="M11.133 1.51361L11.1321 1.51417L1.58214 7.92157L1.25 8.14441V8.54438V11V11.75L2.00002 11.75H2.00007H2.00021H2.00076H2.00296H2.01167L2.04584 11.75L2.17721 11.75L2.66002 11.75L4.25 11.75H19.75L21.34 11.75L21.8228 11.75L21.9542 11.75L21.9883 11.75H21.997H21.9992H21.9998H21.9999H22L22.75 11.75V11V8.52531V8.12468L22.417 7.90193L12.867 1.51362C12.867 1.51361 12.867 1.5136 12.867 1.51359C12.3416 1.16213 11.6583 1.16214 11.133 1.51361Z" />
-                            <rect x="2" y="11" width="20" height="1.5" />
-                        </svg>
-                    </div>
-                    <svg viewBox="0 0 24 24">
-                        <rect class="background" x="1.25" y="2.25" width="21.5" height="19.95" rx="3" />
-                        <path class="front" d="M2.41843 6.8296L1.25 6.04411V7.45203V19.1891C1.25 20.8464 2.59174 22.202 4.25 22.202H19.75C21.4083 22.202 22.75 20.8464 22.75 19.1891V7.47013V6.06476L21.5825 6.84707L12.8425 12.7035L12.7821 12.744C12.5397 12.8907 12.2708 12.9628 12 12.9628C11.7065 12.9628 11.4157 12.8781 11.1584 12.7052L2.41843 6.8296Z" />
-                    </svg>
-                </div>
-                부를 곡 추천
-            </div>
-        </button>
+  <body>
+    <nav class="navbar">
+
+        <div class="navbar__logo">
+            <!-- <i class="fas fa-blog">여기 로고아이콘</i> -->
+            <a href="http://127.0.0.1:8000/">알song달song🎤</a>
+        </div>
         
-       {% block write %}{% endblock %}
-       {% if user.is_authenticated %}
-        <!-- 로그인 상태일 때 표시할 버튼들 -->
-        <a href="{% url 'user:logout' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Logout</a>
-        {% else %}
-        <!-- 로그인 상태가 아닐 때 표시할 버튼들 -->
-        <a href="{% url 'user:sign-in' %}" class="nav-link" style="color: #ffe06f; font-family: 'SUITE-Regular'; font-size: 18px;">Login</a>
-        {% endif %}
-    </nav>  
-</aside>
+        
+      
+      <ul class="navbar__menu">
 
-{% block content %}{% endblock %}
-<script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
-<script src='https://assets.codepen.io/16327/MorphSVGPlugin3.min.js'></script><script  src="{% static 'css/script.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-        crossorigin="anonymous"></script>
-{% block script %}
-{% endblock %}
-</body>
+        <!-- 서치바 -->
+        <form class="search-form" action="/song-list/search/" method="GET">
+            <input type="search" value="" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
+            <button type="submit" class="search-button">
+                <svg class="submit-button">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
+                </svg>
+            </button>
+        </form>
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" display="none">
+            <symbol id="search" viewBox="0 0 32 32">
+                <path d="M 19.5 3 C 14.26514 3 10 7.2651394 10 12.5 C 10 14.749977 10.810825 16.807458 12.125 18.4375 L 3.28125 27.28125 L 4.71875 28.71875 L 13.5625 19.875 C 15.192542 21.189175 17.250023 22 19.5 22 C 24.73486 22 29 17.73486 29 12.5 C 29 7.2651394 24.73486 3 19.5 3 z M 19.5 5 C 23.65398 5 27 8.3460198 27 12.5 C 27 16.65398 23.65398 20 19.5 20 C 15.34602 20 12 16.65398 12 12.5 C 12 8.3460198 15.34602 5 19.5 5 z" />
+            </symbol>
+        </svg>
+
+        <li><a href="http://127.0.0.1:8000/song-list/search/">🏅인기차트</a></li>
+        <li><a href="http://127.0.0.1:8000/song-list/search/">📁달송보관함</a></li>
+        <li><a href="http://127.0.0.1:8000/">💁🏻알송Ai</a></li>
+        <li><a href="http://127.0.0.1:8000/">📊달송report</a></li>
+        <li><a href="{% url 'user:sign-in' %}">👤My page</a></li>
+      </ul>
+      
+      <a href="#" class="navbar__toggleBtn">
+        <i class="fas fa-bars"></i>
+      </a>
+
+    </nav>
+    {% block content %}{% endblock %}
+    {% block script %}{% endblock %}
+  </body>
 </html>

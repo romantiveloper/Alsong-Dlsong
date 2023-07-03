@@ -1,5 +1,6 @@
 {% extends 'navbar.html' %}
-<head>
+{% block style %}
+
 
 <!-- jquery 사용하기 위해 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -59,11 +60,12 @@
         border: none;
     }
 </style>
+{% endblock %}
 
-</head>
+
 {% block content %}
 
-<div style="padding-left: 300px;">
+<div style="padding-left: 150px; padding-top:50px;">
     <!-- 상단 대시보드 Summary 컨테이너 -->
     <div id="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; width: 700px; height: 200px; margin-bottom: 30px;">
         <p>대시보드 Summary 자리임니당</p>
@@ -172,7 +174,7 @@
                     $('#button_add_list').css('float', 'left');
                 }
 
-                location.reload(); // 페이지 새로고침 추가
+                //location.reload(); // 페이지 새로고침 추가
             },
             error: function(xhr, errmsg, err) {
                 // 요청이 실패했을 때 실행할 코드
