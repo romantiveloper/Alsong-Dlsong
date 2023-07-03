@@ -22,10 +22,13 @@ def song_list(request):
             songs = []
     else:
         songs = []
-    
-    print(songs)
 
-    return render(request, 'songlist/song-list.html', {'songs': songs})
+    folders = Myfolder.objects.all()
+
+    data = {'songs':songs, 'folders':folders}
+    
+
+    return render(request, 'songlist/song-list.html', data)
 
 
 
@@ -48,17 +51,13 @@ def search_view(request):
     else:
         results = []
     
-    # 검색 결과 처리
-    # ...
-
-    print(results)
 
     data = {'results': results, 'folders':folders}
     return render(request, 'songlist/search.html', data)
 
 @api_view(['POST'])
 @login_required
-def add_to_database(request):
+def add_to_search(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user = request.user
@@ -102,3 +101,39 @@ def add_to_database(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'error'})
+
+
+def add_to_poplist(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        category = request.POST.get('category')
+        list_number = data['listNumber']
+        list_name = data['listName']
+        user = request.user
+        if category=='TJ':
+            tj_song_num=data['song_num_id']
+            song_data = Song.objects.get(tj_song_num=tj_song_num)
+        elif category=='KY':
+            ky_song_num=data['song_num_id']
+            song_data = Song.objects.get(ky_song_num=ky_song_num)
+        else:
+            song_data = []
+        
+        # 중복된 데이터 확인
+        duplicate_records = Mylist.objects.filter(
+            list_name=list_name,
+            title=title,
+            artist=artist,
+            ky_number_id=ky_number,
+            tj_number_id=tj_number,
+            list_number_id=list_number,
+            user=user
+        )
+
+        if duplicate_records.exists():
+            return Response(status=500, data=dict(message='이미 추가된 노래입니다.'))
+        
+    
+
+    
+

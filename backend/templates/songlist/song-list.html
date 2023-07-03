@@ -29,7 +29,67 @@
     </style>
 </head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<body>
+    <h1><a href="/">Home</a></h1>
+    <h2><a href="/song-list/">노래 리스트</a></h2>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="6">
+                    <div style="text-align: center;">
+                        <form method="post" action="/song-list/">
+                            {% csrf_token %}
+                            <button type="submit" name="category" value="TJ">TJ</button>
+                            <button type="submit" name="category" value="KY">KY</button>
+                        </form>
+                    </div>
+                    <div>
+                        <!-- 곡 검색용 서치바 form -->
+                        <form action="/song-list/search/" method="GET">
+                            <input type="text" name="query" placeholder="검색어를 입력하세요">
+                            <button type="submit">검색</button>
+                        </form>                          
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>순위</th>
+                <th>곡번호</th>
+                <th>곡명</th>
+                <th>아티스트</th>
+                <th>작곡가</th>
+                <th>작사가</th>
+                <th>Mylist</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+            <tr>
+                <td>{{ song.rank }}</td>
+                <td>{{ song.song_num_id }}</td>
+                <td>{{ song.title }}</td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.cmp }}</td>
+                <td>{{ song.writer }}</td>
+                <td>
+                    <button onclick="addToDB('{{ song.song_num_id }}')">추가</button>
+                    <select id="folderSelect">
+                        {% for folder in folders %}
+                            <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     // CSRF 토큰 설정
@@ -73,63 +133,36 @@
             });
         });
     });
+
+    function addToDB(song_num_id) {
+        // 선택한 My_folder의 list_number와 list_name 가져오기
+        var folderSelect = document.getElementById("folderSelect");
+        var listNumber = folderSelect.value;
+        var listName = folderSelect.options[folderSelect.selectedIndex].text;
+
+        // AJAX 요청을 생성
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/song-list/add-to-poplist/', true);
+
+        // 서버 응답 처리
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log('데이터 추가 성공');
+            }
+        };
+
+        // 요청 헤더에 CSRF 토큰을 추가
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        //데이터 전송
+        var data = {
+            song_num_id: song_num_id,
+            listNumber: listNumber,
+            listName: listName
+        };
+        xhr.send(JSON.stringify(data));
+    }
+
+    
 </script>
-
-
-
-
-
-
-<body>
-    <h1><a href="/">Home</a></h1>
-    <h2><a href="/song-list/">노래 리스트</a></h2>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="6">
-                    <div style="text-align: center;">
-                        <form method="post" action="/song-list/">
-                            {% csrf_token %}
-                            <button type="submit" name="category" value="TJ">TJ</button>
-                            <button type="submit" name="category" value="KY">KY</button>
-                        </form>
-                    </div>
-                    <div>
-                        <form action="/song-list/search/" method="GET">
-                            <input type="text" name="query" placeholder="검색어를 입력하세요">
-                            <button type="submit">검색</button>
-                        </form>                          
-                    </div>
-                </th>
-            </tr>
-            <tr>
-                <th>순위</th>
-                <th>곡번호</th>
-                <th>곡명</th>
-                <th>아티스트</th>
-                <th>작곡가</th>
-                <th>작사가</th>
-                <th>Mylist</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for song in songs %}
-            <tr>
-                <td>{{ song.rank }}</td>
-                <td>{{ song.song_num_id }}</td>
-                <td>{{ song.title }}</td>
-                <td>{{ song.artist }}</td>
-                <td>{{ song.cmp }}</td>
-                <td>{{ song.writer }}</td>
-                <td>
-                    <button>추가</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
-
-
-

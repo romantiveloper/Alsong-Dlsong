@@ -13,8 +13,10 @@ from django.contrib.auth.decorators import login_required
 from . import models
 # from movie import models as movie_models
 from django.core.mail import send_mail
+import json
 import uuid
-
+with open('secrets.json') as f:
+    secrets = json.loads(f.read())
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
 def base(request):
@@ -25,9 +27,9 @@ def base(request):
     return redirect('/') # 가입 한 사람이면 그냥 일반 메인 페이지로
 
 
-@login_required # 로그인 필요
+#@login_required # 로그인 된 사람
 def main(request): 
-    print('ho') 
+    print('로그인 된 사람') 
     return render(request, 'main.html') # 일반 메인 페이지로 랜딩
 
 
@@ -107,11 +109,11 @@ def sign_in_view(request):
         if not me:  # ID/PW 맞지 않는다면
             return render(request, 'user/signin.html', {'error': '아이디 혹은 비밀번호가 틀렸습니다.'}) # 에러 발생 후 로그인 창으로 랜딩
         auth.login(request, me) # me 정보로 로그인
-        return redirect('/main') # 로그인 된 채로 main 페이지로 랜딩
+        return redirect('/') # 로그인 된 채로 main 페이지로 랜딩
     else: # POST 방식 아니라면
         is_user = request.user.is_authenticated 
         if is_user:
-            return redirect('/main')
+            return redirect('/')
         return render(request, 'user/signin.html')
     
 
@@ -133,16 +135,17 @@ def user_view(request):
 
 # 카카오 로그인 시도
 def to_kakao(request):
-    REST_API_KEY = '6312b6842ef1fb302228da6420377113'
-    REDIRECT_URI = 'http://localhost:8000/kakao/callback'
+    REST_API_KEY = secrets['REST_API_KEY']
+    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
+    
     return redirect(
         f'https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code')
 
 
 # 카카오 로그인에서 필요 정보 가져오기
 def from_kakao(request):
-    REST_API_KEY = '6312b6842ef1fb302228da6420377113'
-    REDIRECT_URI = 'http://localhost:8000/kakao/callback'
+    REST_API_KEY = secrets['REST_API_KEY']
+    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
     code = request.GET.get('code', 'None')
     if code is None:
         # 코드 발급 x일 경우
@@ -169,13 +172,13 @@ def from_kakao(request):
     email = kakao_account.get('email', None)
     if email is None:
         # 이메일 동의 안하면 로그인 불가 처리
-        return redirect('/sign-in')
+        return redirect('/user/sign-in')
     try:
         user = get_user_model().objects.get(email=email)
 
         if user.login_method != models.User.LOGIN_KAKAO:
             print('카카오로 가입하지 않은 다른 아이디가 존재합니다')
-            return redirect('/')
+            return redirect('/user/sign-in')
 
 
     except:
@@ -185,7 +188,7 @@ def from_kakao(request):
         user.save()
 
     auth.login(request, user)
-    return redirect('/mypage')
+    return redirect('/')
 
 
 @login_required
@@ -202,24 +205,24 @@ def my_page(request):
         return render(request, 'user/mypage.html') # .html 뒤에 , {'movie_list': movie_list, 'err': err}
     
 
-# 비밀번호 변경
-@login_required
-def pw_change(request):
-    if request.method == 'POST':
-        pw1 = request.POST.get('password1', None)
-        pw2 = request.POST.get('password2', None)
-        if pw1 != pw2:
-            return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
-        user = request.user
-        user.set_password(pw2)
-        user.save()
-        auth.logout(request)
-        return redirect('/')
+# # 비밀번호 변경
+# @login_required
+# def pw_change(request):
+#     if request.method == 'POST':
+#         pw1 = request.POST.get('password1', None)
+#         pw2 = request.POST.get('password2', None)
+#         if pw1 != pw2:
+#             return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
+#         user = request.user
+#         user.set_password(pw2)
+#         user.save()
+#         auth.logout(request)
+#         return redirect('/')
 
-    else:
-        if request.user.login_method != 'email':
-            return redirect('/mypage')
-        return render(request, 'user/pwchange.html')
+#     else:
+#         if request.user.login_method != 'email':
+#             return redirect('/mypage')
+#         return render(request, 'user/pwchange.html')
 
 
 # certify_num = ''
@@ -343,3 +346,6 @@ def is_id(request):
 #         user.gender = gender
 #         user.save()
 #     return redirect('/mypage')
+
+def nav_test(request):
+    return render(request, 'user/nav-test.html')
