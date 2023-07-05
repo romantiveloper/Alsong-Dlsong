@@ -98,19 +98,18 @@
 {% block script %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script>    
+<script>
     function addToDB(song_num_id) {
         // 선택한 My_folder의 list_number와 list_name 가져오기
         var folderSelect = document.getElementById("folderSelect");
         var listNumber = folderSelect.value;
         var listName = folderSelect.options[folderSelect.selectedIndex].text;
-
-
+        
         console.log(song_num_id);
 
         // AJAX 요청을 생성
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/song-list/add-to-tjlist/', true);
+        xhr.open('POST', '/song-list/add-to-kylist/', true);
 
         // 서버 응답 처리
         xhr.onreadystatechange = function() {

@@ -8,27 +8,37 @@ from mylist.models import Mylist, Myfolder
 import json
 from django.contrib.auth.decorators import login_required   # 로그인한 사용자 정보
 from django.core.exceptions import ValidationError  # 중복 데이터 에러 처리
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 # Create your views here.
 
 def song_list(request):
-    if request.method == 'POST':  
-        category = request.POST.get('category')
-        if category == 'TJ':
-            songs = Tj_pop.objects.all()
-        elif category == 'KY':
-            songs = Ky_pop.objects.all()
-        else:
-            songs = []
+    if request.method == 'POST':
+        songs = Tj_pop.objects.all()
+    elif request.method == 'GET':
+        songs = Tj_pop.objects.all()
+    else:
+        songs = []
+
+
+    folders = Myfolder.objects.all()
+
+    data = {'songs': songs, 'folders': folders}
+
+    return render(request, 'songlist/song-list.html', data)
+
+def ky_song_list(request):
+    if request.method == 'GET':
+        songs = Ky_pop.objects.all()
+    elif request.method == 'POST':
+        songs = Ky_pop.objects.all()
     else:
         songs = []
 
     folders = Myfolder.objects.all()
 
-    data = {'songs':songs, 'folders':folders}
-    
+    data = {'songs':songs, 'folders': folders}
 
-    return render(request, 'songlist/song-list.html', data)
+    return render(request, 'songlist/ky-song-list.html', data)
 
 
 
@@ -105,27 +115,19 @@ def add_to_search(request):
 
 @api_view(['POST'])
 @login_required
-def add_to_poplist(request):
+def add_to_tjlist(request):
     if request.method == 'POST':
         data = request.data
-        category = data['category']
         list_number = data['listNumber']
         list_name = data['listName']
         user = request.user
+        tj_song_num = data['song_num_id']
 
-        print("category", category)
-        print(list_name)
+        print(data)
 
-        if category=='TJ':
-            tj_song_num=data['song_num_id']
-            song_data = Song.objects.get(tj_song_num=tj_song_num)
-            print(song_data)
-        elif category=='KY':
-            ky_song_num=data['song_num_id']
-            song_data = Song.objects.get(ky_song_num=ky_song_num)
-        else:
-            song_data = []
-
+        print(tj_song_num)
+        song_data = Song.objects.get(tj_song_num=tj_song_num)
+        print(song_data)
 
         mylist = Mylist(
             list_name = list_name,
@@ -134,9 +136,9 @@ def add_to_poplist(request):
             artist = song_data.artist,
             cmp = song_data.cmp,
             writer = song_data.writer,
-            ky_number_id = song_data.ky_song_num,
-            tj_number_id = tj_song_num,
-            list_number = list_number
+            ky_number_id = song_data.ky_song_num_id,
+            tj_number_id = song_data.tj_song_num_id,
+            list_number_id = list_number
         )
         mylist.save()
 
@@ -145,7 +147,38 @@ def add_to_poplist(request):
         return JsonResponse({'status': 'error'})
         
 
-    
+@api_view(['POST'])
+@login_required
+def add_to_kylist(request):
+    if request.method == 'POST':
+        data = request.data
+        list_number = data['listNumber']
+        list_name = data['listName']
+        user = request.user
+        ky_song_num = data['song_num_id']
+
+        print(data)
+
+        print(ky_song_num)
+        song_data = Song.objects.get(ky_song_num=ky_song_num)
+        print(song_data)
+
+        mylist = Mylist(
+            list_name = list_name,
+            user = user,
+            title = song_data.title,
+            artist = song_data.artist,
+            cmp = song_data.cmp,
+            writer = song_data.writer,
+            ky_number_id = song_data.ky_song_num_id,
+            tj_number_id = song_data.tj_song_num_id,
+            list_number_id = list_number
+        )
+        mylist.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})
 
     
 

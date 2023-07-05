@@ -15,12 +15,6 @@
 
     <!-- 서치바 버튼 기능 구현용 script -->
     <script>
-        $.ajaxSetup({
-            headers: { "X-CSRFToken": '{{csrf_token}}' }
-        });
-    </script>
-    
-    <script>
         // CSRF 토큰 설정
         function getCookie(name) {
             let cookieValue = null;

@@ -123,20 +123,20 @@
     });
 
     $(document).ready(function() {
-    $("button").click(function() {
-        var category = $(this).val();  // 버튼의 값(category)을 가져옴
-        var query = $("input[name='query']").val();  // 검색어를 가져옴
+        $("button").click(function() {
+            var category = $(this).val();  // 버튼의 값(category)을 가져옴
+            var query = $("input[name='query']").val();  // 검색어를 가져옴
 
-        $.ajax({
-            type: 'POST',
-            url: '/song-list/',
-            data: {
-                'category': category,
-                'query': query  // 검색어(query)를 데이터에 포함시킴
-            },
-            success: function(response) {
-                // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
-                console.log(response);
+            $.ajax({
+                type: 'POST',
+                url: '/song-list/',
+                data: {
+                    'category': category,
+                    'query': query  // 검색어(query)를 데이터에 포함시킴
+                },
+                success: function(response) {
+                    // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    console.log(response);
                 }
             });
         });
