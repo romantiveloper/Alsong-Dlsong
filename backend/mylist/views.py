@@ -26,6 +26,8 @@ def add_list(request):
 
 @api_view(['GET'])
 def mylist_detail(request, list_number):
-    data = get_object_or_404(Myfolder, list_number=list_number)
+    print(list_number)
+    data = Mylist.objects.filter(list_number=list_number)
+    print(data)
     return render(request, 'songlist/mylist.html', {'data':data})
 
