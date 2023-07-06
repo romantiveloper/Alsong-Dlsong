@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -28,9 +28,11 @@ def add_list(request):
 @api_view(['GET'])
 def mylist_detail(request, list_number):
     print(list_number)
-    data = Mylist.objects.filter(list_number=list_number)
-    print(data)
-    return render(request, 'songlist/mylist.html', {'data':data})
+    lists = Mylist.objects.filter(list_number=list_number)
+    folders = Myfolder.objects.filter(list_number=list_number)
+    print(lists)
+    data = {'lists':lists, 'folders':folders}
+    return render(request, 'songlist/mylist.html', data)
 
 
 class DeleteSong(APIView):
@@ -45,3 +47,15 @@ class DeleteSong(APIView):
             mylist.delete()
 
         return Response(status=204)  # 성공적인 삭제 후 응답
+
+
+@api_view(['POST'])
+def delete_folder(request):
+    list_number = request.data.get('list_number')
+    print(list_number)
+    try:
+        folder = Myfolder.objects.get(list_number=list_number)
+        folder.delete()
+        return JsonResponse({'message': '폴더가 성공적으로 삭제되었습니다.'})
+    except Myfolder.DoesNotExist:
+        return JsonResponse({'message': '폴더를 찾을 수 없습니다.'}, status=501)

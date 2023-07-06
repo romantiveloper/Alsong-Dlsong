@@ -49,13 +49,60 @@
     display: flex;
     justify-content: flex-end;
     }
+
+    .image_box {
+        position: absolute;
+        width: 175px;
+        height: 130px;
+        padding-top: 14px;
+        margin-bottom: 15px;
+        line-height: 175px;
+        text-align: center;
+        background-color: azure;
+    }
+
+    .button_container {
+        position:absolute;
+        display: flex;
+        justify-content: flex-end;
+        align-items:center;
+        padding: 10px;
+        height: 120px;
+        width: 300px;
+    }
+
+    .folder_delete_button button,
+    .folder_edit_button button {
+        width: auto;
+        height: 30px;
+        background-color: #fff;
+        color: black;
+        border: nonoe;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+  
 </style>
 {% endblock %}
 
 {% block content %}
 <div>
     <div style="background-color: aquamarine; height: 150px; width: auto;">
-        여기는 폴더 이미지, 수정, 삭제 기능?
+        <div class="image_box">
+            폴더 이미지
+        </div>
+        <div id="folder_delete" class="button_container">
+            {% for folder in folders %}
+            <div class="folder_delete_button">
+                <button data-list-number="{{ folder.list_number }}">삭제</button>
+            </div>
+            {% endfor %}
+            <div class="folder_edit_button">
+                <button>이름 수정</button>
+            </div>
+        </div>
     </div>
     <div class="container" style="background-color: #fff; height: 50; width: auto;">
         {% csrf_token %}
@@ -72,7 +119,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for song in data %}
+                {% for song in lists %}
                 <tr>
                     <td>{{ song.title }}</td>
                     <td>{{ song.artist }}</td>
@@ -141,6 +188,35 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        const deletefolderButton = document.querySelector('#folder_delete button');
+
+        deletefolderButton.addEventListener('click', function() {
+            const listNumber = deletefolderButton.getAttribute('data-list-number');
+            console.log(listNumber)
+
+            $.ajax({
+                url: '/mylist/deletefolder/',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                data: JSON.stringify({ list_number: listNumber }),
+                dataType: 'json', 
+                success: function() {
+                    // 삭제 성공
+                    location.href = '/';
+                },
+                error: function() {
+                    // 삭제 중 에러 발생
+                    console.error('폴더 삭제에 실패했습니다.');
+                }
+            });
+        });
+    });
+
 
     $.ajaxSetup({
         headers: { "X-CSRFToken": csrftoken }

@@ -72,7 +72,7 @@
                 <td>{{ song.cmp }}</td>
                 <td>{{ song.writer }}</td>
                 <td>
-                    <button onclick="addToDB('{{ song.song_num_id }}', selectedCategory)">추가</button>
+                    <button onclick="addToDB('{{ song.song_num_id }}')">추가</button>
                     <select id="folderSelect">
                         {% for folder in folders %}
                             <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
