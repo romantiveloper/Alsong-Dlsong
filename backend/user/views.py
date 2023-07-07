@@ -198,7 +198,6 @@ def my_page(request):
 
     else:
         user = request.user
-        movie_list = user.favorite_movies.all()
         err = False
         if user.login_method != 'email' and (user.birthday == None or user.gender == None):
             err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요 !'
@@ -294,19 +293,19 @@ def is_id(request):
     return JsonResponse(context)
 
 
-# # 프로필사진 변경
-# def my_modify(request):
-#     if request.method == 'POST':
-#         img_file = request.FILES['file']
-#         ex = img_file.name.split('.')[-1]
-#         user = request.user
-#         url = 'https://retroflix.s3.ap-northeast-2.amazonaws.com/profile_img/'
-#         img_file.name = 'image-' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '.' + ex
-#         user.profile_img = img_file
-#         user.save()
-#         user.profile_img = url + str(img_file)
-#         user.save()
-#     return redirect('/mypage')
+# 프로필사진 변경
+def my_modify(request):
+    if request.method == 'POST':
+        img_file = request.FILES['file']
+        ex = img_file.name.split('.')[-1]
+        user = request.user
+        #url = 'https://retroflix.s3.ap-northeast-2.amazonaws.com/profile_img/' --> 우리 DB로 바꿔야 함
+        img_file.name = 'image-' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '.' + ex
+        user.profile_img = img_file
+        user.save()
+        user.profile_img = url + str(img_file)
+        user.save()
+    return redirect('/mypage')
 
 
 # # 아이디 변경

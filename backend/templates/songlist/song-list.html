@@ -1,5 +1,4 @@
 {% extends 'navbar.html' %}
-{% block style %}
 <style>
     .main_body {
         display: flex;
@@ -8,82 +7,32 @@
         padding-left: 150px;
         background-color: #f7f7f7;
     }
-
-    .table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    
-    .th {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
 </style>
-{% endblock %}
-
-{% block title %}노래 차트{% endblock %}
-
-
-{% block script %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    // CSRF 토큰 설정
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // 이름으로 쿠키 찾기
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
+<head>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>노래 차트</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
         }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
-
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": csrftoken }
-    });
-
-    $(document).ready(function() {
-    $("button").click(function() {
-        var category = $(this).val();  // 버튼의 값(category)을 가져옴
-        var query = $("input[name='query']").val();  // 검색어를 가져옴
-
-        $.ajax({
-            type: 'POST',
-            url: '/song-list/',
-            data: {
-                'category': category,
-                'query': query  // 검색어(query)를 데이터에 포함시킴
-            },
-            success: function(response) {
-                // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
-                console.log(response);
-                }
-            });
-        });
-    });
-</script>
-{% endblock %}
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
 
 
 {% block content %}
+<body>
     <h1><a href="/">Home</a></h1>
     <h2><a href="/song-list/">노래 리스트</a></h2>
     <table>
@@ -91,18 +40,15 @@
             <tr>
                 <th colspan="6">
                     <div style="text-align: center;">
-                        <form method="post" action="/song-list/">
+                        <form method="post">
                             {% csrf_token %}
-                            <button type="submit" name="category" value="TJ">TJ</button>
-                            <button type="submit" name="category" value="KY">KY</button>
+                            <button>
+                                <a href="http://127.0.0.1:8000/song-list/">TJ</a>
+                            </button>
+                            <button>
+                                <a href="http://127.0.0.1:8000/song-list/ky/">KY</a>
+                            </button>
                         </form>
-                    </div>
-                    <div>
-                        <!-- 곡 검색용 서치바 form -->
-                        <form action="/song-list/search/" method="GET">
-                            <input type="text" name="query" placeholder="검색어를 입력하세요">
-                            <button type="submit">검색</button>
-                        </form>                          
                     </div>
                 </th>
             </tr>
@@ -126,10 +72,99 @@
                 <td>{{ song.cmp }}</td>
                 <td>{{ song.writer }}</td>
                 <td>
-                    <button>추가</button>
+                    <button onclick="addToDB('{{ song.song_num_id }}')">추가</button>
+                    <select id="folderSelect">
+                        {% for folder in folders %}
+                            <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
+                        {% endfor %}
+                    </select>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</body>
+</html>
+{% endblock %}
+
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>    
+    function addToDB(song_num_id) {
+        // 선택한 My_folder의 list_number와 list_name 가져오기
+        var folderSelect = $("#folderSelect");
+        var listNumber = folderSelect.val();
+        var listName = folderSelect.find("option:selected").text();
+
+        console.log(song_num_id);
+
+        // AJAX 요청을 생성
+        $.ajax({
+            type: 'POST',
+            url: '/song-list/add-to-tjlist/',
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                song_num_id: song_num_id,
+                listNumber: listNumber,
+                listName: listName
+            }),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+        console.log(data);
+    }
+
+
+    
+
+    $(document).ready(function() {
+        $("button").click(function() {
+            var category = $(this).val();  // 버튼의 값(category)을 가져옴
+            var query = $("input[name='query']").val();  // 검색어를 가져옴
+            var folderSelect = $("#folderSelect");
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/song-list/',
+                data: {
+                    'category': category,
+                    'query': query,  // 검색어(query)를 데이터에 포함시킴
+                },
+                success: function(response) {
+                    // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    console.log(response);
+                }
+            });
+        });
+    });
+
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": csrftoken }
+    });
+
+    
+
+</script>
+
 {% endblock %}
