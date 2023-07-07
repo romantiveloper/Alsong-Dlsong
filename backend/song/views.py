@@ -26,6 +26,8 @@ def song_list(request):
 
     return render(request, 'songlist/song-list.html', data)
 
+
+
 def ky_song_list(request):
     if request.method == 'GET':
         songs = Ky_pop.objects.all()
@@ -90,7 +92,7 @@ def add_to_search(request):
         )
 
         if duplicate_records.exists():
-            return Response(status=500, data=dict(message='이미 추가된 노래입니다.'))
+            return JsonResponse({'status':'error', 'message':'이미 추가된 노래입니다.'})
 
         # 중복이 없을 경우 데이터베이스에 추가
         cmp = data.get('cmp', '')
@@ -110,7 +112,7 @@ def add_to_search(request):
 
         return JsonResponse({'status': 'success'})
     else:
-        return JsonResponse({'status': 'error'})
+        return JsonResponse({'status': 'error', 'message':'잘못된 요청입니다.'})
 
 
 @api_view(['POST'])
@@ -129,6 +131,19 @@ def add_to_tjlist(request):
         song_data = Song.objects.get(tj_song_num=tj_song_num)
         print(song_data)
 
+        # 중복된 데이터 확인
+        duplicate_records = Mylist.objects.filter(
+            list_name=list_name,
+            title=song_data.title,
+            artist=song_data.artist,
+            tj_number_id=tj_song_num,
+            list_number_id=list_number,
+            user=user
+        )
+
+        if duplicate_records.exists():
+            return JsonResponse({'status':'error', 'message':'이미 추가된 노래입니다.'})
+
         mylist = Mylist(
             list_name = list_name,
             user = user,
@@ -144,7 +159,7 @@ def add_to_tjlist(request):
 
         return JsonResponse({'status': 'success'})
     else:
-        return JsonResponse({'status': 'error'})
+        return JsonResponse({'status': 500, 'message':'잘못된 요청입니다.'})
         
 
 @api_view(['POST'])
@@ -163,6 +178,19 @@ def add_to_kylist(request):
         song_data = Song.objects.get(ky_song_num=ky_song_num)
         print(song_data)
 
+        # 중복된 데이터 확인
+        duplicate_records = Mylist.objects.filter(
+            list_name=list_name,
+            title=song_data.title,
+            artist=song_data.artist,
+            ky_number_id=ky_song_num,
+            list_number_id=list_number,
+            user=user
+        )
+
+        if duplicate_records.exists():
+            return JsonResponse({'status':'error', 'message':'이미 추가된 노래입니다.'})
+
         mylist = Mylist(
             list_name = list_name,
             user = user,
@@ -178,7 +206,7 @@ def add_to_kylist(request):
 
         return JsonResponse({'status': 'success'})
     else:
-        return JsonResponse({'status': 'error'})
+        return JsonResponse({'status': 'error', 'message':'잘못된 요청입니다.'})
 
     
 

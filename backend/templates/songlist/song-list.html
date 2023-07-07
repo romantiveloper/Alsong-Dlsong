@@ -94,38 +94,46 @@
 <script>    
     function addToDB(song_num_id) {
         // 선택한 My_folder의 list_number와 list_name 가져오기
-        var folderSelect = document.getElementById("folderSelect");
-        var listNumber = folderSelect.value;
-        var listName = folderSelect.options[folderSelect.selectedIndex].text;
-
+        var folderSelect = $("#folderSelect");
+        var listNumber = folderSelect.val();
+        var listName = folderSelect.find("option:selected").text();
 
         console.log(song_num_id);
 
         // AJAX 요청을 생성
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/song-list/add-to-tjlist/', true);
-
-        // 서버 응답 처리
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log('데이터 추가 성공');
+        $.ajax({
+            type: 'POST',
+            url: '/song-list/add-to-tjlist/',
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                song_num_id: song_num_id,
+                listNumber: listNumber,
+                listName: listName
+            }),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
             }
-        };
+        });
 
-        // 요청 헤더에 CSRF 토큰을 추가
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        //데이터 전송
-        var data = {
-            song_num_id: song_num_id,
-            listNumber: listNumber,
-            listName: listName
-        };
-        xhr.send(JSON.stringify(data));
-
-        console.log(data)
+        console.log(data);
     }
+
 
     
 
