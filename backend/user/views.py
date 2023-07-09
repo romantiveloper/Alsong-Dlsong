@@ -10,11 +10,12 @@ import requests
 from django.shortcuts import render, redirect, reverse
 from . import models
 from .models import User
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import uuid
+from .utils import parse_birthday
 
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
@@ -123,6 +124,7 @@ def sign_in_view(request):
 @login_required
 def log_out(request):
     auth.logout(request) # 장고의 auth 앱 사용, 로그아웃
+    messages.success(request, '로그아웃이 완료되었습니다👌🏻')
     return redirect('/')
 
 
@@ -175,12 +177,13 @@ def from_kakao(request):
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
     birthday = kakao_account.get('birthday', None)
+    modified_birthday = parse_birthday(birthday)
     email = kakao_account.get('email', None)
     
-    # if email is None:
-    #     # 이메일 동의 안하면 로그인 불가 처리
-    #     print('이메일 없이는 가입이 불가해요😢')
-    #     return redirect('/user/sign-in')
+    if email is None:
+        # 이메일 동의 안하면 로그인 불가 처리
+        print('이메일 없이는 가입이 불가해요😢')
+        return redirect('/user/sign-in')
     
     try:
         user = get_user_model().objects.get(email=email)
@@ -192,7 +195,7 @@ def from_kakao(request):
 
     except:
         user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
-                                            email=email, login_method=models.User.LOGIN_KAKAO, birthday=birthday, gender=gender)
+                                            email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
         user.set_unusable_password()
         user.save()
 
@@ -229,7 +232,7 @@ def pw_change(request):
 
     else:
         if request.user.login_method != 'email':
-            return redirect('/mypage')
+            return redirect('/user/mypage')
         return render(request, 'user/pwchange.html')
 
 
@@ -314,4 +317,4 @@ def my_modify(request):
         user.save()
         user.profile_img = url + str(img_file)
         user.save()
-    return redirect('/mypage')
+    return redirect('/user/mypage')

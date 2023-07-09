@@ -81,7 +81,7 @@
         <li><a href="http://127.0.0.1:8000/song-list/search/">📁달송보관함</a></li>
         <li><a href="http://127.0.0.1:8000/">💁🏻알송Ai</a></li>
         <li><a href="http://127.0.0.1:8000/">📊달송report</a></li>
-        <li><a href="{% url 'user:mypage' %}">👤My page</a></li>
+        <li><a href="http://127.0.0.1:8000/user/mypage/">👤My page</a></li>
          <!-- 로그인/로그아웃 버튼 추가 시작 -->
         {% if user.is_authenticated %}
         <li>
@@ -94,9 +94,15 @@
         {% endif %}
         <!-- 로그인/로그아웃 버튼 추가 끝 -->
       </ul>
-      
-      <!-- 서치바 -->
-      <form class="search-form" action="/song-list/search/" method="GET">
+
+      <a href="#" class="navbar__toggleBtn">
+        <i class="fas fa-bars"></i>
+      </a>
+
+    </nav>
+
+    <!-- 서치바 -->
+    <form class="search-form" action="/song-list/search/" method="GET">
         <input type="text" name="query" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
         <button type="submit" class="search-button">
             <svg class="submit-button">
@@ -111,11 +117,17 @@
         </symbol>
     </svg>
 
-      <a href="#" class="navbar__toggleBtn">
-        <i class="fas fa-bars"></i>
-      </a>
-
-    </nav>
+    {% if messages %}
+    <section id="messages">
+        <ul>
+            {% for message in messages %}
+            <p class="{{ message.tags }}" style="text-align:right;">
+                {{ message }}
+            </p>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
     {% block content %}{% endblock %}
     {% block script %}{% endblock %}
   </body>

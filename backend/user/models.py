@@ -18,7 +18,8 @@ class User(AbstractUser):
     LOGIN_CHOICES = ((LOGIN_EMAIL,'Email'),(LOGIN_KAKAO, 'Kakao')) # 로그인 방식 항목 생성
     
     user_id = models.CharField(max_length=40,blank=True, unique=True) # 로그인용 id
-    USERNAME_FIELD = 'user_id'
+    USERNAME_FIELD = 'user_id' # django의 기본 User 모델에서 username으로 user_id 사용하겠다고 명시 커스텀
+    
     nickname = models.CharField(max_length=30,blank=True) # 닉네임
     birthday = models.DateField(blank=True, null=True) # 생년월일
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, default=GENDER_MAIL) # 성별

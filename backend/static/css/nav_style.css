@@ -55,19 +55,19 @@
   /* 반응형으로 변경 필요함 */
   .search-form {
     position: absolute;
-    top: 6.5%;
-    left: 70px;
-    width: 100px;
-    height: 28px;
+    top: 5%;
+    left: 285px;
+    width: 250px;
+    height: 30px;
     border-radius: 40px;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     transform: translate(-50%, -50%);
     background: #fff;
     transition: all 0.3s ease;
+  }
 
-    &.focus {
-      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
-    }
+  .search-form.focus {
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
   }
 
   .search-input {
@@ -82,10 +82,10 @@
     border: none;
     appearance: none;
     outline: none;
+  }
 
-    &::-webkit-search-cancel-button {
-      appearance: none;
-    }
+  .search-input::-webkit-search-cancel-button {
+    appearance: none;
   }
 
   .search-button {
@@ -99,13 +99,13 @@
     border: none;
     background: none;
     outline: none!important;
-    cursor: pointer;
-    
-    & svg {
-      width: 15px;
-      height: 15px;
-      fill: #5a6674;
-    }
+    cursor: pointer;  
+  }
+
+  .search-button svg {
+    width: 15px;
+    height: 15px;
+    fill: #5a6674;
   }
 
   .navbar__menu {
