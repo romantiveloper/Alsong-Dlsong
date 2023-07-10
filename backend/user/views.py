@@ -109,6 +109,7 @@ def sign_in_view(request):
         user_id = request.POST.get('user_id') 
         password = request.POST.get('password')
         me = auth.authenticate(request, user_id=user_id, password=password) # 장고의 auth 앱 사용, 사용자 ID/PW 확인
+        print("로그인 시도")
         if not me:  # ID/PW 맞지 않는다면
             return render(request, 'user/signin.html', {'error': '아이디 혹은 비밀번호가 틀렸습니다.'}) # 에러 발생 후 로그인 창으로 랜딩
         auth.login(request, me) # ID/PW 잘 맞는다면, me 정보로 로그인

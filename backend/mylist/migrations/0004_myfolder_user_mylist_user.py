@@ -12,15 +12,4 @@ class Migration(migrations.Migration):
         ('mylist', '0003_alter_mylist_id'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='myfolder',
-            name='user',
-            field=models.ForeignKey(default='none', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='user_id'),
-        ),
-        migrations.AddField(
-            model_name='mylist',
-            name='user',
-            field=models.ForeignKey(default='none', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='user_id'),
-        ),
-    ]
+    operations = []

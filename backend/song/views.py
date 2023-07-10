@@ -19,8 +19,8 @@ def song_list(request):
     else:
         songs = []
 
-
-    folders = Myfolder.objects.all()
+    user_id = request.user
+    folders = Myfolder.objects.filter(user_id=user_id)
 
     data = {'songs': songs, 'folders': folders}
 
@@ -36,7 +36,8 @@ def ky_song_list(request):
     else:
         songs = []
 
-    folders = Myfolder.objects.all()
+    user_id = request.user
+    folders = Myfolder.objects.filter(user_id=user_id)
 
     data = {'songs':songs, 'folders': folders}
 

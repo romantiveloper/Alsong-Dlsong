@@ -6,14 +6,20 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
+
 @api_view(['GET'])
 def mylist(request):
-    folder_list = Myfolder.objects.all()
+    user_id = request.user
+    folder_list = Myfolder.objects.filter(user_id=user_id)
     print(folder_list)
     return render(request, 'main.html', {'folder_list':folder_list})
+
+
 
 @api_view(['POST'])
 def add_list(request):
@@ -24,6 +30,8 @@ def add_list(request):
     Myfolder.objects.create(list_name=list_name, user_id=user.user_id)
 
     return Response(status=200)
+
+
 
 @api_view(['GET'])
 def mylist_detail(request, list_number):

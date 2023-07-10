@@ -118,14 +118,16 @@
                 gender:gender,
             }), // JSON.stringify(data),
             success:function(data){
-                alert(data.ok);
+                var successMessage = "회원가입에 성공했습니다.";
+                alert(successMessage);
                 location.replace('{% url "user:sign-in" %}');
             },
             error:function(request, status, error){
                 // 요청이 실패했을 때 실행할 코드
                 const data = JSON.parse(request.responseText);
                 console.log(data.message);
-                alert(data.message);
+                var errorMessage = "회원가입에 실패했습니다.";
+                alert(errorMessage);
             }
             })
        }); 
