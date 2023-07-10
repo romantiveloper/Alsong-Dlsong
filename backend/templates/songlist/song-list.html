@@ -118,6 +118,8 @@
                 var parsedResponse = JSON.parse(response);
                 if (parsedResponse.status === 'success') {
                     console.log('데이터 추가 성공');
+                    var successMessage = '추가되었습니다.';
+                    alert(successMessage)
                 } else if (parsedResponse.status === 'error') {
                     console.log('데이터 추가 실패: ' + parsedResponse.message);
                     var errorMessage = '이미 추가된 노래입니다.';

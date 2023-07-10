@@ -195,6 +195,10 @@
         // 추가 버튼 클릭 후 모달 닫기
         modal.style.display = "none";
         document.body.style.overflowY = "visible";
+
+        setTimeout(() => {
+            location.reload();
+        }, 100);
     });
 
     // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
