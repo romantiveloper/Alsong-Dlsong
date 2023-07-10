@@ -12,6 +12,11 @@
     
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
     <script src="{% static 'css/nav.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- 서치바 버튼 기능 구현용 script -->
     <script>
@@ -69,38 +74,60 @@
             <a href="http://127.0.0.1:8000/">알song달song🎤</a>
         </div>
         
-        
       
       <ul class="navbar__menu">
-
-        <!-- 서치바 -->
-        <form class="search-form" action="/song-list/search/" method="GET">
-            <input type="text" name="query" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
-            <button type="submit" class="search-button">
-                <svg class="submit-button">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
-                </svg>
-            </button>
-        </form>
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" display="none">
-            <symbol id="search" viewBox="0 0 32 32">
-                <path d="M 19.5 3 C 14.26514 3 10 7.2651394 10 12.5 C 10 14.749977 10.810825 16.807458 12.125 18.4375 L 3.28125 27.28125 L 4.71875 28.71875 L 13.5625 19.875 C 15.192542 21.189175 17.250023 22 19.5 22 C 24.73486 22 29 17.73486 29 12.5 C 29 7.2651394 24.73486 3 19.5 3 z M 19.5 5 C 23.65398 5 27 8.3460198 27 12.5 C 27 16.65398 23.65398 20 19.5 20 C 15.34602 20 12 16.65398 12 12.5 C 12 8.3460198 15.34602 5 19.5 5 z" />
-            </symbol>
-        </svg>
 
         <li><a href="http://127.0.0.1:8000/song-list/">🏅인기차트</a></li>
         <li><a href="http://127.0.0.1:8000/song-list/search/">📁달송보관함</a></li>
         <li><a href="http://127.0.0.1:8000/">💁🏻알송Ai</a></li>
         <li><a href="http://127.0.0.1:8000/">📊달송report</a></li>
-        <li><a href="{% url 'user:sign-in' %}">👤My page</a></li>
+        <li><a href="http://127.0.0.1:8000/user/mypage/">👤My page</a></li>
+         <!-- 로그인/로그아웃 버튼 추가 시작 -->
+        {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'user:logout' %}">🔓로그아웃</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'user:sign-in' %}">🔐로그인</a>
+        </li>
+        {% endif %}
+        <!-- 로그인/로그아웃 버튼 추가 끝 -->
       </ul>
-      
+
       <a href="#" class="navbar__toggleBtn">
         <i class="fas fa-bars"></i>
       </a>
 
     </nav>
+
+    <!-- 서치바 -->
+    <form class="search-form" action="/song-list/search/" method="GET">
+        <input type="text" name="query" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
+        <button type="submit" class="search-button">
+            <svg class="submit-button">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
+            </svg>
+        </button>
+     </form>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" display="none">
+        <symbol id="search" viewBox="0 0 32 32">
+            <path d="M 19.5 3 C 14.26514 3 10 7.2651394 10 12.5 C 10 14.749977 10.810825 16.807458 12.125 18.4375 L 3.28125 27.28125 L 4.71875 28.71875 L 13.5625 19.875 C 15.192542 21.189175 17.250023 22 19.5 22 C 24.73486 22 29 17.73486 29 12.5 C 29 7.2651394 24.73486 3 19.5 3 z M 19.5 5 C 23.65398 5 27 8.3460198 27 12.5 C 27 16.65398 23.65398 20 19.5 20 C 15.34602 20 12 16.65398 12 12.5 C 12 8.3460198 15.34602 5 19.5 5 z" />
+        </symbol>
+    </svg>
+
+    {% if messages %}
+    <section id="messages">
+        <ul>
+            {% for message in messages %}
+            <p class="{{ message.tags }}" style="text-align:right;">
+                {{ message }}
+            </p>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
     {% block content %}{% endblock %}
     {% block script %}{% endblock %}
   </body>

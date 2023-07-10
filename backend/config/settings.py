@@ -90,9 +90,13 @@ DATABASES = {
         'USER' : 'root', # 사용자 이름
         'PASSWORD' : '1234', # 비밀번호
         'HOST' : '127.0.0.1', # db 호스트
-        'PORT' : '4000' # 포트 번호
+        'PORT' : '4000', # 포트 번호
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
+
 
 
 # Password validation
@@ -114,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-AUTH_USER_MODEL = 'user.User'  # 'user'는 앱 이름이고 'CustomUser'는 사용자 정의 User 모델의 이름입니다.
+AUTH_USER_MODEL = 'user.User'  # 'user'는 앱 이름이고 'User'는 사용자 정의 User 모델의 이름
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -132,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_URL = "/static/"
+
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'

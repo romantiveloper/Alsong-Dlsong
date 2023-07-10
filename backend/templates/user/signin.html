@@ -61,8 +61,8 @@
         <form method="post" action="/user/sign-in/">
             {% csrf_token %}
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="아이디">
-                <label for="username">아이디</label>
+                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="아이디">
+                <label for="user_id">아이디</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password">
@@ -81,12 +81,6 @@
             </div>
         </form>
         <div id="social-login">
-            <!-- <button class="button is-small" id="github-btn">
-                        <span class="icon">
-                          <i class="fab fa-github" style="color: white"></i>
-                        </span>
-                <span>깃허브로 로그인하기</span>
-            </button> -->
             <button class="button is-small" id="kakao-btn" type="button">
                         <span class="icon">
                           <i class="fas fa-comment"></i>
@@ -101,7 +95,7 @@
             </div>
             <div hidden id="hidden_box">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="find_id" name="password" placeholder="Password">
+                    <input type="text" class="form-control" id="find_id" name="password" placeholder="아이디">
                     <label for="password">아이디를 적어주세요</label>
                 </div>
                 <div class="form-floating mb-3">

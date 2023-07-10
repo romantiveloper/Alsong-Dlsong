@@ -1,4 +1,6 @@
 import json
+with open('secrets.json') as f:
+    secrets = json.loads(f.read())
 import random
 import string
 import datetime
@@ -6,17 +8,15 @@ from random import randint
 from django.http import JsonResponse
 import requests
 from django.shortcuts import render, redirect, reverse
-from .models import User
-from django.contrib.auth import get_user_model
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from . import models
-# from movie import models as movie_models
+from .models import User
+from django.contrib import auth, messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-import json
 import uuid
-with open('secrets.json') as f:
-    secrets = json.loads(f.read())
+from .utils import parse_birthday
+
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
 def base(request):
@@ -50,6 +50,7 @@ def sign_up_view(request):
         global certify_num
         data = json.loads(request.body.decode('utf-8')) # POST 요청에서 전달받은 본문(body) 가져와 "data"라는 변수에 저장, JSON 형식의 문자열을 딕셔너리로 변환
         username = data['username'] 
+        user_id = data['user_id'] 
         password1 = data['password1']
         password2 = data['password2']
         nickname = data['nickname']
@@ -59,9 +60,11 @@ def sign_up_view(request):
  
         err_msg = '' # 에러 메시지 초기화
 
-        user_id = str(uuid.uuid4())
+        # user_id = str(uuid.uuid4())
 
-        if username == '' or password1 == '': # 아이디/비번 공백으로 로그인 시도 때
+        if username == '': # 이름 공백일 때
+            err_msg = '이름을 적어주세요.'
+        if user_id == '' or password1 == '': # 아이디/비번 공백으로 로그인 시도 때
             err_msg = '아이디 및 패스워드를 확인해주세요'
         if nickname == '': # 닉네임 공백일 때
             err_msg = '닉네임을 적어주세요.'
@@ -76,7 +79,7 @@ def sign_up_view(request):
         # if not certify: # 이메일 인증 하지 않았을 때
         #     err_msg = '이메일을 인증해주세요.'
             
-        is_it = get_user_model().objects.filter(username=username) # 지금 POST 요청에서 받은 user_id과 기존 DB의 user_id이 일치할 경우
+        is_it = get_user_model().objects.filter(user_id=user_id) # 지금 POST 요청에서 받은 user_id과 기존 DB의 user_id이 일치할 경우
         is_it2 = get_user_model().objects.filter(email=email) # 지금 POST 요청에서 받은 email과 기존 DB의 email이 일치할 경우
         
         if is_it:
@@ -92,8 +95,8 @@ def sign_up_view(request):
             return JsonResponse(context) # 'error' 키와 함께 err_msg가 포함된 딕셔너리를 json 형식으로 응답으로 보내줌
 
         # get_user_model() 함수: Django에서 제공하는 내장 함수로서, 장고의 auth 앱에서 사용자 모델을 가져오는 역할
-        get_user_model().objects.create_user(username=username, password=password1, birthday=birthday, email=email,
-                                             gender=gender, nickname=nickname, user_id=user_id)
+        get_user_model().objects.create_user(username=username, user_id=user_id, password=password1, nickname=nickname, 
+                                             email=email, birthday=birthday, gender=gender)
        
        # 다 끝나면 회원가입 완료 처리
         context = {'ok': '회원가입완료'}
@@ -103,14 +106,14 @@ def sign_up_view(request):
 # 로그인
 def sign_in_view(request): 
     if request.method == 'POST':
-        username = request.POST.get('username') 
+        user_id = request.POST.get('user_id') 
         password = request.POST.get('password')
-        me = auth.authenticate(request, username=username, password=password) # 장고의 auth 앱 사용, 사용자 ID/PW 확인
+        me = auth.authenticate(request, user_id=user_id, password=password) # 장고의 auth 앱 사용, 사용자 ID/PW 확인
         if not me:  # ID/PW 맞지 않는다면
             return render(request, 'user/signin.html', {'error': '아이디 혹은 비밀번호가 틀렸습니다.'}) # 에러 발생 후 로그인 창으로 랜딩
-        auth.login(request, me) # me 정보로 로그인
+        auth.login(request, me) # ID/PW 잘 맞는다면, me 정보로 로그인
         return redirect('/') # 로그인 된 채로 main 페이지로 랜딩
-    else: # POST 방식 아니라면
+    else: 
         is_user = request.user.is_authenticated 
         if is_user:
             return redirect('/')
@@ -120,7 +123,8 @@ def sign_in_view(request):
 # 로그아웃
 @login_required
 def log_out(request):
-    auth.logout(request)
+    auth.logout(request) # 장고의 auth 앱 사용, 로그아웃
+    messages.success(request, '로그아웃이 완료되었습니다👌🏻')
     return redirect('/')
 
 
@@ -128,7 +132,7 @@ def log_out(request):
 @login_required
 def user_view(request):
     if request.method == 'GET':
-        user_list = User.objects.all().exclude(username=request.user.username)
+        user_list = User.objects.all().exclude(user_id=request.user.user_id)
         return render(request, 'user/user_list.html', {'user_list': user_list})
 
 
@@ -163,27 +167,35 @@ def from_kakao(request):
     headers = {'Authorization': f'Bearer {token}'}
     get_info = requests.post(f'https://kapi.kakao.com/v2/user/me', headers=headers)
     info = get_info.json()
+    
+    kakao_account = info.get('kakao_account')
+    user_id = info.get('id')
     properties = info.get('properties')
+    
     username = properties.get('nickname', None)
     nickname = username
-    kakao_account = info.get('kakao_account')
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
+    birthday = kakao_account.get('birthday', None)
+    modified_birthday = parse_birthday(birthday)
     email = kakao_account.get('email', None)
+    
     if email is None:
         # 이메일 동의 안하면 로그인 불가 처리
+        print('이메일 없이는 가입이 불가해요😢')
         return redirect('/user/sign-in')
+    
     try:
         user = get_user_model().objects.get(email=email)
 
         if user.login_method != models.User.LOGIN_KAKAO:
-            print('카카오로 가입하지 않은 다른 아이디가 존재합니다')
+            print('카카오로 가입하지 않은 다른 아이디가 존재합니다😲')
             return redirect('/user/sign-in')
 
 
     except:
-        user = models.User.objects.create(username=username, nickname=nickname, profile_img=profile_img,
-                                                email=email, login_method=models.User.LOGIN_KAKAO, gender=gender)
+        user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
+                                            email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
         user.set_unusable_password()
         user.save()
 
@@ -198,69 +210,68 @@ def my_page(request):
 
     else:
         user = request.user
-        movie_list = user.favorite_movies.all()
         err = False
         if user.login_method != 'email' and (user.birthday == None or user.gender == None):
             err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요 !'
-        return render(request, 'user/mypage.html') # .html 뒤에 , {'movie_list': movie_list, 'err': err}
+        return render(request, 'user/mypage.html')
     
 
-# # 비밀번호 변경
-# @login_required
-# def pw_change(request):
-#     if request.method == 'POST':
-#         pw1 = request.POST.get('password1', None)
-#         pw2 = request.POST.get('password2', None)
-#         if pw1 != pw2:
-#             return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
-#         user = request.user
-#         user.set_password(pw2)
-#         user.save()
-#         auth.logout(request)
-#         return redirect('/')
+# 비밀번호 변경
+@login_required
+def pw_change(request):
+    if request.method == 'POST':
+        pw1 = request.POST.get('password1', None)
+        pw2 = request.POST.get('password2', None)
+        if pw1 != pw2:
+            return render(request, 'user/pwchange.html', {'error': '비밀번호가 일치하지 않습니다.'})
+        user = request.user
+        user.set_password(pw2)
+        user.save()
+        auth.logout(request)
+        return redirect('/')
 
-#     else:
-#         if request.user.login_method != 'email':
-#             return redirect('/mypage')
-#         return render(request, 'user/pwchange.html')
+    else:
+        if request.user.login_method != 'email':
+            return redirect('/user/mypage')
+        return render(request, 'user/pwchange.html')
 
 
-# certify_num = ''
+certify_num = ''
 
-# # 이메일 인증번호 보내기
-# def email_ajax(request):
-#     global certify_num
-#     if request.method == 'POST':
-#         print('hi')
-#         certify_num = randint(10000, 99999)
+# 이메일 인증번호 보내기
+def email_ajax(request):
+    global certify_num
+    if request.method == 'POST':
+        print('hi')
+        certify_num = randint(10000, 99999)
 
-#         email = json.loads(request.body)
-#         print(email)
-#         send_mail('알song달song 회원가입 인증 메일입니다.',
-#                   f'아래의 인증번호를 입력해주세요🔐✨\n\n인증번호 : {certify_num}', 'jibeenpark@gmail.com', [email],
-#                   fail_silently=False)
-#         context = {
-#             'result': '인증번호 발송이 완료되었습니다.',
-#         }
+        email = json.loads(request.body)
+        print(email)
+        send_mail('알song달song 회원가입 인증 메일입니다.',
+                  f'아래의 인증번호를 입력해주세요🔐✨\n\n인증번호 : {certify_num}', 'jibeenpark@gmail.com', [email],
+                  fail_silently=False)
+        context = {
+            'result': '인증번호 발송이 완료되었습니다.',
+        }
 
-#     return JsonResponse(context)
+    return JsonResponse(context)
 
-# # 인증번호 확인
-# def certify_ajax(request):
-#     global certify
-#     if request.method == 'POST':
-#         num = json.loads(request.body)
-#         result_msg = ''
-#         if num == str(certify_num):
-#             result_msg = '인증번호가 일치합니다.'
-#             certify = True
-#         else:
-#             result_msg = '인증번호가 다릅니다.'
+# 인증번호 확인
+def certify_ajax(request):
+    global certify
+    if request.method == 'POST':
+        num = json.loads(request.body)
+        result_msg = ''
+        if num == str(certify_num):
+            result_msg = '인증번호가 일치합니다.'
+            certify = True
+        else:
+            result_msg = '인증번호가 다릅니다.'
 
-#         context = {
-#             'result': result_msg,
-#         }
-#     return JsonResponse(context)
+        context = {
+            'result': result_msg,
+        }
+    return JsonResponse(context)
 
 
 # 임시 비밀번호 발급(아이디는 알고 비밀번호 모를 때)
@@ -294,58 +305,16 @@ def is_id(request):
     return JsonResponse(context)
 
 
-# # 프로필사진 변경
-# def my_modify(request):
-#     if request.method == 'POST':
-#         img_file = request.FILES['file']
-#         ex = img_file.name.split('.')[-1]
-#         user = request.user
-#         url = 'https://retroflix.s3.ap-northeast-2.amazonaws.com/profile_img/'
-#         img_file.name = 'image-' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '.' + ex
-#         user.profile_img = img_file
-#         user.save()
-#         user.profile_img = url + str(img_file)
-#         user.save()
-#     return redirect('/mypage')
-
-
-# # 아이디 변경
-# def id_change(request):
-#     if request.method == 'POST':
-#         id = request.POST.get('id', '')
-#         if id == '':
-#             return redirect('/mypage')
-#         if len(User.objects.filter(username=id)) >= 1:
-#             return redirect('/mypage')
-#         user = request.user
-#         user.username = id
-#         user.save()
-#     return redirect('/mypage')
-
-
-# # 생일 변경
-# def birth_change(request):
-#     if request.method == 'POST':
-#         birth = request.POST.get('birth', '')
-#         if id == '':
-#             return redirect('/mypage')
-#         user = request.user
-#         user.birthday = birth
-#         user.save()
-#     return redirect('/mypage')
-
-
-# # 성별 변경
-# def gender_change(request):
-#     if request.method == 'POST':
-#         gender = request.POST.get('gender', '')
-#         if gender == '1':
-#             return redirect('/mypage')
-
-#         user = request.user
-#         user.gender = gender
-#         user.save()
-#     return redirect('/mypage')
-
-def nav_test(request):
-    return render(request, 'user/nav-test.html')
+# 프로필사진 변경 --> DB 연결 후 가능
+def my_modify(request):
+    if request.method == 'POST':
+        img_file = request.FILES['file']
+        ex = img_file.name.split('.')[-1]
+        user = request.user
+        url = 'https://retroflix.s3.ap-northeast-2.amazonaws.com/profile_img/' # 우리 DB로 바꿔야 함
+        img_file.name = 'image-' + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + '.' + ex
+        user.profile_img = img_file
+        user.save()
+        user.profile_img = url + str(img_file)
+        user.save()
+    return redirect('/user/mypage')
