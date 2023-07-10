@@ -1,5 +1,6 @@
 {% extends 'navbar.html' %}
-<head>
+{% block style %}
+
 
 <!-- jquery 사용하기 위해 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -59,12 +60,19 @@
         border: none;
     }
 </style>
+{% endblock %}
 
-</head>
+
 {% block content %}
 
-<div style="padding-left: 300px;">
-    <div id="list_container" style="background-color: aqua; display: flex; width: 700px; height: 2000px;">
+<div style="padding-left: 150px; padding-top:50px;">
+    <!-- 상단 대시보드 Summary 컨테이너 -->
+    <div id="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; width: 700px; height: 200px; margin-bottom: 30px;">
+        <p>대시보드 Summary 자리임니당</p>
+    </div>
+    
+    <!-- 부를곡 리스트들 있는 컨테이너 -->
+    <div id="list_container" style="background-color: aqua; display: flex; width: 700px; height: 500px;">  
         {% for list in folder_list %}
         <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
             <button class="list_button" data-list-number="{{ list.list_number }}">{{ list.list_name }}</button>    
@@ -78,6 +86,7 @@
         </div>
     </div>
 </div>
+
 
 
 <!-- 모달 content 부분-->
@@ -105,7 +114,7 @@
 {% endblock %}
 
 {% block script %}
-<script>
+<script>    
     $.ajaxSetup({
         headers: { "X-CSRFToken": '{{csrf_token}}' }
     });
@@ -134,7 +143,6 @@
     let listCount = 0; // 추가된 리스트 개수를 추적하기 위한 변수
 
     
-
 
     function addList(fd) {
         $.ajax({
@@ -166,11 +174,13 @@
                     $('#button_add_list').css('float', 'left');
                 }
 
-                location.reload(); // 페이지 새로고침 추가
+                //location.reload(); // 페이지 새로고침 추가
             },
             error: function(xhr, errmsg, err) {
                 // 요청이 실패했을 때 실행할 코드
                 console.log(xhr.status + ": " + xhr.responseText);
+                var errorMessage = "로그인이 필요합니다.";
+                alert(errorMessage);
             }
         });
     }
@@ -187,6 +197,10 @@
         // 추가 버튼 클릭 후 모달 닫기
         modal.style.display = "none";
         document.body.style.overflowY = "visible";
+
+        setTimeout(() => {
+            location.reload();
+        }, 100);
     });
 
     // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록

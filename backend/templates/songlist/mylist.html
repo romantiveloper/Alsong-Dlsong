@@ -1,1 +1,281 @@
-test
+{% extends 'navbar.html' %}
+{% block style %}
+<style>
+    .square-button {
+        width: 5px;
+        height: 13px;
+        background-color: #fff;
+        color: black;
+        border: none;
+        border-radius: 0px;
+    }
+
+    .square-button.selected {
+        background-color: #fff;
+        position: relative;
+    }
+
+    .square-button.selected::before,
+    .square-button.selected::after {
+        content: "";
+        position: absolute;
+        background-color: black;
+        width: 3px;
+        height: 7px;
+        top: 3px;
+    }
+
+    .square-button.selected::before {
+        transform: rotate(-45deg);
+        left: 1px;
+    }
+
+    .square-button.selected::after {
+        transform: rotate(45deg);
+        right: 1px;
+    }
+
+    .delete-button {
+        width: auto;
+        height: 30px;
+        background-color: #fff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        font-size: 13px;
+    }
+
+    .container {
+    display: flex;
+    justify-content: flex-end;
+    }
+
+    .image_box {
+        position: absolute;
+        width: 175px;
+        height: 130px;
+        padding-top: 14px;
+        margin-bottom: 15px;
+        line-height: 175px;
+        text-align: center;
+        background-color: azure;
+    }
+
+    .button_container {
+        position:absolute;
+        display: flex;
+        justify-content: flex-end;
+        align-items:center;
+        padding: 10px;
+        height: 120px;
+        width: 300px;
+    }
+
+    .folder_delete_button button,
+    .folder_edit_button button {
+        width: auto;
+        height: 30px;
+        background-color: #fff;
+        color: black;
+        border: nonoe;
+        border-radius: 5px;
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .delete-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 0.25s, opacity 0.25s;
+    }
+
+    .delete-modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 4px;
+    }
+
+    .delete-modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+  
+</style>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div style="background-color: aquamarine; height: 150px; width: auto;">
+        <div class="image_box">
+            폴더 이미지
+        </div>
+        <div id="folder_delete" class="button_container">
+            {% for folder in folders %}
+            <div class="folder_delete_button">
+                <button data-list-number="{{ folder.list_number }}">삭제</button>
+            </div>
+            {% endfor %}
+            <div class="folder_edit_button">
+                <button>이름 수정</button>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="background-color: #fff; height: 50; width: auto;">
+        {% csrf_token %}
+        <button id="delete-button" class="delete-button">편집</button>
+    </div>
+    <div style="background-color: yellow; height: 2000px; width: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>곡명</th>
+                    <th>가수</th>
+                    <th>TJ곡번호</th>
+                    <th>KY곡번호</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song in lists %}
+                <tr>
+                    <td>{{ song.title }}</td>
+                    <td>{{ song.artist }}</td>
+                    <td>{{ song.tj_number_id }}</td>
+                    <td>{{ song.ky_number_id }}</td>
+                    <td>
+                        <button id="choice-button-{{ song.id }}" class="square-button" data-song-id="{{ song.id }}"></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- folder 삭제 모달 -->
+<div id="confirmation-modal" class="delete-modal">
+    <div class="delete-modal-content">
+        <p>정말 삭제하시겠습니까?</p>
+        <div class="delete-modal-buttons">
+            <button id="confirm-yes">예</button>
+            <button id="confirm-no">아니오</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+    const choiceButtons = document.querySelectorAll('.square-button');
+    const deleteButton = document.getElementById('delete-button');
+
+    
+    // 선택된 버튼들의 ID를 저장할 배열
+    const selectedIds = [];
+
+    choiceButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const buttonId = button.id;
+            const songId = button.getAttribute('data-song-id'); // 선택된 버튼의 song.id 값을 가져옵니다.
+            const index = selectedIds.indexOf(songId);
+
+            if (index > -1) {
+                // 이미 선택된 버튼인 경우 선택 해제
+                selectedIds.splice(index, 1);
+                button.classList.remove('selected');
+            } else {
+                // 선택되지 않은 버튼인 경우 선택 추가
+                selectedIds.push(songId);
+                button.classList.add('selected');
+            }
+        });
+    });
+
+    
+
+    $(deleteButton).click(function() {
+        $.ajax({
+            url: '/mylist/delete/',
+            type: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({ ids: selectedIds }), // 선택된 song.id 값을 JSON 형식으로 변환하여 전송합니다.
+            success: function() {
+                // 삭제가 성공적으로 이루어진 후, 현재 페이지를 새로 고칩니다.
+                location.reload();
+            },
+            error: function() {
+                // 삭제가 실패한 경우에 대한 처리를 추가할 수 있습니다.
+                console.error('Failed to delete selected values.');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        const deletefolderButton = document.querySelector('#folder_delete button');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmYesButton = document.getElementById('confirm-yes');
+        const confirmNoButton = document.getElementById('confirm-no');
+
+        deletefolderButton.addEventListener('click', function() {
+            confirmationModal.style.visibility = 'visible';
+            confirmationModal.style.opacity = '1';
+
+            confirmYesButton.addEventListener('click', function() {
+                const listNumber = deletefolderButton.getAttribute('data-list-number');
+                console.log(listNumber);
+
+                $.ajax({
+                    url: '/mylist/deletefolder/',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: JSON.stringify({ list_number: listNumber }),
+                    dataType: 'json',
+                    success: function() {
+                        // 삭제 성공
+                        location.href = '/';
+                    },
+                    error: function() {
+                        // 삭제 중 에러 발생
+                        console.error('폴더 삭제에 실패했습니다.');
+                    }
+                });
+            });
+
+            confirmNoButton.addEventListener('click', function() {
+                confirmationModal.style.visibility = 'hidden';
+                confirmationModal.style.opacity = '0';
+            });
+        });
+    });
+
+
+
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": csrftoken }
+    });
+</script>
+{% endblock %}

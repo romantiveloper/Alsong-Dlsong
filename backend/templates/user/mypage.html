@@ -134,7 +134,7 @@
 
             <div class="my-page-info">
                 {% if err %}
-                    <button class="to-change-birth btn btn-primary btn-lg">생년원일 변경</button>
+                    <button class="to-change-birth btn btn-primary btn-lg">생년월일 변경</button>
                     <form action="/birth-change/" method="post" class="change-birth" hidden>
                         {% csrf_token %}
                         <div class="form-floating">
@@ -194,46 +194,8 @@
                 </form>
             </div>
         </div>
-        <div class="title1">
-            {% if movie_list %}
-                <h1>내가 찜한 영화</h1>
-            {% endif %}
-        </div>
-        <div class="my-favorite-movies">
-
-            
-            <div class="remv_wrapper">
-                <section id="remv_section1">
-                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
-                    {% for remv_movie in movie_list|slice:":5" %}
-                        <div class="remv_item">
-                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                        </div>
-                    {% endfor %}
-                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
-                </section>
-                <section id="remv_section2">
-                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
-                    {% for remv_movie in movie_list|slice:"5:10" %}
-                        <div class="remv_item">
-                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                        </div>
-                    {% endfor %}
-                    <a href="#remv_section1" class="remv_arrow__btn">›</a>
-                </section>
-            </div>
-           
-        </div>
 
     </div>
-
-    {% include 'main/detail.html' %}
-
-
 
 {% endblock %}
 
@@ -306,26 +268,5 @@
             toChangeGender.removeEventListener('click', backTo5)
         }
         toChangeGender.addEventListener('click',change5)
-
-        
-
-        function view(user_id, mv_id, genre) {
-            $.ajax({
-                type: 'POST',
-                url: `{% url 'view' %}`,
-                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
-                datatype: 'json',
-                data: {
-                    'user_id' : user_id,
-                    'movie_id': mv_id,
-                    'genre': genre
-                },
-                success: function (response){
-                }
-            });
-        }
-
-
-
     </script>
 {% endblock %}

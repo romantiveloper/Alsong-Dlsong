@@ -1,5 +1,4 @@
 {% extends 'navbar.html' %}
-{% block style %}
 <style>
     .main_body {
         display: flex;
@@ -30,18 +29,39 @@
         }
     </style>
 </head>
-{% endblock %}
-
 
 
 {% block content %}
 <body>
-    <h1><a href="/song-list/">노래 리스트</a></h1>
+    <h1><a href="/">Home</a></h1>
+    <h2><a href="/song-list/">노래 리스트</a></h2>
     <table>
         <thead>
             <tr>
-                <th>KY곡번호</th>
-                <th>TJ곡번호</th>
+                <th colspan="6">
+                    <div style="text-align: center;">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button>
+                                <a href="http://127.0.0.1:8000/song-list/">TJ</a>
+                            </button>
+                            <button>
+                                <a href="http://127.0.0.1:8000/song-list/ky/">KY</a>
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <!-- 곡 검색용 서치바 form -->
+                        <form action="/song-list/search/" method="GET">
+                            <input type="text" name="query" placeholder="검색어를 입력하세요">
+                            <button type="submit">검색</button>
+                        </form>                          
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th>순위</th>
+                <th>곡번호</th>
                 <th>곡명</th>
                 <th>아티스트</th>
                 <th>작곡가</th>
@@ -50,16 +70,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for result in results %}
+            {% for song in songs %}
             <tr>
-                <td>{{ result.ky_song_num_id }}</td>
-                <td>{{ result.tj_song_num_id }}</td>
-                <td>{{ result.title }}</td>
-                <td>{{ result.artist }}</td>
-                <td>{{ result.cmp }}</td>
-                <td>{{ result.writer }}</td>
+                <td>{{ song.rank }}</td>
+                <td>{{ song.song_num_id }}</td>
+                <td>{{ song.title }}</td>
+                <td>{{ song.artist }}</td>
+                <td>{{ song.cmp }}</td>
+                <td>{{ song.writer }}</td>
                 <td>
-                    <button onclick="addToDatabase('{{ result.ky_song_num_id }}', '{{ result.tj_song_num_id }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
+                    <button onclick="addToDB('{{ song.song_num_id }}')">추가</button>
                     <select id="folderSelect">
                         {% for folder in folders %}
                             <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
@@ -79,34 +99,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": '{{csrf_token}}' }
-    });
-</script>
-
-<script>
-    function addToDatabase(kySongNum, tjSongNum, title, artist, cmp, writer) {
+    function addToDB(song_num_id) {
         // 선택한 My_folder의 list_number와 list_name 가져오기
         var folderSelect = $("#folderSelect");
         var listNumber = folderSelect.val();
         var listName = folderSelect.find("option:selected").text();
 
+        console.log(song_num_id);
+
         // AJAX 요청을 생성
         $.ajax({
             type: 'POST',
-            url: '/song-list/add-to-database/',
+            url: '/song-list/add-to-kylist/',
             dataType: 'text',
             headers: {
                 "X-CSRFToken": csrftoken
             },
             contentType: 'application/json',
             data: JSON.stringify({
-                kySongNum: kySongNum,
-                tjSongNum: tjSongNum,
-                title: title,
-                artist: artist,
-                cmp: cmp,
-                writer: writer,
+                song_num_id: song_num_id,
                 listNumber: listNumber,
                 listName: listName
             }),
@@ -132,22 +143,21 @@
         console.log(data);
     }
 
-
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": csrftoken }
-    });
+    
 
     $(document).ready(function() {
         $("button").click(function() {
             var category = $(this).val();  // 버튼의 값(category)을 가져옴
             var query = $("input[name='query']").val();  // 검색어를 가져옴
+            var folderSelect = $("#folderSelect");
+
 
             $.ajax({
                 type: 'POST',
                 url: '/song-list/',
                 data: {
                     'category': category,
-                    'query': query  // 검색어(query)를 데이터에 포함시킴
+                    'query': query,  // 검색어(query)를 데이터에 포함시킴
                 },
                 success: function(response) {
                     // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
@@ -157,6 +167,12 @@
         });
     });
 
-</script>
-{% endblock %}
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": csrftoken }
+    });
 
+    
+
+</script>
+
+{% endblock %}

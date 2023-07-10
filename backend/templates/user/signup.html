@@ -32,20 +32,25 @@
      
             <h2 > 회원가입 </h2>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="username" name="username" value="{{form.username}}" placeholder="아이디">
-                  <label for="username">아이디</label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{form.username}}" placeholder="김알송">
+                    <label for="username">이름</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control"  id="password1" name="password1" value="{{form.password1}}"  placeholder="Password">
+                  <input type="text" class="form-control" id="user_id" name="user_id" value="{{form.user_id}}" placeholder="아이디">
+                  <label for="user_id">아이디</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control"  id="password1" name="password1" value="{{form.password1}}"  placeholder="비밀번호">
                   <label for="password1">비밀번호</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control"  id="password2" name="password2" value="{{form.password2}}"  placeholder="Password">
+                  <input type="password" class="form-control"  id="password2" name="password2" value="{{form.password2}}"  placeholder="비밀번호 확인">
                   <label for="password2">비밀번호 확인</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="Password">
+                  <input type="text" class="form-control"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="닉네임">
                   <label for="nickname">닉네임</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -86,9 +91,11 @@
 
 {% block script %}
 <script>
+    const signBtn = document.getElementById('signBtn');
     $('#signBtn').on('click',()=>{
         console.log('클릭');
         const username = $('#username').val();
+        const user_id = $('#user_id').val();
         const password1 = $('#password1').val();
         const password2 = $('#password2').val();
         const nickname = $('#nickname').val();
@@ -102,6 +109,7 @@
             url:'/user/sign-up/',
             data: JSON.stringify({
                 username:username,
+                user_id:user_id,
                 password1:password1,
                 password2:password2,
                 nickname:nickname,
@@ -110,13 +118,16 @@
                 gender:gender,
             }), // JSON.stringify(data),
             success:function(data){
-                alert(data.message);
+                var successMessage = "회원가입에 성공했습니다.";
+                alert(successMessage);
                 location.replace('{% url "user:sign-in" %}');
             },
             error:function(request, status, error){
+                // 요청이 실패했을 때 실행할 코드
                 const data = JSON.parse(request.responseText);
                 console.log(data.message);
-                alert(data.message);
+                var errorMessage = "회원가입에 실패했습니다.";
+                alert(errorMessage);
             }
             })
        }); 
