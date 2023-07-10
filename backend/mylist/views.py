@@ -67,3 +67,22 @@ def delete_folder(request):
         return JsonResponse({'message': '폴더가 성공적으로 삭제되었습니다.'})
     except Myfolder.DoesNotExist:
         return JsonResponse({'message': '폴더를 찾을 수 없습니다.'}, status=501)
+    
+
+@api_view(['POST'])
+def edit_folder(request):
+    list_name = request.data.get('newFolderName')
+    list_number = request.data.get('listNumber')
+    print(list_name)
+    print(list_number)
+
+    try:
+        folder = Myfolder.objects.get(list_number=list_number)
+        folder.list_name = list_name
+        folder.save()
+
+        return JsonResponse({'success':True})
+    
+    except Myfolder.DoesNotExist:
+        return JsonResponse({'success':False, 'error':'폴더를 찾을 수 없습니다.'}, status=404)
+    
