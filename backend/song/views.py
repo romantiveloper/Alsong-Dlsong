@@ -11,6 +11,8 @@ from django.core.exceptions import ValidationError  # 중복 데이터 에러 �
 from rest_framework.decorators import api_view, permission_classes
 # Create your views here.
 
+
+@login_required
 def song_list(request):
     if request.method == 'POST':
         songs = Tj_pop.objects.all()
@@ -47,7 +49,8 @@ def ky_song_list(request):
 
 def search_view(request):
     query = request.GET.get('query')
-    folders = Myfolder.objects.all()
+    user_id = request.user
+    folders = Myfolder.objects.filter(user_id=user_id)
     
     print(query)
 

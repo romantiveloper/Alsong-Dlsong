@@ -16,6 +16,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import uuid
 from .utils import parse_birthday
+import jwt
+from django.conf import settings
+from django.contrib.auth.views import LoginView
+
 
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
@@ -181,6 +185,7 @@ def from_kakao(request):
     modified_birthday = parse_birthday(birthday)
     email = kakao_account.get('email', None)
     
+    
     if email is None:
         # 이메일 동의 안하면 로그인 불가 처리
         print('이메일 없이는 가입이 불가해요😢')
@@ -206,14 +211,16 @@ def from_kakao(request):
 
 @login_required
 def my_page(request):
+    print("~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(request.method)
     if request.method == 'POST':
         pass
-
     else:
         user = request.user
+        print(user)
         err = False
-        if user.login_method != 'email' and (user.birthday == None or user.gender == None):
-            err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요 !'
+        if user.login_method != 'email' and (user.birthday is None or user.gender is None):
+            err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요!'
         return render(request, 'user/mypage.html')
     
 

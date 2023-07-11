@@ -17,6 +17,7 @@ def mylist(request):
     user_id = request.user
     folder_list = Myfolder.objects.filter(user_id=user_id)
     print(folder_list)
+    print(user_id)
     return render(request, 'main.html', {'folder_list':folder_list})
 
 

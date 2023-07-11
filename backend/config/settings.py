@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import json
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +28,11 @@ with open('secrets.json') as f:
    secrets = json.loads(f.read())
 
 SECRET_KEY = secrets['SECRET_KEY']
+
+# JWT 설정
+JWT_SECRET_KEY = secrets['SECRET_KEY']
+JWT_ALGORITHM = 'HS256'  # 사용할 알고리즘을 선택합니다.
+JWT_EXPIRATION_TIME = 7200  # 토큰의 유효 기간을 설정합니다 (예: 3600초 = 1시간).
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -137,6 +143,8 @@ USE_TZ = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_URL = "/static/"
 
+# 로그인 URL을 앱 이름과 뷰 이름으로 설정
+LOGIN_URL = '/user/sign-in/'
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
