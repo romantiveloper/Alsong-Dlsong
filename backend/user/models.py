@@ -1,11 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Permission
+from django.contrib.auth.models import BaseUserManager
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, user_id, password=None, **extra_fields):
+        if not user_id:
+            raise ValueError('user_id 필드가 비어 있습니다.')
+        user = self.model(user_id=user_id, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, user_id, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(user_id, password, **extra_fields)
 
 class User(AbstractUser):
     
     class Meta:
         db_table = 'user'
+
+    objects = CustomUserManager()
         
     id = models.AutoField(primary_key = True) # 일련번호 id
     
@@ -25,3 +42,5 @@ class User(AbstractUser):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, default=GENDER_MAIL) # 성별
     profile_img = models.ImageField(upload_to='profile_img/',default='static/img/user_default.png') # 프로필 사진
     login_method = models.CharField(choices=LOGIN_CHOICES, max_length=20, default=LOGIN_EMAIL) # 로그인 정보(이메일/카카오)
+
+    
