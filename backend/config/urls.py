@@ -7,5 +7,6 @@ urlpatterns = [
     path('', include('mylist.urls')),
     path("song-list/", include('song.urls')),
     path("user/", include('user.urls')),
+    path("recommend/",include('recommend.urls')),
 ]
 

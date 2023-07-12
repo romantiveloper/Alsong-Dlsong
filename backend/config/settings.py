@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "song",
     "mylist",
     "user",
+    "recommend",
     "rest_framework",
     "rest_framework.authtoken",
 ]
