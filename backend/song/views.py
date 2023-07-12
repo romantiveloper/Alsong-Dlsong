@@ -51,24 +51,29 @@ def search_view(request):
     query = request.GET.get('query')
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
-    
-    print(query)
+    category = request.GET.get('category')
 
+    print(category)
+    print(query)
+    
     if query:
         words = query.split()  # 검색어를 공백으로 분리하여 단어 리스트 생성
 
         # 쿼리 조건 생성
         conditions = Q()
         for word in words:
-            conditions |= Q(title__icontains=word)  # 대소문자 구분 없이 단어 포함 여부 검색
+            if category == 'title':
+                conditions |= Q(title__icontains=word)  # 대소문자 구분 없이 단어 포함 여부 검색
+            elif category == 'artist':
+                conditions |= Q(artist__icontains=word)  # 대소문자 구분 없이 단어 포함 여부 검색
 
         results = Song.objects.filter(conditions)
 
     else:
         results = []
-    
 
-    data = {'results': results, 'folders':folders}
+    print(results)
+    data = {'results': results, 'folders': folders}
     return render(request, 'songlist/search.html', data)
 
 @api_view(['POST'])
@@ -86,7 +91,6 @@ def add_to_search(request):
 
         # 중복된 데이터 확인
         duplicate_records = Mylist.objects.filter(
-            list_name=list_name,
             title=title,
             artist=artist,
             ky_number_id=ky_number,
@@ -137,7 +141,6 @@ def add_to_tjlist(request):
 
         # 중복된 데이터 확인
         duplicate_records = Mylist.objects.filter(
-            list_name=list_name,
             title=song_data.title,
             artist=song_data.artist,
             tj_number_id=tj_song_num,
@@ -184,7 +187,6 @@ def add_to_kylist(request):
 
         # 중복된 데이터 확인
         duplicate_records = Mylist.objects.filter(
-            list_name=list_name,
             title=song_data.title,
             artist=song_data.artist,
             ky_number_id=ky_song_num,
