@@ -129,13 +129,13 @@
             <div class="my-page-img">
                 <h1 class="my-page-h1">{{ user.username }}</h1>
                 <img src="{{user.profile_img}}"/>
-                <a href=/logout class="btn btn-rounded">로그아웃</a>
+                <a href=/user/logout class="btn btn-rounded">로그아웃</a>
             </div>
 
             <div class="my-page-info">
                 {% if err %}
                     <button class="to-change-birth btn btn-primary btn-lg">생년월일 변경</button>
-                    <form action="/birth-change/" method="post" class="change-birth" hidden>
+                    <form action="/user/birth-change/" method="post" class="change-birth" hidden>
                         {% csrf_token %}
                         <div class="form-floating">
                             <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
@@ -147,7 +147,7 @@
 
 
                     <button class="to-change-gender btn btn-primary btn-lg">성별</button>
-                    <form action="/gender-change/" method="post" class="change-gender" hidden>
+                    <form action="/user/gender-change/" method="post" class="change-gender" hidden>
                         {% csrf_token %}
                         <select class="form-select" aria-label="Default select example" name="gender" id="gender">
                             <option value="1" selected="">성별</option>
@@ -160,7 +160,7 @@
 
 
                 <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
-                <form action="/idchange/" method="post" class="change-id" hidden>
+                <form action="/user/idchange/" method="post" class="change-id" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
                         <input type="text" class="form-control" id="id" placeholder="Password" name="id">
@@ -169,7 +169,7 @@
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
                 <button class="to-change-pw btn btn-primary btn-lg">비밀 번호 변경</button>
-                <form action="/pwchange/" method="post" class="change-pw" hidden>
+                <form action="/user/pwchange/" method="post" class="change-pw" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
@@ -187,7 +187,7 @@
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
                 <button class="to-change-img btn btn-primary btn-lg"><p>프로필사진 변경</p></button>
-                <form method="POST" enctype="multipart/form-data" action="/my-modify/" class="change-img" hidden>
+                <form method="POST" enctype="multipart/form-data" action="/user/my-modify/" class="change-img" hidden>
                     {% csrf_token %}
                     <input type="file" name="file">
                     <button type="submit">사진 업로드</button>

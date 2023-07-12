@@ -11,11 +11,13 @@ from django.shortcuts import render, redirect, reverse
 from . import models
 from .models import User
 from django.contrib import auth, messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import uuid
 from .utils import parse_birthday
+from django.conf import settings
+from django.http import HttpResponseRedirect
 
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
@@ -200,7 +202,7 @@ def from_kakao(request):
         user.save()
 
     auth.login(request, user)
-    return redirect('/')
+    return redirect('/user/mypage')
 
 
 @login_required

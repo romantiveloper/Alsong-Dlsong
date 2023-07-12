@@ -137,12 +137,17 @@ USE_TZ = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_URL = "/static/"
 
+LOGIN_URL = '/user/sign-in/'
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
 
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400  # 쿠키의 수명을 1일로 설정 (단위: 초)
+SESSION_SAVE_EVERY_REQUEST = True  # 요청이 있을 때마다 세션을 저장하도록 설정
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

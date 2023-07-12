@@ -23,5 +23,5 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=30,blank=True) # 닉네임
     birthday = models.DateField(blank=True, null=True) # 생년월일
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, default=GENDER_MAIL) # 성별
-    profile_img = models.ImageField(upload_to='profile_img/',default='static/img/user_default.png') # 프로필 사진
+    profile_img = models.ImageField(upload_to='profile_img/', default='/home/jibeen/workspace/final_prj/Alsong-Dlsong/backend/static/img/user_default.png') # 프로필 사진
     login_method = models.CharField(choices=LOGIN_CHOICES, max_length=20, default=LOGIN_EMAIL) # 로그인 정보(이메일/카카오)

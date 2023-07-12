@@ -1,6 +1,7 @@
 from django.urls import path, include
-from . import views
 from mylist.views import mylist
+from . import views
+
 
 app_name = 'user'
 
