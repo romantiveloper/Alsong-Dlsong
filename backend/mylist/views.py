@@ -6,14 +6,21 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
+
 @api_view(['GET'])
 def mylist(request):
-    folder_list = Myfolder.objects.all()
+    user_id = request.user
+    folder_list = Myfolder.objects.filter(user_id=user_id)
     print(folder_list)
+    print(user_id)
     return render(request, 'main.html', {'folder_list':folder_list})
+
+
 
 @api_view(['POST'])
 def add_list(request):
@@ -24,6 +31,8 @@ def add_list(request):
     Myfolder.objects.create(list_name=list_name, user_id=user.user_id)
 
     return Response(status=200)
+
+
 
 @api_view(['GET'])
 def mylist_detail(request, list_number):
@@ -59,3 +68,22 @@ def delete_folder(request):
         return JsonResponse({'message': '폴더가 성공적으로 삭제되었습니다.'})
     except Myfolder.DoesNotExist:
         return JsonResponse({'message': '폴더를 찾을 수 없습니다.'}, status=501)
+    
+
+@api_view(['POST'])
+def edit_folder(request):
+    list_name = request.data.get('newFolderName')
+    list_number = request.data.get('listNumber')
+    print(list_name)
+    print(list_number)
+
+    try:
+        folder = Myfolder.objects.get(list_number=list_number)
+        folder.list_name = list_name
+        folder.save()
+
+        return JsonResponse({'success':True})
+    
+    except Myfolder.DoesNotExist:
+        return JsonResponse({'success':False, 'error':'폴더를 찾을 수 없습니다.'}, status=404)
+    
