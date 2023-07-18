@@ -70,7 +70,7 @@
 
     .list_container {
         flex-wrap: wrap;
-        background-color: aqua;
+        background-color: white;
         display: flex;
     }
 
@@ -80,6 +80,15 @@
         max-width: 150px;
         margin: 10px;
         display: flex;
+    }
+
+    .list_name {
+        position: relative;
+        z-index: 10;
+        padding-top: 0px;
+        padding-left: auto;
+        width: 170px;
+        text-align: center;
     }
 
     @media screen and (max-width: 767px) {
@@ -99,7 +108,7 @@
     .list_container {
         padding-left: 10px;
         padding-right: 10px;
-        background-color: aqua;
+        background-color: white;
         display: flex;
         margin: 0 auto; 
         justify-content: space-evenly;
@@ -107,8 +116,22 @@
 
     .list_item {
         flex-basis: 100%;
+    }}
+
+
+    .list_button {
+        background-image: url("/static/img/music-book.png");
+        background-size: cover; /* 이미지를 버튼에 맞게 조절합니다. */
+        background-position: center; /* 이미지를 가운데로 정렬합니다. */
     }
-}
+
+    .button-add-list {
+        background-image: url("/static/img/add-button.png");
+        background-size: cover; /* 이미지를 버튼에 맞게 조절합니다. */
+        background-position: center; /* 이미지를 가운데로 정렬합니다. */
+    }
+
+    
 
 </style>
 {% endblock %}
@@ -123,17 +146,24 @@
     </div>
     
     <!-- 부를곡 리스트들 있는 컨테이너 -->
-    <div class="list_container">  
+    <div class="list_container">
         {% for list in folder_list %}
-        <div class="list_item">
-            <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;">{{ list.list_name }}</button>    
+        <div style="font-size: 17px;">
+            <div class="list_item">
+                <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;"></button>    
+            </div>
+            <div class="list_name">
+                {{ list.list_name }}
+            </div>
         </div>
         {% endfor %}
-
-        <div class="list_item">
-            <button id="button_add_list" type="button" style="width: 100%; height: 150px;">
-                추가
-            </button>
+        <div style="font-size: 15px; justify-content: center;">
+            <div class="list_item">
+                <button class="button-add-list" id="button_add_list" type="button" style="width: 100%; height: 150px;"></button>
+            </div>
+            <div class="list_name">
+                새로운 리스트 추가
+            </div>
         </div>
     </div>
 </div>

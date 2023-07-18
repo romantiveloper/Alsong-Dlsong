@@ -65,7 +65,7 @@
         position:absolute;
         display: flex;
         justify-content: flex-end;
-        align-items:center;
+        align-items:flex-end;
         padding: 10px;
         height: 120px;
         width: 300px;
@@ -133,7 +133,7 @@
         border-radius: 4px;
     }
 
-    .edit-modal-buttons {
+    .edit-modal-buttons{
         display: flex;
         justify-content: flex-end;
         margin-top: 20px;
@@ -163,7 +163,7 @@
     <div class="container" style="background-color: #fff; height: 50; width: auto;">
         <button id="delete-button" class="delete-button">편집</button>
     </div>
-    <div style="background-color: yellow; height: 2000px; width: auto;">
+    <div style="background-color: yellow; height: auto; width: auto;">
         <table>
             <thead>
                 <tr>
@@ -187,7 +187,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div style="background-color: aquamarine; height: 300px; width: auto;">
+        <div style="background-color: aquamarine; height: auto; width: auto;">
             <div>
                 <h1>추천곡
                     <button>
@@ -227,6 +227,7 @@
         <input type="text" id="new-list-name" />
         <div class="edit-modal-buttons">
             <button id="confirm-edit">확인</button>
+            <button id="close_modal">취소</button>
         </div>
     </div>
 </div>
@@ -370,6 +371,15 @@
             editModal.style.visibility = 'hidden';
             editModal.style.opacity = '0';
         });
+    });
+
+    //모달 닫기 코드
+    const modal = document.getElementById('edit-modal');
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.visibility = 'hidden';
+        document.body.style.overflowY = "visible";
     });
 
 
