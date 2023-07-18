@@ -9,6 +9,9 @@ import json
 from django.contrib.auth.decorators import login_required   # 로그인한 사용자 정보
 from django.core.exceptions import ValidationError  # 중복 데이터 에러 처리
 from rest_framework.decorators import api_view, permission_classes
+from collections import namedtuple
+from elasticsearch import Elasticsearch
+
 # Create your views here.
 
 
@@ -46,7 +49,66 @@ def ky_song_list(request):
     return render(request, 'songlist/ky-song-list.html', data)
 
 
+class SearchView(APIView):
+    def get(self, request):
+        es = Elasticsearch()
 
+        # 검색어
+        #search_word = request.query_params.get('search')
+        query = request.GET.get('query')
+        user_id = request.user
+        folders = Myfolder.objects.filter(user_id=user_id)
+        category = request.GET.get('category')
+
+        print(query)
+        print(category)
+
+        if query:
+            #return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': 'search word param is missing'})
+
+            if category == 'title':
+                docs = es.search(index='song',
+                                body={
+                                    "size":100,
+                                    "query": {
+                                        "multi_match": {
+                                            "query": query,
+                                            "fields": ["title"],
+                                        }
+                                    }
+                                })
+            elif category == 'artist':
+                docs = es.search(index='song',
+                                body={
+                                    "size":100,
+                                    "query": {
+                                        "multi_match": {
+                                            "query": query,
+                                            "fields": ["artist"]
+                                        }
+                                    }
+                                })
+
+            data_list = docs['hits']
+            Song = namedtuple("Song", ["title", "artist", "ky", "tj"])
+            results = [Song(x['_source']['title'], x['_source']['artist'], x['_source']['ky_song_num_id'], x['_source']['tj_song_num_id']) for x in data_list['hits']]
+        
+        else:
+           results = []
+
+        
+
+        print(results)
+        # title = [x['_source']['title'] for x in data_list['hits']]
+        # artist = [x['_source']['artist'] for x in data_list['hits']]
+        # ky = [x['_source']['ky_song_num_id'] for x in data_list['hits']]
+        # tj = [x['_source']['tj_song_num_id'] for x in data_list['hits']]
+
+        data = {'results':results, 'folders':folders}
+
+
+        return render(request, 'songlist/search.html', data)
+    
 def search_view(request):
     query = request.GET.get('query')
     user_id = request.user
@@ -74,7 +136,10 @@ def search_view(request):
 
     print(results)
     data = {'results': results, 'folders': folders}
+    print(data)
     return render(request, 'songlist/search.html', data)
+
+
 
 @api_view(['POST'])
 @login_required

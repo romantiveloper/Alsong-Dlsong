@@ -59,33 +59,85 @@
         width: 294px;
         border: none;
     }
+
+    /* 기본 스타일 */
+    .dashboard_container,
+    .list_container {
+        max-width: 700px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .list_container {
+        flex-wrap: wrap;
+        background-color: aqua;
+        display: flex;
+    }
+
+    .list_item {
+        background-color: aliceblue;
+        width: 150px;
+        max-width: 150px;
+        margin: 10px;
+        display: flex;
+    }
+
+    @media screen and (max-width: 767px) {
+    /* 브라우저가 767px 이하일 때 적용되는 스타일 */
+    .dashboard_container,
+    .list_container {
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            margin: 20px auto; 
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+    /* 브라우저가 480px 이하일 때 적용되는 스타일 */
+    .dashboard_container,
+    .list_container {
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: aqua;
+        display: flex;
+        margin: 0 auto; 
+        justify-content: space-evenly;
+    }
+
+    .list_item {
+        flex-basis: 100%;
+    }
+}
+
 </style>
 {% endblock %}
 
 
 {% block content %}
 
-<div style="padding-left: 150px; padding-top:50px;">
+<div style="padding-top: 50px;">
     <!-- 상단 대시보드 Summary 컨테이너 -->
-    <div id="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; width: 700px; height: 200px; margin-bottom: 30px;">
+    <div class="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; height: 200px; margin-bottom: 30px;">
         <p>대시보드 Summary 자리임니당</p>
     </div>
     
     <!-- 부를곡 리스트들 있는 컨테이너 -->
-    <div id="list_container" style="background-color: aqua; display: flex; width: 700px; height: 500px;">  
+    <div class="list_container">  
         {% for list in folder_list %}
-        <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
-            <button class="list_button" data-list-number="{{ list.list_number }}">{{ list.list_name }}</button>    
+        <div class="list_item">
+            <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;">{{ list.list_name }}</button>    
         </div>
         {% endfor %}
 
-        <div style="background-color: aliceblue; width: 150px; margin: 10px; height: 150px; display: flex; justify-content: center; align-items: center;">
-            <button id="button_add_list" type="button">
+        <div class="list_item">
+            <button id="button_add_list" type="button" style="width: 100%; height: 150px;">
                 추가
             </button>
         </div>
     </div>
 </div>
+
 
 
 

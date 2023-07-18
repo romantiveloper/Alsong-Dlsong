@@ -58,7 +58,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for result in results %}
+            {% for result in songs %}
             <tr>
                 <td>{{ result.ky }}</td>
                 <td>{{ result.tj }}</td>
@@ -153,7 +153,7 @@
 
             var query = $("input[name='query']").val();
             var category = $('select[name=search_option]').val();
-            var url = '/song-list/search/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
+            var url = '/elastic/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
 
             console.log(url);
 

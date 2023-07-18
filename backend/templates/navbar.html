@@ -20,47 +20,47 @@
 
     <!-- 서치바 버튼 기능 구현용 script -->
     <script>
-        // // CSRF 토큰 설정
-        // function getCookie(name) {
-        //     let cookieValue = null;
-        //     if (document.cookie && document.cookie !== '') {
-        //         const cookies = document.cookie.split(';');
-        //         for (let i = 0; i < cookies.length; i++) {
-        //             const cookie = cookies[i].trim();
-        //             // 이름으로 쿠키 찾기
-        //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     return cookieValue;
-        // }
-        // const csrftoken = getCookie('csrftoken');
+        // CSRF 토큰 설정
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 이름으로 쿠키 찾기
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
     
-        // $.ajaxSetup({
-        //     headers: { "X-CSRFToken": csrftoken }
-        // });
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": csrftoken }
+        });
     
-        // $(document).ready(function() {
-        // $("submit-button").click(function() {
-        //     var category = $(this).val();  // 버튼의 값(category)을 가져옴
-        //     var query = $("input[name='query']").val();  // 검색어를 가져옴
+        $(document).ready(function() {
+        $("submit-button").click(function() {
+            var category = $(this).val();  // 버튼의 값(category)을 가져옴
+            var query = $("input[name='query']").val();  // 검색어를 가져옴
     
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/song-list/',
-        //         data: {
-        //             'category': category,
-        //             'query': query  // 검색어(query)를 데이터에 포함시킴
-        //         },
-        //         success: function(response) {
-        //             // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
-        //             console.log(response);
-        //             }
-        //         });
-        //     });
-        // });
+            $.ajax({
+                type: 'POST',
+                url: '/song-list/',
+                data: {
+                    'category': category,
+                    'query': query  // 검색어(query)를 데이터에 포함시킴
+                },
+                success: function(response) {
+                    // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    console.log(response);
+                    }
+                });
+            });
+        });
     </script>
 
     <title>🎤알song달song: {% block title %}{% endblock %}</title>

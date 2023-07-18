@@ -29,10 +29,7 @@ with open('secrets.json') as f:
 
 SECRET_KEY = secrets['SECRET_KEY']
 
-# JWT 설정
-JWT_SECRET_KEY = secrets['SECRET_KEY']
-JWT_ALGORITHM = 'HS256'  # 사용할 알고리즘을 선택합니다.
-JWT_EXPIRATION_TIME = 7200  # 토큰의 유효 기간을 설정합니다 (예: 3600초 = 1시간).
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,7 +53,10 @@ INSTALLED_APPS = [
     "recommend",
     "rest_framework",
     "rest_framework.authtoken",
+
+    "elastic",
 ]
+
 
 
 MIDDLEWARE = [
