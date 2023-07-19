@@ -155,7 +155,7 @@
                 <button data-list-number="{{ folder.list_number }}">삭제</button>
             </div>
             <div class="folder_edit_button">
-                <button data-list-number="{{ folder.list_number }}">이름 수정</button>
+                <button data-list-number="{{ folder.list_number }}" data-list-name="{{ folder.list_name }}">이름 수정</button>
             </div>
             {% endfor %}
         </div>
@@ -353,6 +353,7 @@
 
         confirmEditButton.addEventListener('click', function() {
             const listNumber = folderEditButton.getAttribute('data-list-number');
+            const listName = folderEditButton.getAttribute('data-list-name');
             const newFolderName = newListNameInput.value; // 사용자가 입력한 새로운 이름
 
             console.log(listNumber);
@@ -366,7 +367,40 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
                 },
-                data: JSON.stringify({ newFolderName: newFolderName, listNumber: listNumber }),
+                data: JSON.stringify({ newFolderName: newFolderName, listNumber: listNumber, listName:listName }),
+                dataType: 'json',
+                success: function() {
+                    // 수정 성공
+                    location.href = '/';
+                },
+                error: function() {
+                    // 수정 중 에러 발생
+                    console.error('폴더 수정에 실패했습니다.');
+                }
+            });
+
+            // 모달 닫기
+            editModal.style.visibility = 'hidden';
+            editModal.style.opacity = '0';
+        });
+
+        confirmEditButton.addEventListener('click', function() {
+            const listNumber = folderEditButton.getAttribute('data-list-number');
+            const listName = folderEditButton.getAttribute('data-list-name');
+            const newFolderName = newListNameInput.value; // 사용자가 입력한 새로운 이름
+
+            console.log(listNumber);
+            console.log(newFolderName);
+
+            // 해당 폴더의 이름을 변경하는 Ajax 요청을 보내는 코드 추가
+            $.ajax({
+                url: '/mylist/editlist/',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                data: JSON.stringify({ newFolderName: newFolderName, listNumber: listNumber, listName:listName }),
                 dataType: 'json',
                 success: function() {
                     // 수정 성공

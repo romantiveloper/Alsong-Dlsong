@@ -102,6 +102,12 @@
             <button id="search-button"></button>
         </div>
     </div>
+
+    <h1>
+        {% for users in user %}
+            {{users.nickname}}님이 부르면 좋을 것 같아요!
+        {% endfor %}
+    </h1>
     
     <table>
         <thead>

@@ -5,9 +5,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from django.http import JsonResponse
 from mylist.models import Mylist, Myfolder
-import json
 from django.contrib.auth.decorators import login_required   # 로그인한 사용자 정보
-from django.core.exceptions import ValidationError  # 중복 데이터 에러 처리
 from rest_framework.decorators import api_view, permission_classes
 from collections import namedtuple
 from elasticsearch import Elasticsearch

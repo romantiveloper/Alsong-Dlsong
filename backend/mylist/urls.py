@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import mylist,add_list,mylist_detail,DeleteSong, delete_folder,edit_folder
+from .views import mylist,add_list,mylist_detail,DeleteSong, delete_folder,edit_folder,edit_list
 
 app_name = 'mylist'
 
@@ -10,5 +10,6 @@ urlpatterns = [
     path('mylist/delete/', DeleteSong.as_view(), name='delete'),
     path('mylist/deletefolder/', delete_folder, name='delete_folder'),
     path('mylist/editfolder/', edit_folder, name='edit_folder'),
+    path('mylist/editlist/', edit_list,name='edit_list')
 ]
  

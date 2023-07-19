@@ -92,4 +92,28 @@ def edit_folder(request):
     
     except Myfolder.DoesNotExist:
         return JsonResponse({'success':False, 'error':'폴더를 찾을 수 없습니다.'}, status=404)
-    
+
+@api_view(['POST'])
+def edit_list(request):
+    new_list_name = request.data.get('newFolderName')
+    list_number = request.data.get('listNumber')
+    old_list_name = request.data.get('listName')
+    print(new_list_name)
+    print(list_number)
+
+    try:
+        # 기존 list_name을 가진 모든 Myfolder 객체와 Mylist 객체를 가져옵니다.
+        lists = Mylist.objects.filter(list_name=old_list_name)
+
+        if lists.exists():
+            for list in lists:
+                list.list_name = new_list_name
+                list.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': '기존 폴더를 찾을 수 없습니다.'}, status=404)
+
+        
+
+    except Mylist.DoesNotExist:
+        return JsonResponse({'success': False, 'error': '폴더를 찾을 수 없습니다.'}, status=404)

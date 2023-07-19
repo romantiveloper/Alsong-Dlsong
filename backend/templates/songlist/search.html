@@ -14,73 +14,182 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>노래 차트</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+<title>노래 차트</title>
+<style>
+    
 
-        select {
-            width:70px;
-            height:30px;
-            padding:0 28px 0 10px;
-            font-size: 16px;
-            border:1px solid #d2d2d2;
-            border-radius: 16px;
-            -webkit-appearance:none; /* for chrome */
-            -moz-appearance:none; /*for firefox*/
-            appearance:none; 
-            background:transparent; 
-        }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        select::-ms-expand{
-            display:none;/*for IE10,11*/
-        }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-        .select-wrap {
-            width:70px;
-            height: 30px;
-            padding-left: 28px;
-            /* border:1px solid #d2d2d2; */
-            border-radius: 16px;
-            background:url('/static/img/스크린샷\ 2023-07-19\ 031302.png') no-repeat 90% 50%/15px auto;
-        }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
 
-        .form-container {
-            display: flex;
-            justify-content: center; /* 가운데 정렬 */
-        }
+    select {
+        width:70px;
+        height:30px;
+        padding:0 28px 0 10px;
+        font-size: 16px;
+        border:1px solid #d2d2d2;
+        border-radius: 16px;
+        -webkit-appearance:none; /* for chrome */
+        -moz-appearance:none; /*for firefox*/
+        appearance:none; 
+        background:transparent; 
+    }
 
-        .form-container div {
-            margin-right: 10px; /* 각 요소 사이의 간격 조절 */
-        }
+    select::-ms-expand{
+        display:none;/*for IE10,11*/
+    }
 
-        /* input 태그 스타일링 - 이미지 추가 */
-        .input-wrap input {
-            width: 300px;
-            height: 30px;
-            padding-left: 30px; /* 이미지와 텍스트 간격 조절 */
-            background-image: url("/static/img/돋보기.png");
-            background-repeat: no-repeat;
-            background-position: left;
-            font-size: 16px;
-            border:1px solid #d2d2d2;
-            border-radius: 16px;
-        }
+    .select-wrap {
+        width:70px;
+        height: 30px;
+        padding-left: 28px;
+        /* border:1px solid #d2d2d2; */
+        border-radius: 16px;
+        background:url('/static/img/스크린샷\ 2023-07-19\ 031302.png') no-repeat 90% 50%/15px auto;
+    }
 
-        .button-wrap button {
-            border:0px white;
-        }
-    </style>
+    .form-container {
+        display: flex;
+        justify-content: center; /* 가운데 정렬 */
+    }
+
+    .form-container div {
+        margin-right: 10px; /* 각 요소 사이의 간격 조절 */
+    }
+
+    /* input 태그 스타일링 - 이미지 추가 */
+    .input-wrap input {
+        width: 300px;
+        height: 30px;
+        padding-left: 30px; /* 이미지와 텍스트 간격 조절 */
+        background-image: url("/static/img/돋보기.png");
+        background-repeat: no-repeat;
+        background-position: left;
+        font-size: 16px;
+        border:1px solid #d2d2d2;
+        border-radius: 16px;
+    }
+
+    .button-wrap button {
+        border:0px white;
+    }
+
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 530px;
+        height: 400px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 0px solid rgba(0, 0, 0, 0.18);
+        margin: 10px;
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .modal-mylist{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    li, ol, ul{
+        list-style: none;
+    }
+
+    .popup_list-thumbnail, .popup_list{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .popup_list{
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        cursor: pointer;
+    }
+        
+    .popup_list-thumbnail{
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 70px;
+        height: 70px;
+        margin-left: 12px;
+        overflow: hidden;
+        background: #f0f0f0;
+        border-radius: 4px;
+    }
+
+    .popup_list-text{
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 10px;
+        margin-left: 22px;
+    }
+
+    .popup_list-title{
+        margin-bottom: 4px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #181818;
+    }
+
+    .popup_list-count{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+        color: #989898;
+    }
+</style>
 </head>
 {% endblock %}
 
@@ -88,50 +197,82 @@
 
 {% block content %}
 <body>
-    <div class="form-container">
-        <div class="select-wrap">
-            <select name="search_option">
-                <option value="title">제목</option>
-                <option value="artist">가수</option>
-            </select>
+<div class="form-container">
+    <div class="select-wrap">
+        <select name="search_option">
+            <option value="title">제목</option>
+            <option value="artist">가수</option>
+        </select>
+    </div>
+    <div class="input-wrap">
+        <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
+    </div>
+    <div class="button-wrap">
+        <button id="search-button"></button>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>KY곡번호</th>
+            <th>TJ곡번호</th>
+            <th>곡명</th>
+            <th>아티스트</th>
+            <th>Mylist</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.ky }}</td>
+            <td>{{ result.tj }}</td>
+            <td>{{ result.title }}</td>
+            <td>{{ result.artist }}</td>
+            <td>
+                <select style="width: auto;" id="folderSelect">
+                    {% for folder in folders %}
+                        <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
+                    {% endfor %}
+                </select>
+                <button onclick="addToDatabase('{{ result.ky }}', '{{ result.tj }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
+                <button id="button_add_list">test</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">내 리스트에 담기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined">
+                    X
+                </span>
+            </div>
         </div>
-        <div class="input-wrap">
-            <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
-        </div>
-        <div class="button-wrap">
-            <button id="search-button"></button>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div> 
+            </li>
+            {% endfor %}
         </div>
     </div>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>KY곡번호</th>
-                <th>TJ곡번호</th>
-                <th>곡명</th>
-                <th>아티스트</th>
-                <th>Mylist</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for result in results %}
-            <tr>
-                <td>{{ result.ky }}</td>
-                <td>{{ result.tj }}</td>
-                <td>{{ result.title }}</td>
-                <td>{{ result.artist }}</td>
-                <td>
-                    <select style="width: auto;" id="folderSelect">
-                        {% for folder in folders %}
-                            <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
-                        {% endfor %}
-                    </select>
-                    <button onclick="addToDatabase('{{ result.ky }}', '{{ result.tj }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+</div>
 </body>
 </html>
 {% endblock %}
@@ -240,6 +381,25 @@
         if (query) {
             $("input[name='query']").val(decodeURIComponent(query));
         }
+    });
+
+    //모달 띄우기 코드
+    const modal = document.getElementById("modal-add-song");
+    const buttonAddFeed = document.getElementById("button_add_list");
+    buttonAddFeed.addEventListener("click", e=> {
+        modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y 위치를 바꿔줌
+        modal.style.display = "flex";
+        document.body.style.overflowY = "hidden"; //스크롤 없애기
+
+        console.log(window.pageYOffset + " 위치"); //로그 찍기
+    });
+
+    //모달 닫기 코드
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
     });
 
 
