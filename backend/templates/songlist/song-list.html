@@ -1,20 +1,18 @@
 {% extends 'navbar.html' %}
-<style>
-    .main_body {
-        display: flex;
-        justify-content: center;
-        padding-top: 5px;
-        padding-left: 150px;
-        background-color: #f7f7f7;
-    }
-</style>
-<head>
-</head>
 <!DOCTYPE html>
 <html>
 <head>
     <title>노래 차트</title>
     <style>
+        .main_body {
+            display: flex;
+            justify-content: center;
+            padding-top: 5px;
+            padding-left: 150px;
+            background-color: #f7f7f7;
+        }
+
+    
         table {
             border-collapse: collapse;
             width: 100%;
@@ -57,8 +55,6 @@
                 <th>곡번호</th>
                 <th>곡명</th>
                 <th>아티스트</th>
-                <th>작곡가</th>
-                <th>작사가</th>
                 <th>Mylist</th>
             </tr>
         </thead>
@@ -69,8 +65,6 @@
                 <td>{{ song.song_num_id }}</td>
                 <td>{{ song.title }}</td>
                 <td>{{ song.artist }}</td>
-                <td>{{ song.cmp }}</td>
-                <td>{{ song.writer }}</td>
                 <td>
                     <button onclick="addToDB('{{ song.song_num_id }}')">추가</button>
                     <select id="folderSelect">

@@ -7,6 +7,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from song.models import Song
+import random
 
 
 # Create your views here.
@@ -39,8 +41,12 @@ def mylist_detail(request, list_number):
     print(list_number)
     lists = Mylist.objects.filter(list_number=list_number)
     folders = Myfolder.objects.filter(list_number=list_number)
+    test = Song.objects.all()
+    recommend = random.sample(list(test), 3)
+
+    print(recommend)
     print(lists)
-    data = {'lists':lists, 'folders':folders}
+    data = {'lists':lists, 'folders':folders, 'recommend':recommend}
     return render(request, 'songlist/mylist.html', data)
 
 

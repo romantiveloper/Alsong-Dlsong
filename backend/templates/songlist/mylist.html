@@ -167,6 +167,7 @@
         <table>
             <thead>
                 <tr>
+                    <th> </th>
                     <th>곡명</th>
                     <th>가수</th>
                     <th>TJ곡번호</th>
@@ -176,13 +177,13 @@
             <tbody>
                 {% for song in lists %}
                 <tr>
+                    <td>
+                        <button id="choice-button-{{ song.id }}" class="square-button" data-song-id="{{ song.id }}"></button>
+                    </td>
                     <td>{{ song.title }}</td>
                     <td>{{ song.artist }}</td>
                     <td>{{ song.tj_number_id }}</td>
                     <td>{{ song.ky_number_id }}</td>
-                    <td>
-                        <button id="choice-button-{{ song.id }}" class="square-button" data-song-id="{{ song.id }}"></button>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -204,6 +205,16 @@
                         <th>KY곡번호</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {% for recommends in recommend %}
+                    <tr>
+                        <th>{{ recommends.title }}</th>
+                        <th>{{ recommends.artist }}</th>
+                        <th>{{ recommends.tj_song_num_id }}</th>
+                        <th>{{ recommends.ky_song_num_id }}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
