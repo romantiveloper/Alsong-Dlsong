@@ -7,6 +7,10 @@
 <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
 
 <style>
+    li, ol, ul{
+        list-style: none;
+    }
+
     .modal {
         width: 100%;
         height: 100%;
@@ -130,44 +134,468 @@
         background-size: cover; /* 이미지를 버튼에 맞게 조절합니다. */
         background-position: center; /* 이미지를 가운데로 정렬합니다. */
     }
+   
+    .logo-box {
+        display: flex;
+        width: 108px; 
+        height: 39px; 
+        background: white; 
+        border-radius: 15px;
+        justify-content: space-around;
+        position: relative;
+        margin: 0 auto;
+    }
 
+    .logo-text {
+        display: flex;
+        text-align: center; 
+        color: black; 
+        font-size: 12px; 
+        font-family: Inter; 
+        font-weight: 500; 
+        word-wrap: break-word;
+        align-items: center;
+    }
+
+    .main-box {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 17px;
+        padding-top: 18px;
+    }
+
+    .searchbar {
+        display: flex;
+        width:80%;
+        height: 39px;
+        flex-shrink: 0;
+        border-radius: 20px;
+        background: var(--ui-white, #FFF);
+        position: relative;
+        align-items: center;
+    }
+
+    .search-img {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        position: relative;
+        padding-left: 15px;
+    }
+
+    .search-text {
+        text-align: center;
+        color: #B0B0B1;
+        font-size: 12px;
+        font-family: Inter;
+        font-weight: 300;
+        word-wrap: break-word;
+        padding-left: 33px;
+    }
+
+    .main-banner {
+        width: 100%;
+        height: 137px;
+        position: relative;
+    }
+
+    .dashboard {
+        width: 100%; 
+        height: 137px; 
+        background: #45D3B1; 
+        border-radius: 20px;
+        left: 0px;
+        top: 0px;
+        position:absolute;
+    }
+
+    .banner-profile {
+        width: 100%;
+        height: 95px;
+        left: 24px;
+        top: 21px;
+        position: absolute;
+    }
     
+    .profile-img-box {
+        width: 95px; 
+        height: 95px; 
+        left: 0px; 
+        top: 0px; 
+        position: absolute
+    }
+
+    .profile-img {
+        width: 95px; 
+        height: 95px; 
+        left: 0px; 
+        top: 0px; 
+        position: absolute; 
+        background: #F6F7FD;
+        border-radius: 50%;
+    }
+
+    .Dicons {
+        width: 56px;
+        height: 72px;
+        left: 20px;
+        top: 12px;
+        position: absolute;
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        display: inline-flex;
+    }
+
+    .frame-25 {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        padding-left: 134px;
+        padding-top: 20px;
+    }
+
+    .frame-25-text-1 {
+        color: #ffffff;
+        text-align: center;
+        font: 400 20px "Noto Sans", sans-serif;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .frame-25-text-2 {
+        color: #4c5057;
+        text-align: left;
+        font: 500 12px "Noto Sans", sans-serif;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+    }
+
+    .frame-1992 {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        padding-left: 134px;
+    }
+
+    .group-25 {
+        flex-shrink: 0;
+        width: 190px;
+        height: 44px;
+        position: static;
+        display: flex;
+    }
+
+    .frame-1992-text-1 {
+        color: var(--sub, #37385e);
+        text-align: center;
+        font: 400 15px "Noto Sans", sans-serif;
+        position: relative;
+        left: 0px;
+        top: 14px;
+        width: 90px;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .frame-1992-text-2 {
+        color: var(--main, #1e1f4b);
+        text-align: center;
+        font: 400 32px "Noto Sans", sans-serif;
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: 49px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .frame-1992-text-3 {
+        color: var(--sub, #37385e);
+        text-align: center;
+        font: 400 15px "Noto Sans", sans-serif;
+        position: relative;
+        left: 0px;
+        top: 14px;
+        width: 14px;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .vector {
+        flex-shrink: 0;
+        position: relative;
+        overflow: visible;
+    }
+
+    .recommend-banner,
+    .recommend-banner * {
+        box-sizing: border-box;
+    }
+
+    .recommend-banner {
+        width: 100%;
+        height: 60px;
+        position: relative;
+    }
+
+    .recommend-banner-design {
+        background: var(--ui-white, #ffffff);
+        border-radius: 20px;
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+
+    .recommend-title {
+        border-radius: 30px;
+        padding: 0px 15px 0px 15px;
+        display: flex;
+        flex-direction: row;
+        gap: 134px;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        position: absolute;
+        left: 11px;
+        top: 13px;
+    }
+
+    .ai {
+        color: #000000;
+        text-align: left;
+        font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
+        position: relative;
+    }
+
+    .frame-4 {
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-shrink: 0;
+        position: relative;
+        overflow: visible;
+    }
+
+    .folder-box,
+    .folder-box * {
+        box-sizing: border-box;
+    }
+    .folder-box {
+        flex-shrink: 0;
+        width: 100%;
+        height: 378px;
+        position: relative;
+        display: flex;
+    }
+
+    .folder-box-design {
+        background: var(--ui-white, #ffffff);
+        border-radius: 20px;
+        width: 100%;
+        height: 365px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+
+    .folder-box-title {
+        padding: 0px 15px 0px 15px;
+        display: flex;
+        flex-direction: row;
+        gap: 203px;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        position: absolute;
+        left: 11px;
+        top: 0px;
+    }
+
+    .folder-box-title-text {
+        color: #000000;
+        text-align: left;
+        font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
+        position: relative;
+    }
+
+    .folder {
+        flex-shrink: 0;
+        width: 136px;
+        height: 161px;
+        display: flex;
+    }
+
+    .folder-design {
+        background: #45d3b1;
+        border-radius: 20px;
+        width: 136px;
+        height: 135.77px;
+        left: 0px;
+        top: 0px;
+    }
+
+    .group-24 {
+        width: 136px;
+        height: 161px;
+        left: 0px;
+        top: 0px;
+    }
+    
+    .folder-name {
+        color: #ffffff;
+        text-align: left;
+        font: 700 15px "Noto Sans KR", sans-serif;
+        position: absolute;
+        left: 19.26px;
+        top: 8.41px;
+        width: 89.06px;
+        height: 45.66px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .folder-in-song {
+        color: #ffffff;
+        text-align: left;
+        font: 500 12px "Noto Sans KR", sans-serif;
+        position: absolute;
+        left: 19.26px;
+        top: 84.1px;
+        width: 43.33px;
+        height: 45.66px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
 
 </style>
 {% endblock %}
 
 
 {% block content %}
-
-<div style="padding-top: 50px;">
-    <!-- 상단 대시보드 Summary 컨테이너 -->
-    <div class="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; height: 200px; margin-bottom: 30px;">
-        <p>대시보드 Summary 자리임니당</p>
-    </div>
-    
-    <!-- 부를곡 리스트들 있는 컨테이너 -->
-    <div class="list_container">
-        {% for list in folder_list %}
-        <div style="font-size: 17px;">
-            <div class="list_item">
-                <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;"></button>    
-            </div>
-            <div class="list_name">
-                {{ list.list_name }}
+<div class="home">
+    <div class="main">
+        <div class="logo-box">
+            <div class="logo-text">
+                알송달송<br/>로고
             </div>
         </div>
-        {% endfor %}
-        <div style="font-size: 15px; justify-content: center;">
-            <div class="list_item">
-                <button class="button-add-list" id="button_add_list" type="button" style="width: 100%; height: 150px;"></button>
+
+        <div class="main-box">
+            <div class="searchbar">
+                <div class="search-img">
+                    <img src="/static/img/icon-search-normal-1.svg">
+                </div>
+                <div class="search-text">
+                    부르고 싶은 곡을 검색하세요!
+                </div>
             </div>
-            <div class="list_name">
-                새로운 리스트 추가
+            
+            <div class="main-banner">
+                <div class="dashboard"></div>
+                <div class="banner-profile">
+
+                    <div class="profile-img-box">
+                        <div class="profile-img">
+                            <div class="Dicons">
+                                <img style="width: 56px; height: 72px" src="/static/img/music.svg" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="frame-25">
+                        <div class="frame-25-text-1">김알송</div>
+                        <div class="frame-25-text-2">님 안녕하세요 🎶</div>
+                    </div>
+
+                    <div class="frame-1992">
+                        <div class="group-25">
+                            <div class="frame-1992-text-1">총 달린 곡</div>
+                            <div class="frame-1992-text-2">39</div>
+                            <div class="frame-1992-text-3">곡</div>
+                        </div>
+                        <img class="vector" src="/static/img/vector.svg">
+                    </div>
+                </div>
             </div>
+
+            <div class="recommend-banner">
+                <div class="r.recommend-banner-design"></div>
+                <div class="recommend-title">
+                    <div class="ai">Ai 부를곡 추천 받기!</div>
+                    <img class="frame-4" src="/static/img/vector.svg">
+                </div>
+            </div>
+
+            <div class="folder-box">
+                <div class="folder-box-design"></div>
+                <div class="folder-box-title">
+                    <div class="folder-box-title-text">달송 폴더</div>
+                    <img class="frame-4" src="/static/img/vector.svg">
+                </div>
+
+                <div class="folder-box" style="margin-top: 50px; flex-direction: row; flex-wrap: wrap;">
+                    <div class="folder">
+                        <div class="folder-design"></div>
+                        <div>
+                            <div class="folder-name">My 알송</div>
+                            <div class="folder-in-song">29 곡</div>
+                        </div>
+                    </div>
+                    <div class="folder">
+                        <div class="folder-design"></div>
+                        <div>
+                            <div class="folder-name">dddd</div>
+                            <div class="folder-in-song">!!!!!!!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 부를곡 리스트들 있는 컨테이너 -->
+            <div class="list_container">
+                {% for list in folder_list %}
+                <div style="font-size: 17px;">
+                    <div class="list_item">
+                        <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;"></button>    
+                    </div>
+                    <div class="list_name">
+                        {{ list.list_name }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div style="font-size: 15px; justify-content: center;">
+                    <div class="list_item">
+                        <button class="button-add-list" id="button_add_list" type="button" style="width: 100%; height: 150px;"></button>
+                    </div>
+                    <div class="list_name">
+                        새로운 리스트 추가
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
 
 
 
