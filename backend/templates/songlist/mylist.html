@@ -243,7 +243,9 @@
     </div>
 </div>
 
-
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
 {% endblock %}
 
 
@@ -253,6 +255,7 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    
     
     const choiceButtons = document.querySelectorAll('.square-button');
     const deleteButton = document.getElementById('delete-button');

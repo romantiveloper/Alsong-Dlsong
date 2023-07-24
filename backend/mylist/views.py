@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from song.models import Song
 import random
+from user.models import User
 
 
 # Create your views here.
@@ -18,9 +19,12 @@ import random
 def mylist(request):
     user_id = request.user
     folder_list = Myfolder.objects.filter(user_id=user_id)
+    user = User.objects.filter(user_id=user_id)
     print(folder_list)
     print(user_id)
-    return render(request, 'main.html', {'folder_list':folder_list})
+
+    data = {'folder_list':folder_list, 'user':user}
+    return render(request, 'main.html', data)
 
 
 

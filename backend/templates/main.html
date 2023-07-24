@@ -163,6 +163,11 @@
         align-items: center;
         gap: 17px;
         padding-top: 18px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 0 auto;
+        position: relative;
+        width: 100%;
     }
 
     .searchbar {
@@ -349,6 +354,8 @@
         width: 100%;
         height: 60px;
         position: relative;
+        background: var(--ui-white, #ffffff);
+        border-radius: 20px;
     }
 
     .recommend-banner-design {
@@ -401,16 +408,17 @@
     .folder-box {
         flex-shrink: 0;
         width: 100%;
-        height: 378px;
+        height: auto;
         position: relative;
         display: flex;
+        justify-content: space-around;
     }
 
     .folder-box-design {
         background: var(--ui-white, #ffffff);
         border-radius: 20px;
         width: 100%;
-        height: 365px;
+        height: 100%;
         position: absolute;
         left: 0px;
         top: 0px;
@@ -421,12 +429,12 @@
         display: flex;
         flex-direction: row;
         gap: 203px;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-start;
         width: 100%;
         position: absolute;
         left: 11px;
-        top: 0px;
+        top: 14px;
     }
 
     .folder-box-title-text {
@@ -438,9 +446,12 @@
 
     .folder {
         flex-shrink: 0;
-        width: 136px;
-        height: 161px;
+        width: 155px;
+        height: 140px;
         display: flex;
+        background: #45d3b1;
+        border-radius: 20px;
+        margin: 5px;
     }
 
     .folder-design {
@@ -459,32 +470,78 @@
         top: 0px;
     }
     
-    .folder-name {
+    .folder-name-1 {
         color: #ffffff;
         text-align: left;
         font: 700 15px "Noto Sans KR", sans-serif;
-        position: absolute;
         left: 19.26px;
         top: 8.41px;
         width: 89.06px;
         height: 45.66px;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-start;
+        padding-left: 15px;
+    }
+
+    .folder-name-2 {
+        color: #8d94a0;
+        text-align: left;
+        font: 700 15px "Noto Sans KR", sans-serif;
+        left: 19.26px;
+        top: 8.41px;
+        width: 110px;
+        height: 45.66px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding-left: 15px;
     }
 
     .folder-in-song {
         color: #ffffff;
         text-align: left;
         font: 500 12px "Noto Sans KR", sans-serif;
-        position: absolute;
-        left: 19.26px;
-        top: 84.1px;
-        width: 43.33px;
+        /* position: absolute; */
+        width: auto;
         height: 45.66px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        padding-top: 60px;
+        padding-left: 15px;
+    }
+
+    .ellipse-11,
+    .ellipse-11 * {
+        box-sizing: border-box;
+    }
+    .ellipse-11 {
+        background: var(--sub, #37385e);
+        border-radius: 50%;
+        width: 37.31px;
+        height: 37.25px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        
+    }
+    ._3-dicons,
+    ._3-dicons * {
+        box-sizing: border-box;
+    }
+    ._3-dicons {
+        width: 22.87px;
+        height: 20.32px;
+        position: relative;
+    }
+    ._3-dicons2 {
+        width: 22.87px;
+        height: 20.32px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
     }
 
 </style>
@@ -521,25 +578,31 @@
                             </div>
                         </div>
                     </div>
-
+                    {% for users in user %}
                     <div class="frame-25">
-                        <div class="frame-25-text-1">김알송</div>
+                        <div class="frame-25-text-1">{{users.nickname}}</div>
                         <div class="frame-25-text-2">님 안녕하세요 🎶</div>
                     </div>
-
+                    {% endfor %}
                     <div class="frame-1992">
                         <div class="group-25">
                             <div class="frame-1992-text-1">총 달린 곡</div>
-                            <div class="frame-1992-text-2">39</div>
+                            {% with total_song_count=0 %}
+                                {% for list in folder_list %}
+                                    {% with new_total_song_count=total_song_count|add:list.song_count %}
+                                        {% with total_song_count=new_total_song_count %}
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                                <div class="frame-1992-text-2">{{ total_song_count }}</div>
+                            {% endwith %}
                             <div class="frame-1992-text-3">곡</div>
                         </div>
-                        <img class="vector" src="/static/img/vector.svg">
                     </div>
                 </div>
             </div>
 
             <div class="recommend-banner">
-                <div class="r.recommend-banner-design"></div>
                 <div class="recommend-title">
                     <div class="ai">Ai 부를곡 추천 받기!</div>
                     <img class="frame-4" src="/static/img/vector.svg">
@@ -550,49 +613,36 @@
                 <div class="folder-box-design"></div>
                 <div class="folder-box-title">
                     <div class="folder-box-title-text">달송 폴더</div>
-                    <img class="frame-4" src="/static/img/vector.svg">
                 </div>
 
-                <div class="folder-box" style="margin-top: 50px; flex-direction: row; flex-wrap: wrap;">
-                    <div class="folder">
-                        <div class="folder-design"></div>
+                <div class="folder-box" style="margin-top: 50px; margin-bottom: 20px; justify-content: space-around; flex-direction: row; flex-wrap: wrap; width: calc(2*168px + 2*1vw);">
+                    {% for list in folder_list %}
+                    <div class="folder list_button" data-list-number="{{ list.list_number }}">
                         <div>
-                            <div class="folder-name">My 알송</div>
-                            <div class="folder-in-song">29 곡</div>
+                            <div class="folder-name-1">{{list.list_name}}</div>
+                            <div class="folder-in-song">{{list.song_count}} 곡</div>
+                        </div>
+                        <div style="padding-top: 80px; padding-left: 20px;">
+                            <div class="ellipse-11">
+                                <div class="_3-dicons">
+                                    <img class="_3-dicons2" src="/static/img/mic-dicons.png" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="folder">
-                        <div class="folder-design"></div>
-                        <div>
-                            <div class="folder-name">dddd</div>
-                            <div class="folder-in-song">!!!!!!!</div>
+                    {% endfor %}
+                    <div class="folder" id="button_add_list">
+                        <div class="folder-name-2">새 폴더 추가</div>
+                        <div style="padding-top: 80px; padding-right: 10px;">
+                            <div class="ellipse-11">
+                                <div class="_3-dicons">
+                                    <img class="_3-dicons2" src="/static/img/add-dicons.png" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 부를곡 리스트들 있는 컨테이너 -->
-            <div class="list_container">
-                {% for list in folder_list %}
-                <div style="font-size: 17px;">
-                    <div class="list_item">
-                        <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;"></button>    
-                    </div>
-                    <div class="list_name">
-                        {{ list.list_name }}
-                    </div>
-                </div>
-                {% endfor %}
-                <div style="font-size: 15px; justify-content: center;">
-                    <div class="list_item">
-                        <button class="button-add-list" id="button_add_list" type="button" style="width: 100%; height: 150px;"></button>
-                    </div>
-                    <div class="list_name">
-                        새로운 리스트 추가
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -662,6 +712,9 @@
             data: fd, // FormData를 전송 데이터로 사용
             processData: false, // FormData를 문자열로 변환하지 않음
             contentType: false, // 컨텐츠 유형을 설정하지 않음
+            headers:{
+                'X-CSRFToken':csrftoken
+            },
             success: function(response) {
                 // 성공적으로 응답을 받았을 때 실행할 코드
                 console.log(response);
@@ -715,13 +768,15 @@
     });
 
     // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
-    const listButtons = document.querySelectorAll('.list_button');
-    listButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const listNumber = button.dataset.listNumber;
+    const listButtons = document.querySelectorAll(".list_button");
+    listButtons.forEach((listButton) => {
+        listButton.addEventListener('click', () => {
+            const listNumber = listButton.dataset.listNumber;
             const url = `/mylist/${listNumber}/`; // 이동할 URL 설정
             window.location.href = url; // URL로 이동
         });
     });
+
+    
 </script>
 {% endblock %}

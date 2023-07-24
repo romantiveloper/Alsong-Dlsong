@@ -5,12 +5,36 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>mobile navbar test</title>
+    <title>알송달송</title>
     <link rel="stylesheet"  crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
     <!-- <link rel="stylesheet" href="./src/css/for_copy.css" /> -->
     <!-- <script src="src/js/include.js" defer></script> -->
 
+    <script>
+    // CSRF 토큰 설정
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 이름으로 쿠키 찾기
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": csrftoken }
+        });
+    </script>
+    
     <style>
         * {
             box-sizing: border-box;
@@ -36,7 +60,7 @@
 
         .bottom-nav {
             position: fixed;
-            bottom: 10px;
+            bottom: 0px;
             z-index: 150;
             width: 96%;
             height: 56px;
@@ -154,7 +178,7 @@
     
                 <!-- 버튼: 알송Ai(추천) -->
                 <li class="nav-btn-a-li">
-                    <a href="/" class="nav-btn-a">
+                    <a href="/recommend/" class="nav-btn-a">
                         <img src="/static/img/Ai.svg">
                         <span>알송Ai</span>
                     </a>
@@ -162,7 +186,7 @@
     
                 <!-- 버튼: 더보기 -->
                 <li class="nav-btn-a-li">
-                    <a href="/" class="nav-btn-a">
+                    <a href="/user/mypage/" class="nav-btn-a">
                         <img src="/static/img/more.svg">
                         <span>더보기</span>
                     </a>
@@ -227,5 +251,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    
 </html>
 
