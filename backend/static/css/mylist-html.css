@@ -1,19 +1,28 @@
 .mylist,
 .mylist * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+.mylist {
+  background: #f5f8ff;
+  border-radius: 32px;
+  padding: 10px;
+  width: 100%;
+  min-width: 400px;
+  position: relative;
+  padding-bottom: 56px;
 }
 
-.mylist {
-    background: #f5f8ff;
-    border-radius: 32px;
-    padding: 10px;
-    width: 100%;
-    height: 800px;
-    position: relative;
-    min-width: 390px;
+.mylist-flex-group {
     display: flex;
     flex-direction: column;
+    gap: 26px;
     align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 300px;
 }
 
 .mylist-top {
@@ -23,15 +32,10 @@
     position: absolute;
     left: 0px;
     top: 0px;
-    min-width: 390px;
+    min-width: 400px;
     border-top-left-radius: 32px;
     border-top-right-radius: 32px;
   }
-
-.mylist-title,
-.mylist-title * {
-    box-sizing: border-box;
-}
 
 .mylist-title {
     display: flex;
@@ -95,10 +99,11 @@
 .card {
     width: 90%;
     height: 189px;
-    position: relative;
+    position: absolute;
     transform-origin: 0 0;
     transform: rotate(0deg) scale(1, 1);
-    top: 60px;
+    top: 130px;
+    left: 20px;
 }
 
 .mask-group {
@@ -218,11 +223,6 @@
     
 }
 
-.edit-delete-box,
-.edit-delete-box * {
-  box-sizing: border-box;
-}
-
 .edit-delete-box {
   position: absolute;
   inset: 0;
@@ -232,6 +232,7 @@
   top: 269px;
   display: flex;
   justify-content: space-around;
+  z-index: 10;
 }
 
 .edit-delete-box-style {
@@ -272,8 +273,10 @@
 }
 
 .edit-button-box {
+    background: #f5f8ff;
+    border: none;
     width: 77px;
-    height: 38.18px;
+    height: 61px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -301,8 +304,10 @@
 }
 
 .delete-button-box {
+    background: #f5f8ff;
+    border: none;
     width: 77px;
-    height: 38.18px;
+    height: 61px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -337,33 +342,25 @@
     position: relative;
     width: 100%;
     right: 20px;
-    top: 120px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
-.song-delete-text,
-.song-delete-text * {
-    box-sizing: border-box;
-}
 .song-delete-text {
     color: var(--nav-btn, #c6c7c8);
+    background-color: #f5f8ff;;
     text-align: right;
+    border: none;
     font: 400 12px/20px "Noto Sans KR", sans-serif;
     position: relative;
-    width: 77px;
+    width: 87px;
     height: 15.76px;
     transform-origin: 0 0;
     transform: rotate(0deg) scale(1, 1);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-}
-
-.song-box,
-.song-box * {
-    box-sizing: border-box;
 }
 
 .song-box {
@@ -375,4 +372,297 @@
     position: relative;
     width: 100%;
     height: auto;
+}
+
+.song-list {
+    width: 100%;
+    height: 23px;
+    position: relative;
+    display: flex;
+}
+
+.song-list-text {
+    text-align: center;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 30px;
+}
+
+.song-list-title {
+    color: var(--main, #1e1f4b);
+    text-align: left;
+    font: 700 8px "Noto Sans KR", sans-serif;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 130px;
+    min-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.song-list-artist {
+    color: var(--sub, #37385e);
+    text-align: left;
+    font: 400 8px "Noto Sans KR", sans-serif;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.song-list-tj {
+    color: #ff4b00;
+    text-align: center;
+    font: 400 8px "Noto Sans KR", sans-serif;
+    position: relative;
+    width: 50px;
+    white-space: nowrap;
+}
+
+.song-list-ky {
+    color: #836cde;
+    text-align: center;
+    font: 400 8px "Noto Sans KR", sans-serif;
+    position: relative;
+    width: 50px;
+    white-space: nowrap;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    left: 5px;
+    top: 2px;
+}
+
+.checkbox-style {
+    background: var(--accent, #ecf1f4);
+    border-radius: 8px;
+    border: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    box-shadow: var(
+        --field-inset-box-shadow,
+        inset 0px 2px 2px -1px rgba(74, 74, 104, 0.1)
+    );
+}
+
+.checkbox-style.selected {
+    background: var(--success, #31d0aa);
+    border-radius: 8px;
+    border: none;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    box-shadow: var(
+      --field-inset-box-shadow,
+      inset 0px 2px 2px -1px rgba(74, 74, 104, 0.1)
+    );
+    background-image: url('/static/img/checkbox-icons-success.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.recommend-text-box {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.recommend-text {
+    color: var(--nav-btn, #1e1f4b);
+    text-align: left;
+    font: 400 20px "Noto Sans KR", sans-serif;
+    position: relative;
+    width: 100%;
+    height: 48px;
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(1, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.vector {
+    position: relative;
+    width: 14px;
+    height: 14px;
+}
+
+.recommend-song-box {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+
+}
+
+.recommend-song {
+    background: var(--white, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0px 16px 32px 0px rgba(245, 248, 252, 0.6);
+    width: 100%;
+    height: 84px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.avatar-05 {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    position: static;
+  }
+
+.ellipse-144 {
+    background: #e2fff7;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.recommend-title-artist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+}
+
+.recommend-title-text {
+    color: var(--black, #212226);
+    text-align: left;
+    font: 500 17px/24px "Noto Sans KR", sans-serif;
+    position: relative;
+}
+
+.recommend-artist-text {
+    color: var(--gray-text, #949ba5);
+    text-align: left;
+    font: 400 14px/18px "Noto Sans KR", sans-serif;
+    position: relative; 
+}
+
+.delete-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.25s, opacity 0.25s;
+}
+
+.delete-modal-content {
+    background-color: #37385e;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.delete-modal-text {
+    color: var(--light, #FAFCFE);
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 19.6px */
+}
+
+.delete-modal-button-box {
+    display: flex;
+    
+}
+
+.delete-modal-buttons {
+    color: var(--white, #FFF);
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    display: flex;
+    width: 106px;
+    padding: 12px 24px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    background: #45D3B1;
+}
+
+.edit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.25s, opacity 0.25s;
+}
+
+.edit-modal-content {
+    background-color: #37385e;
+    padding: 20px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--light, #FAFCFE);
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    gap: 10px;
+}
+
+.edit-modal-buttons{
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.edit-modal-button {
+    background: #45D3B1;
+    border-radius: 8px;
+    border: none;
+    color: var(--light, #FAFCFE);
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
 }

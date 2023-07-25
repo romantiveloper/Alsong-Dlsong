@@ -1,5 +1,6 @@
 {% extends 'navbar.html' %}
 {% block style %}
+<link rel="stylesheet" href="/static/css/search-html.css">
 <style>
     .main_body {
         display: flex;
@@ -8,15 +9,6 @@
         padding-left: 150px;
         background-color: #f7f7f7;
     }
-</style>
-<head>
-</head>
-<!DOCTYPE html>
-<html>
-<head>
-<title>노래 차트</title>
-<style>
-    
 
     table {
         border-collapse: collapse;
@@ -34,14 +26,12 @@
     }
 
     select {
-        width:70px;
+        width:50%;
         height:30px;
-        padding:0 28px 0 10px;
-        font-size: 16px;
-        border:1px solid #d2d2d2;
+        font: 300 12px "Inter",sans-serif;
+        color: #b0b0b1;
         border-radius: 16px;
-        -webkit-appearance:none; /* for chrome */
-        -moz-appearance:none; /*for firefox*/
+        border: 0px #f7f7f7;
         appearance:none; 
         background:transparent; 
     }
@@ -190,13 +180,80 @@
         color: #989898;
     }
 </style>
-</head>
 {% endblock %}
 
 
 
 {% block content %}
-<body>
+
+<div class="search-html">
+    <div class="search-html-top"></div>
+
+    <div class="main-frame">
+        <div class="frame-2006">
+            <div class="main-frame-search-text">
+                <div class="arrwos-box">
+                    <img class="arrwos-box-style" src="/static/img/vector2.svg">
+                </div>
+
+                <div class="main-frame-search-text-style"> 부를 곡 검색</div>
+
+                <div class="arrwos-box">
+                    <img class="arrwos-box-style" src="/static/img/interface-essential-dots.svg">
+                </div>          
+            </div>
+
+            <div class="frame-985">
+                <div class="searchbar-2">
+                    <img src="/static/img/select.svg">
+                    <select name="search_option">
+                        <option value="title">제목</option>
+                        <option value="artist">가수</option>
+                    </select>
+                </div>
+                <div class="searchbar-1">
+                    <!-- <div class="searchbar-style"></div> -->
+                    <div class="icon-search-normal-1">
+                        <img src="/static/img/search.svg">
+                    </div>
+                    <div class="searchbar-text">부르고 싶은 곡을 검색하세요!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="song-box">
+            <div class="song-box-head">
+                <div style="width: 80px;">곡명/아티스트</div>
+                <div style="width: 53px">TJ곡번호</div>
+                <div style="width: 53px;">KY곡번호</div>
+                <div style="width: 24px;">담기</div>
+            </div>
+            <div class="song-box-body">
+                {% for result in results %}
+                <div class="song-list">
+                    <div class="title-text">
+                        <div class="title-text">result.title</div>
+                        <div class="artist-text">result.artist</div>
+                    </div>
+                    <div class="tj">result.tj</div>
+                    <div class="ky">result.ky</div>
+                    <div class="ellipse-12">
+                        <img style="width: 18px; height: 18px;" src="/static/img/icon-add.svg">
+                    </div>
+ 
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
 <div class="form-container">
     <div class="select-wrap">
         <select name="search_option">
@@ -273,8 +330,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
 {% endblock %}
 
 
@@ -288,6 +343,12 @@
 </script>
 
 <script>
+    function selectOption() {
+        const selectElement = document.querySelector('.searchbar-2 select');
+        selectElement.focus(); // 이 부분은 선택 상태를 시각적으로 표시하기 위해 포커스를 줍니다.
+        selectElement.click(); // select 요소를 클릭하여 드롭다운 목록을 엽니다.
+    }
+
     function addToDatabase(kySongNum, tjSongNum, title, artist, cmp, writer) {
         // 선택한 My_folder의 list_number와 list_name 가져오기
         var folderSelect = $("#folderSelect");

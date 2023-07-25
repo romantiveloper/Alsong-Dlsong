@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko-KR">
+<html>
 
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>알송달송</title>
-    <link rel="stylesheet"  crossorigin
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <!-- <link rel="stylesheet"  crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" /> -->
     <!-- <link rel="stylesheet" href="./src/css/for_copy.css" /> -->
     <!-- <script src="src/js/include.js" defer></script> -->
 
@@ -149,100 +149,56 @@
 <title>🎤알song달song: {% block title %}{% endblock %}</title>
     
 
-    <body>
-        <nav class="bottom-nav">
-            <ul class="bottom-btn-list">
-    
-                <!-- 버튼: 홈 -->
-                <li class="nav-btn-a-li">
-                    <a href="/" class="nav-btn-a">
-                        <img src="/static/img/home.svg">
-                        <span>홈</span>
-                    </a>
-                </li>
-    
-                <!-- 버튼: 검색 -->
-                <li class="nav-btn-a-li">
-                    <a href="/song-list/search/" class="nav-btn-a">
-                        <img src="/static/img/search.svg">
-                        <span>검색</span>
-                    </a>
-                </li>
-    
-                <!-- 버튼: 인기차트 -->
-                <li class="nav-btn-a-li">
-                    <a href="/song-list/" class="nav-btn-a">
-                        <img src="/static/img/popular.svg">
-                        <span>인기차트</span>
-                    </a>
-                </li>
-    
-                <!-- 버튼: 알송Ai(추천) -->
-                <li class="nav-btn-a-li">
-                    <a href="/recommend/" class="nav-btn-a">
-                        <img src="/static/img/Ai.svg">
-                        <span>알송Ai</span>
-                    </a>
-                </li>
-    
-                <!-- 버튼: 더보기 -->
-                <li class="nav-btn-a-li">
-                    <a href="/user/mypage/" class="nav-btn-a">
-                        <img src="/static/img/more.svg">
-                        <span>더보기</span>
-                    </a>
-                </li>
-    
-            </ul>
-        </nav>
-    <!-- <nav class="navbar">
+<body>
+    <nav class="bottom-nav">
+        <ul class="bottom-btn-list">
 
-        <div class="navbar__logo"> -->
-            <!-- <i class="fas fa-blog">여기 로고아이콘</i> -->
-            <!-- <a href="/">알song달song🎤</a>
-        </div>
-        
-        
-        <ul class="navbar__menu"> -->
-        <!-- <li>
-            <form class="search-form" action="/song-list/search/" method="GET">
-                <input type="text" name="query" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
-                <button type="submit" class="search-button">
-                    <svg class="submit-button">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
-                    </svg>
-                </button>
-            </form>
-        </li> -->
-        <!-- <li><a href="/song-list/search/">🎤검색</a></li>
-        <li><a href="/song-list/">🏅인기차트</a></li>
-        <li><a href="/song-list/search/">📁달송보관함</a></li>
-        <li><a href="/recommend/">💁🏻알송Ai</a></li>
-        <li><a href="/">📊달송report</a></li>
-        <li><a href="/user/mypage/">👤My page</a></li> -->
-            <!-- 로그인/로그아웃 버튼 추가 시작 -->
-        <!-- {% if user.is_authenticated %}
-        <li>
-            <a href="{% url 'user:logout' %}">🔓로그아웃</a>
-        </li>
-        {% else %}
-        <li>
-            <a href="{% url 'user:sign-in' %}">🔐로그인</a>
-        </li>
-        {% endif %} -->
-        <!-- 로그인/로그아웃 버튼 추가 끝 -->
-        <!-- </ul>
+            <!-- 버튼: 홈 -->
+            <li class="nav-btn-a-li">
+                <a href="/" class="nav-btn-a">
+                    <img src="/static/img/home.svg">
+                    <span>홈</span>
+                </a>
+            </li>
 
-        <a href="#" class="navbar__toggleBtn">
-        <i class="fas fa-bars"></i>
-        </a>
+            <!-- 버튼: 검색 -->
+            <li class="nav-btn-a-li">
+                <a href="/song-list/search/" class="nav-btn-a">
+                    <img src="/static/img/search.svg">
+                    <span>검색</span>
+                </a>
+            </li>
 
-    </nav> -->
+            <!-- 버튼: 인기차트 -->
+            <li class="nav-btn-a-li">
+                <a href="/song-list/" class="nav-btn-a">
+                    <img src="/static/img/popular.svg">
+                    <span>인기차트</span>
+                </a>
+            </li>
 
+            <!-- 버튼: 알송Ai(추천) -->
+            <li class="nav-btn-a-li">
+                <a href="/recommend/" class="nav-btn-a">
+                    <img src="/static/img/Ai.svg">
+                    <span>알송Ai</span>
+                </a>
+            </li>
 
-    {% block content %}{% endblock %}
-    {% block script %}{% endblock %}
-  </body>
+            <!-- 버튼: 더보기 -->
+            <li class="nav-btn-a-li">
+                <a href="/user/mypage/" class="nav-btn-a">
+                    <img src="/static/img/more.svg">
+                    <span>더보기</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+{% block content %}{% endblock %}
+{% block script %}{% endblock %}
+</body>
 
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
