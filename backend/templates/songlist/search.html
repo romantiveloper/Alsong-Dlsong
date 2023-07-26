@@ -1,6 +1,6 @@
 {% extends 'navbar.html' %}
 {% block style %}
-<link rel="stylesheet" href="/static/css/search-html.css">
+<link rel="stylesheet" href="/static/css/search-html-2.css">
 <style>
     .main_body {
         display: flex;
@@ -90,16 +90,7 @@
         -webkit-backdrop-filter: blur(1.5px);
     }
 
-    .modal_window {
-        background: white;
-        backdrop-filter: blur(13.5px);
-        -webkit-backdrop-filter: blur(13.5px);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        width: 530px;
-        height: 400px;
-        position: relative;
-    }
+    
 
     .modal_title{
         display: flex;
@@ -216,7 +207,10 @@
                     <div class="icon-search-normal-1">
                         <img src="/static/img/search.svg">
                     </div>
-                    <div class="searchbar-text">부르고 싶은 곡을 검색하세요!</div>
+                    <input class="searchbar-text" type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
+                    <div class="searchbar-button">
+                        <button class="searchbar-button" id="search-button"></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -231,16 +225,23 @@
             <div class="song-box-body">
                 {% for result in results %}
                 <div class="song-list">
-                    <div class="title-text">
-                        <div class="title-text">result.title</div>
-                        <div class="artist-text">result.artist</div>
+                    <div class="title-artist-box">
+                        <div class="title-text">{{result.title}}</div>
+                        <div class="artist-text">{{result.artist}}</div>
                     </div>
-                    <div class="tj">result.tj</div>
-                    <div class="ky">result.ky</div>
+                    <div class="tj">{{result.tj}}</div>
+                    <div class="ky">{{result.ky}}</div>
                     <div class="ellipse-12">
-                        <img style="width: 18px; height: 18px;" src="/static/img/icon-add.svg">
+                        <button class="ellipse-12 button-add-list" id="button_add_list"
+                                data-ky="{{ result.ky }}"
+                                data-tj="{{ result.tj }}"
+                                data-title="{{ result.title }}"
+                                data-artist="{{ result.artist }}"
+                                data-cmp="{{ result.cmp }}"
+                                data-writer="{{ result.writer }}">
+                            <img style="width: 18px; height: 18px;" src="/static/img/icon-add.svg">
+                        </button>
                     </div>
- 
                 </div>
                 {% endfor %}
             </div>
@@ -254,7 +255,7 @@
 
 
 
-<div class="form-container">
+<!-- <div class="form-container">
     <div class="select-wrap">
         <select name="search_option">
             <option value="title">제목</option>
@@ -293,12 +294,11 @@
                     {% endfor %}
                 </select>
                 <button onclick="addToDatabase('{{ result.ky }}', '{{ result.tj }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
-                <button id="button_add_list">test</button>
             </td>
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table> -->
 
 
 
@@ -316,15 +316,15 @@
         <div class="modal-mylist">
             {% for folder in folders %}
             <li>
-                <div class="popup_list">
+                <div class="popup_list" id="folderSelect" data-list-number="{{folder.list_number}}">
                     <div class="popup_list-thumbnail">
                         <img src="/static/img/music.svg">
                     </div>
                     <div class="popup_list-text">
-                        <p class="popup_list-title"> {{folder.list_name}} </p>
+                        <p class="popup_list-title list-name"> {{folder.list_name}} </p>
                         <p class="popup_list-count"> {{folder.song_count}} </p>
                     </div>
-                </div> 
+                </div>
             </li>
             {% endfor %}
         </div>
@@ -349,57 +349,72 @@
         selectElement.click(); // select 요소를 클릭하여 드롭다운 목록을 엽니다.
     }
 
-    function addToDatabase(kySongNum, tjSongNum, title, artist, cmp, writer) {
-        // 선택한 My_folder의 list_number와 list_name 가져오기
-        var folderSelect = $("#folderSelect");
-        var listNumber = folderSelect.val();
-        var listName = folderSelect.find("option:selected").text();
+    
+    var selectedSongData = {};
 
-        // AJAX 요청을 생성
-        $.ajax({
-            type: 'POST',
-            url: '/song-list/add-to-database/',
-            dataType: 'text',
-            headers: {
-                "X-CSRFToken": csrftoken
-            },
-            contentType: 'application/json',
-            data: JSON.stringify({
-                kySongNum: kySongNum,
-                tjSongNum: tjSongNum,
-                title: title,
-                artist: artist,
-                cmp: cmp,
-                writer: writer,
-                listNumber: listNumber,
-                listName: listName
-            }),
-            success: function(response) {
-                var parsedResponse = JSON.parse(response);
-                if (parsedResponse.status === 'success') {
-                    console.log('데이터 추가 성공');
-                    var successMessage = '추가되었습니다.';
-                    alert(successMessage)
-                } else if (parsedResponse.status === 'error') {
-                    console.log('데이터 추가 실패: ' + parsedResponse.message);
-                    var errorMessage = '이미 추가된 노래입니다.';
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'button-add-list' class
+        if (e.target.closest('.button-add-list')) {
+            var button = e.target.closest('.button-add-list');
+            // Assign song data on selectedSongData
+            selectedSongData = {
+                kySongNum: button.getAttribute('data-ky'),
+                tjSongNum: button.getAttribute('data-tj'),
+                title: button.getAttribute('data-title'),
+                artist: button.getAttribute('data-artist'),
+                cmp: button.getAttribute('data-cmp'),
+                writer: button.getAttribute('data-writer')
+            };
+        }
+    });
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list-name').textContent.trim();
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, selectedSongData, { listNumber, listName });
+
+            $.ajax({
+                type: 'POST',
+                url: '/song-list/add-to-database/',
+                dataType: 'text',
+                headers: {
+                    "X-CSRFToken": csrftoken
+                },
+                contentType: 'application/json',
+                data: JSON.stringify(sendData),
+                success: function(response) {
+                    var parsedResponse = JSON.parse(response);
+                    if (parsedResponse.status === 'success') {
+                        console.log('데이터 추가 성공');
+                        var successMessage = '추가되었습니다.';
+                        alert(successMessage)
+                    } else if (parsedResponse.status === 'error') {
+                        console.log('데이터 추가 실패: ' + parsedResponse.message);
+                        var errorMessage = '이미 추가된 노래입니다.';
+                        alert(errorMessage);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log('AJAX 요청 실패');
+                    var errorMessage = 'error';
                     alert(errorMessage);
                 }
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                console.log('AJAX 요청 실패');
-                var errorMessage = 'error';
-                alert(errorMessage);
-            }
-        });
+            });
 
-        console.log(data);
-    }
+            console.log(sendData);
+        }
+    });
+
 
     function handleEnterKeyPress(event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            $('#search-button').click(); // "로그인" 버튼 클릭 이벤트 발생
+            $('#search-button').click();
         }
     }
 
@@ -446,14 +461,18 @@
 
     //모달 띄우기 코드
     const modal = document.getElementById("modal-add-song");
-    const buttonAddFeed = document.getElementById("button_add_list");
-    buttonAddFeed.addEventListener("click", e=> {
-        modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y 위치를 바꿔줌
-        modal.style.display = "flex";
-        document.body.style.overflowY = "hidden"; //스크롤 없애기
+    const buttonsAddList = document.querySelectorAll(".ellipse-12");
 
-        console.log(window.pageYOffset + " 위치"); //로그 찍기
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
     });
+
 
     //모달 닫기 코드
     const buttonCloseModal = 
