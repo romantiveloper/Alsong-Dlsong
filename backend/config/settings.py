@@ -94,16 +94,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'final3', # db 이름
-        'USER' : 'root', # 사용자 이름
-        'PASSWORD' : '1234', # 비밀번호
-        'HOST' : '127.0.0.1', # db 호스트
-        'PORT' : '4000', # 포트 번호
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "final",
+        "USER": "heesu",
+        "PASSWORD": "123",
+        "HOST": "34.22.93.218",
+        "PORT": "5432",
     }
 }
 

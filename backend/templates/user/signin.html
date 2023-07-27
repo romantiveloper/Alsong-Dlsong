@@ -111,7 +111,7 @@
 {% block script %}
     <script>
 
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
         const kakaoBtn = document.getElementById('kakao-btn')
         kakaoBtn.addEventListener('click', () => {
             const url = '/user/kakao'
