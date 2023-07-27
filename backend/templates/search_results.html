@@ -28,58 +28,6 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-
-        select {
-            width:70px;
-            height:30px;
-            padding:0 28px 0 10px;
-            font-size: 16px;
-            border:1px solid #d2d2d2;
-            border-radius: 16px;
-            -webkit-appearance:none; /* for chrome */
-            -moz-appearance:none; /*for firefox*/
-            appearance:none; 
-            background:transparent; 
-        }
-
-        select::-ms-expand{
-            display:none;/*for IE10,11*/
-        }
-
-        .select-wrap {
-            width:70px;
-            height: 30px;
-            padding-left: 28px;
-            /* border:1px solid #d2d2d2; */
-            border-radius: 16px;
-            background:url('/static/img/스크린샷\ 2023-07-19\ 031302.png') no-repeat 90% 50%/15px auto;
-        }
-
-        .form-container {
-            display: flex;
-            justify-content: center; /* 가운데 정렬 */
-        }
-
-        .form-container div {
-            margin-right: 10px; /* 각 요소 사이의 간격 조절 */
-        }
-
-        /* input 태그 스타일링 - 이미지 추가 */
-        .input-wrap input {
-            width: 300px;
-            height: 30px;
-            padding-left: 30px; /* 이미지와 텍스트 간격 조절 */
-            background-image: url("/static/img/돋보기.png");
-            background-repeat: no-repeat;
-            background-position: left;
-            font-size: 16px;
-            border:1px solid #d2d2d2;
-            border-radius: 16px;
-        }
-
-        .button-wrap button {
-            border:0px white;
-        }
     </style>
 </head>
 {% endblock %}
@@ -88,51 +36,41 @@
 
 {% block content %}
 <body>
-    <div class="form-container">
-        <div class="select-wrap">
-            <select name="search_option">
-                <option value="title">제목</option>
-                <option value="artist">가수</option>
-            </select>
-        </div>
-        <div class="input-wrap">
-            <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
-        </div>
-        <div class="button-wrap">
-            <button id="search-button"></button>
-        </div>
-    </div>
-
     <h1>
-        {% for users in user %}
-            {{users.nickname}}님이 부르면 좋을 것 같아요!
-        {% endfor %}
+        <a href="/song-list/">노래 리스트</a>
+        <select name="search_option" class="search-option">
+            <option value="title">제목</option>
+            <option value="artist">가수</option>
+        </select>
+        <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
+        <button id="search-button">검색</button>
     </h1>
+    
     
     <table>
         <thead>
             <tr>
+                <th>KY곡번호</th>
+                <th>TJ곡번호</th>
                 <th>곡명</th>
                 <th>아티스트</th>
-                <th>TJ곡번호</th>
-                <th>KY곡번호</th>
                 <th>Mylist</th>
             </tr>
         </thead>
         <tbody>
-            {% for song in songs %}
+            {% for result in songs %}
             <tr>
-                <td>{{ song.title }}</td>
-                <td>{{ song.artist }}</td>
-                <td>{{ song.tj_song_num_id }}</td>
-                <td>{{ song.ky_song_num_id }}</td>
+                <td>{{ result.ky }}</td>
+                <td>{{ result.tj }}</td>
+                <td>{{ result.title }}</td>
+                <td>{{ result.artist }}</td>
                 <td>
-                    <select style="width: auto;" id="folderSelect">
+                    <button onclick="addToDatabase('{{ result.ky }}', '{{ result.tj }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
+                    <select id="folderSelect">
                         {% for folder in folders %}
                             <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
                         {% endfor %}
                     </select>
-                    <button onclick="addToDatabase('{{ song.ky_song_num_id }}', '{{ song.tj_song_num_id }}', '{{ song.title }}', '{{ song.artist }}', '{{ song.cmp }}', '{{ song.writer }}')">추가</button>
                 </td>
             </tr>
             {% endfor %}
@@ -215,7 +153,7 @@
 
             var query = $("input[name='query']").val();
             var category = $('select[name=search_option]').val();
-            var url = '/song-list/search/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
+            var url = '/elastic/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
 
             console.log(url);
 

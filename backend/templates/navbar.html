@@ -1,137 +1,213 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/nav_style.css' %}">
-    {% block style %}{% endblock %}
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>알송달송</title>
+    <!-- <link rel="stylesheet"  crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" /> -->
+    <!-- <link rel="stylesheet" href="./src/css/for_copy.css" /> -->
+    <!-- <script src="src/js/include.js" defer></script> -->
+
+    <script>
+    // CSRF 토큰 설정
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 이름으로 쿠키 찾기
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
     
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": csrftoken }
+        });
+    </script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+        }
+        
+        .home {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            flex: 1 1 0%;
+            padding-bottom: 56px;
+            background: #F5F8FF;
+            padding-top: 15px;
+            min-width: 400px;
+        }
+
+        nav {
+            display: block;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0px;
+            z-index: 150;
+            width: 96%;
+            height: 56px;
+            flex-shrink: 0;
+            border-top: 1px solid rgb(228, 230, 231);
+            border-radius: 25px 25px 0px 0px;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .bottom-btn-list {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            align-items: flex-start;
+            list-style: none;
+            padding: 0;
+            border: 0 none;
+        }
+
+        span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+
+        ul {
+            /* display: block;
+            list-style-type: disc; */
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 25px;
+            margin-inline-end: 25px;
+            padding-inline-start: 40px;
+        }
+
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
+        }
+
+        a {
+            color: #191E23;
+            -webkit-text-decoration: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        .nav-btn-a {
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            align-items: center;
+            flex-direction: column;
+            flex: 1 1 0%;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            gap: 2px;
+        }
+
+        .nav-btn-li {
+            position: relative;
+            flex: 1 1 0%;
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            overflow-clip-margin: content-box;
+            overflow: clip;
+        }
+    </style>
+
+{% block style %}{% endblock %}
+</head>
+    
+    
+
+   
+<title>🎤알song달song: {% block title %}{% endblock %}</title>
+    
+
+<body>
+    <nav class="bottom-nav">
+        <ul class="bottom-btn-list">
+
+            <!-- 버튼: 홈 -->
+            <li class="nav-btn-a-li">
+                <a href="/" class="nav-btn-a">
+                    <img src="/static/img/home.svg">
+                    <span>홈</span>
+                </a>
+            </li>
+
+            <!-- 버튼: 검색 -->
+            <li class="nav-btn-a-li">
+                <a href="/song-list/search/" class="nav-btn-a">
+                    <img src="/static/img/search.svg">
+                    <span>검색</span>
+                </a>
+            </li>
+
+            <!-- 버튼: 인기차트 -->
+            <li class="nav-btn-a-li">
+                <a href="/song-list/" class="nav-btn-a">
+                    <img src="/static/img/popular.svg">
+                    <span>인기차트</span>
+                </a>
+            </li>
+
+            <!-- 버튼: 알송Ai(추천) -->
+            <li class="nav-btn-a-li">
+                <a href="/recommend/" class="nav-btn-a">
+                    <img src="/static/img/Ai.svg">
+                    <span>알송Ai</span>
+                </a>
+            </li>
+
+            <!-- 버튼: 더보기 -->
+            <li class="nav-btn-a-li">
+                <a href="/user/mypage/" class="nav-btn-a">
+                    <img src="/static/img/more.svg">
+                    <span>더보기</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+{% block content %}{% endblock %}
+{% block script %}{% endblock %}
+</body>
+
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
-    <script src="{% static 'css/nav.js' %}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- 서치바 버튼 기능 구현용 script -->
-    <script>
-        // // CSRF 토큰 설정
-        // function getCookie(name) {
-        //     let cookieValue = null;
-        //     if (document.cookie && document.cookie !== '') {
-        //         const cookies = document.cookie.split(';');
-        //         for (let i = 0; i < cookies.length; i++) {
-        //             const cookie = cookies[i].trim();
-        //             // 이름으로 쿠키 찾기
-        //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     return cookieValue;
-        // }
-        // const csrftoken = getCookie('csrftoken');
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     
-        // $.ajaxSetup({
-        //     headers: { "X-CSRFToken": csrftoken }
-        // });
-    
-        // $(document).ready(function() {
-        // $("submit-button").click(function() {
-        //     var category = $(this).val();  // 버튼의 값(category)을 가져옴
-        //     var query = $("input[name='query']").val();  // 검색어를 가져옴
-    
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/song-list/',
-        //         data: {
-        //             'category': category,
-        //             'query': query  // 검색어(query)를 데이터에 포함시킴
-        //         },
-        //         success: function(response) {
-        //             // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
-        //             console.log(response);
-        //             }
-        //         });
-        //     });
-        // });
-    </script>
-
-    <title>🎤알song달song: {% block title %}{% endblock %}</title>
-    
-
-  <body>
-    <nav class="navbar">
-
-        <div class="navbar__logo">
-            <!-- <i class="fas fa-blog">여기 로고아이콘</i> -->
-            <a href="/">알song달song🎤</a>
-        </div>
-        
-      
-      <ul class="navbar__menu">
-        <li>
-            <!-- <form class="search-form" action="/song-list/search/" method="GET">
-                <input type="text" name="query" placeholder="부르고 싶은 곡을 입력하세요!🎤" class="search-input">
-                <button type="submit" class="search-button">
-                    <svg class="submit-button">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
-                    </svg>
-                </button>
-            </form> -->
-         </li>
-        <li><a href="/song-list/search/">🎤검색</a></li>
-        <li><a href="/song-list/">🏅인기차트</a></li>
-        <li><a href="/song-list/search/">📁달송보관함</a></li>
-        <li><a href="/recommend/">💁🏻알송Ai</a></li>
-        <li><a href="/">📊달송report</a></li>
-        <li><a href="/user/mypage/">👤My page</a></li>
-         <!-- 로그인/로그아웃 버튼 추가 시작 -->
-        {% if user.is_authenticated %}
-        <li>
-            <a href="{% url 'user:logout' %}">🔓로그아웃</a>
-        </li>
-        {% else %}
-        <li>
-            <a href="{% url 'user:sign-in' %}">🔐로그인</a>
-        </li>
-        {% endif %}
-        <!-- 로그인/로그아웃 버튼 추가 끝 -->
-      </ul>
-
-      <a href="#" class="navbar__toggleBtn">
-        <i class="fas fa-bars"></i>
-      </a>
-
-    </nav>
-
-    <!-- 서치바 -->
-    
-
-    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" display="none">
-        <symbol id="search" viewBox="0 0 32 32">
-            <path d="M 19.5 3 C 14.26514 3 10 7.2651394 10 12.5 C 10 14.749977 10.810825 16.807458 12.125 18.4375 L 3.28125 27.28125 L 4.71875 28.71875 L 13.5625 19.875 C 15.192542 21.189175 17.250023 22 19.5 22 C 24.73486 22 29 17.73486 29 12.5 C 29 7.2651394 24.73486 3 19.5 3 z M 19.5 5 C 23.65398 5 27 8.3460198 27 12.5 C 27 16.65398 23.65398 20 19.5 20 C 15.34602 20 12 16.65398 12 12.5 C 12 8.3460198 15.34602 5 19.5 5 z" />
-        </symbol>
-    </svg>
-
-    {% if messages %}
-    <section id="messages">
-        <ul>
-            {% for message in messages %}
-            <p class="{{ message.tags }}" style="text-align:right;">
-                {{ message }}
-            </p>
-            {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
-    {% block content %}{% endblock %}
-    {% block script %}{% endblock %}
-  </body>
 </html>
+

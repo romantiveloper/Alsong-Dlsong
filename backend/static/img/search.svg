@@ -1,4 +1,8 @@
-<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.4 24.7746C19.696 24.7746 24.8 19.6763 24.8 13.3873C24.8 7.09827 19.696 2 13.4 2C7.10395 2 2 7.09827 2 13.3873C2 19.6763 7.10395 24.7746 13.4 24.7746Z" stroke="#D9D9D9" stroke-width="2.5423" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M26.0001 25.9733L23.6001 23.5759" stroke="#D9D9D9" stroke-width="2.5423" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="&#240;&#159;&#166;&#134; icon &#34;search normal 1&#34;">
+<g id="Group">
+<path id="Vector" d="M11.5 20.9789C16.7467 20.9789 21 16.7303 21 11.4894C21 6.24856 16.7467 2 11.5 2C6.25329 2 2 6.24856 2 11.4894C2 16.7303 6.25329 20.9789 11.5 20.9789Z" stroke="#C6C7C8" stroke-width="2.5423" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M22 21.9778L20 19.98" stroke="#C6C7C8" stroke-width="2.5423" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
 </svg>
