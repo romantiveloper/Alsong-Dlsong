@@ -1,0 +1,273 @@
+.ai-html,
+.ai-html * {
+    box-sizing: border-box;
+}
+
+.ai-html {
+    background: #f5f8ff;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.ai-top {
+    background: #45d3b1;
+    width: 100%;
+    height: 301px;
+    position: absolute;
+}
+
+.main-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    padding-top: 56px;
+    padding-left: 24px;
+    padding-bottom: 56px;
+    padding-right: 24px;
+}
+
+.top-frame {
+    display: flex;
+    flex-direction: row;
+    gap: 87px;
+    align-items: center;
+    justify-content: space-around;
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+}
+
+.main-frame-text-style {
+    color: var(--white, #ffffff);
+    text-align: center;
+    font: 500 20px/25px "Noto Sans KR", sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrows-box {
+    border-radius: 48px;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 1px;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.arrows-box-style {
+    flex-shrink: 0;
+    position: absolute;
+    overflow: visible;
+}
+
+.pop-text-box {
+    flex-shrink: 0;
+    width: 100%;
+    height: 104px;
+    position: relative;
+}
+
+.pop-text-1 {
+    color: var(--white, #ffffff);
+    text-align: left;
+    font: 900 24px/30px "Noto Sans KR", sans-serif;
+    position: relative;
+}
+
+.pop-text-2 {
+    color: var(--white, #ffffff);
+    text-align: left;
+    font: 400 14px/20px "Noto Sans KR", sans-serif;
+    position: relative;
+    width: 342px;
+}
+
+.model-box {
+    background: var(--sub, #37385e);
+    border-radius: 15px;
+    width: 100%;
+    height: 190px;
+    position: relative;
+}
+
+.model-text-box {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    width: 60%;
+    padding-top: 20px;
+    padding-left: 12px;
+}
+
+.model-text-1 {
+    color: var(--white, #ffffff);
+    text-align: left;
+    font: 900 16px/22px "Noto Sans KR", sans-serif;
+    position: relative;
+}
+
+.img-text-group {
+    flex-shrink: 0;
+    width: 100%;
+    height: 56px;
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.ddabong-img-box {
+    width: 56px;
+    height: 56px;
+    position: relative;
+}
+
+.ellipse-147 {
+    background: var(--iris-80, #7879f1);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    position: relative;
+}
+
+.text-box {
+    width: 60%;
+    height: 44px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.text-box-text-1 {
+    color: var(--white, #ffffff);
+    text-align: left;
+    font: 500 14px/20px "Noto Sans KR", sans-serif;
+    position: relative;
+}
+
+.text-box-text-2 {
+    color: var(--white, #ffffff);
+    text-align: left;
+    font: 400 14px/20px "Noto Sans KR", sans-serif;
+    opacity: 0.6000000238418579;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clock-style {
+    opacity: 0.6000000238418579;
+    width: 16px;
+    height: 20px;
+    position: relative;
+}
+
+.reload-box {
+    background: var(--white, #ffffff);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 100%;
+    position: relative;
+}
+
+.reload-text{
+    color: var(--black, #212226);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Noto Sans KR;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: -0.21px;
+}
+
+.main-text {
+    color: var(--black, #212226);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Noto Sans KR;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 141.176% */
+    letter-spacing: -0.255px;
+    text-transform: capitalize;
+}
+
+.recommend-song-box {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+}
+
+.recommend-song {
+    background: var(--white, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0px 16px 32px 0px rgba(245, 248, 252, 0.6);
+    width: 100%;
+    height: 84px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.avatar-05 {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    position: static;
+}
+
+.ellipse-144 {
+    background: #e2fff7;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.recommend-title-artist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+}
+
+.recommend-title-text {
+    color: var(--black, #212226);
+    text-align: left;
+    font: 500 17px/24px "Noto Sans KR", sans-serif;
+    position: relative;
+}
+
+.recommend-artist-text {
+    color: var(--gray-text, #949ba5);
+    text-align: left;
+    font: 400 14px/18px "Noto Sans KR", sans-serif;
+    position: relative; 
+}
