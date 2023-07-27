@@ -246,60 +246,8 @@
                 {% endfor %}
             </div>
         </div>
-
-
     </div>
 </div>
-
-
-
-
-
-<!-- <div class="form-container">
-    <div class="select-wrap">
-        <select name="search_option">
-            <option value="title">제목</option>
-            <option value="artist">가수</option>
-        </select>
-    </div>
-    <div class="input-wrap">
-        <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
-    </div>
-    <div class="button-wrap">
-        <button id="search-button"></button>
-    </div>
-</div>
-
-<table>
-    <thead>
-        <tr>
-            <th>KY곡번호</th>
-            <th>TJ곡번호</th>
-            <th>곡명</th>
-            <th>아티스트</th>
-            <th>Mylist</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for result in results %}
-        <tr>
-            <td>{{ result.ky }}</td>
-            <td>{{ result.tj }}</td>
-            <td>{{ result.title }}</td>
-            <td>{{ result.artist }}</td>
-            <td>
-                <select style="width: auto;" id="folderSelect">
-                    {% for folder in folders %}
-                        <option value="{{ folder.list_number }}">{{ folder.list_name }}</option>
-                    {% endfor %}
-                </select>
-                <button onclick="addToDatabase('{{ result.ky }}', '{{ result.tj }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table> -->
-
 
 
 <!-- 리스트에 노래 추가하는 모달 -->
@@ -308,7 +256,7 @@
         <div class="modal_title">내 리스트에 담기
             <div class="modal-title-side"></div>
             <div class="modal-title-side">
-                <span id="close_modal" class="close_modal material-icons-outlined">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
                     X
                 </span>
             </div>
