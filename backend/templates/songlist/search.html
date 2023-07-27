@@ -36,7 +36,17 @@
 
 {% block content %}
 <body>
-    <h1><a href="/song-list/">노래 리스트</a></h1>
+    <h1>
+        <a href="/song-list/">노래 리스트</a>
+        <select name="search_option" class="search-option">
+            <option value="title">제목</option>
+            <option value="artist">가수</option>
+        </select>
+        <input type="text" name="query" id="search-query" placeholder="부르고 싶은 곡을 입력하세요!🎤">
+        <button id="search-button">검색</button>
+    </h1>
+    
+    
     <table>
         <thead>
             <tr>
@@ -44,8 +54,6 @@
                 <th>TJ곡번호</th>
                 <th>곡명</th>
                 <th>아티스트</th>
-                <th>작곡가</th>
-                <th>작사가</th>
                 <th>Mylist</th>
             </tr>
         </thead>
@@ -56,8 +64,6 @@
                 <td>{{ result.tj_song_num_id }}</td>
                 <td>{{ result.title }}</td>
                 <td>{{ result.artist }}</td>
-                <td>{{ result.cmp }}</td>
-                <td>{{ result.writer }}</td>
                 <td>
                     <button onclick="addToDatabase('{{ result.ky_song_num_id }}', '{{ result.tj_song_num_id }}', '{{ result.title }}', '{{ result.artist }}', '{{ result.cmp }}', '{{ result.writer }}')">추가</button>
                     <select id="folderSelect">
@@ -132,30 +138,54 @@
         console.log(data);
     }
 
+    function handleEnterKeyPress(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            $('#search-button').click(); // "로그인" 버튼 클릭 이벤트 발생
+        }
+    }
 
-    $.ajaxSetup({
-        headers: { "X-CSRFToken": csrftoken }
-    });
+    $(document).ready(function () {
+        $('#search-query').keypress(handleEnterKeyPress);
+        
+        $("#search-button").click(function (event) {
+            event.preventDefault();
 
-    $(document).ready(function() {
-        $("button").click(function() {
-            var category = $(this).val();  // 버튼의 값(category)을 가져옴
-            var query = $("input[name='query']").val();  // 검색어를 가져옴
+            var query = $("input[name='query']").val();
+            var category = $('select[name=search_option]').val();
+            var url = '/song-list/search/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
+
+            console.log(url);
 
             $.ajax({
-                type: 'POST',
-                url: '/song-list/',
-                data: {
-                    'category': category,
-                    'query': query  // 검색어(query)를 데이터에 포함시킴
-                },
-                success: function(response) {
+                type: 'GET',
+                url: url,  // 생성한 URL 사용
+                success: function (response) {
                     // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    window.location.href = url;
                     console.log(response);
-                }
+                },
             });
         });
     });
+
+    
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var category = urlParams.get('category');
+        var query = urlParams.get('query');
+        
+        if (category) {
+            $('select[name=search_option]').val(category);
+        }
+
+        if (query) {
+            $("input[name='query']").val(decodeURIComponent(query));
+        }
+    });
+
 
 </script>
 {% endblock %}

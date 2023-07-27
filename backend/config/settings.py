@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "recommend",
     "rest_framework",
     "rest_framework.authtoken",
+    "elastic",
 ]
 
 
