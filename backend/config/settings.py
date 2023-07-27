@@ -146,7 +146,7 @@ USE_TZ = True
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_URL = "/static/"
 
-# LOGIN_URL = '/user/sign-in/'
+LOGIN_URL = '/user/sign-in/'
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
