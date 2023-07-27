@@ -39,7 +39,15 @@ def add_list(request):
 
     return Response(status=200)
 
+# @api_view(['POST'])
+# def add_list(request):
+#     print("add_list 실행")
+#     list_name = request.POST.get('list_name')
+#     user_obj = User.objects.get(id=request.user.id)
+#     print(list_name)
+#     Myfolder.objects.create(list_name=list_name, user_id=user_obj)
 
+#     return Response(status=200)
 
 @api_view(['GET'])
 def mylist_detail(request, list_number):

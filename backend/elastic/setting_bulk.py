@@ -1,6 +1,6 @@
 # search_app/setting_bulk.py
-
 from elasticsearch import Elasticsearch
+
 
 es = Elasticsearch()
 
