@@ -16,6 +16,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import uuid
 from .utils import parse_birthday
+import jwt
+from django.conf import settings
+from django.contrib.auth.views import LoginView
+
 
 
 # 가입 유도하는 페이지(landing.html)로의 랜딩부
@@ -156,30 +160,41 @@ def from_kakao(request):
         # 코드 발급 x일 경우
         return redirect('/')
     headers = {'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'}
-    get_token = requests.post(
-        f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&code={code}',
-        headers=headers)
-    get_token = get_token.json() 
-    if get_token.get('error', None) is not None:
-        # 에러발생
+    data = {
+        'client_id': REST_API_KEY,
+        'redirect_uri': REDIRECT_URI,
+        'code': code,
+        'grant_type': 'authorization_code',
+    }
+    response = requests.post('https://kauth.kakao.com/oauth/token', headers=headers, data=data)
+    res_dict = response.json() 
+    if 'error' in res_dict or 'access_token' not in res_dict:
+        # 에러 발생 처리
         return redirect('/')
-    token = get_token.get('access_token', None)
+    access_token = res_dict.get('access_token', None)
+    headers = {
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Authorization': 'Bearer {}'.format(access_token)
+    }
+    response = requests.get('https://kapi.kakao.com/v2/user/me', headers=headers)
+    res_dict = response.json()
+    
+    kakao_account = res_dict.get('kakao_account')
+    user_id = res_dict.get('id')
+    properties = res_dict.get('properties')
 
-    headers = {'Authorization': f'Bearer {token}'}
-    get_info = requests.post(f'https://kapi.kakao.com/v2/user/me', headers=headers)
-    info = get_info.json()
+    username = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
+    email = res_dict.get('kakao_account', {}).get('email', None)
+    uid = 'kakao_{}'.format(res_dict.get('id'))
     
-    kakao_account = info.get('kakao_account')
-    user_id = info.get('id')
-    properties = info.get('properties')
-    
-    username = properties.get('nickname', None)
+    #username = properties.get('nickname', None)
     nickname = username
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
     birthday = kakao_account.get('birthday', None)
     modified_birthday = parse_birthday(birthday)
-    email = kakao_account.get('email', None)
+    #email = kakao_account.get('email', None)
+    
     
     if email is None:
         # 이메일 동의 안하면 로그인 불가 처리
@@ -195,25 +210,29 @@ def from_kakao(request):
 
 
     except:
-        user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
-                                            email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
+        user = models.User.objects.create(user_id=user_id, nickname=nickname, profile_img=profile_img, 
+                                   email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
+
         user.set_unusable_password()
         user.save()
 
-    auth.login(request, user)
+    auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     return redirect('/')
 
 
 @login_required
 def my_page(request):
+    print("~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(request.method)
     if request.method == 'POST':
         pass
-
     else:
         user = request.user
+        print(user)
+        print(user.username)
         err = False
-        if user.login_method != 'email' and (user.birthday == None or user.gender == None):
-            err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요 !'
+        if user.login_method != 'email' and (user.birthday is None or user.gender is None):
+            err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요!'
         return render(request, 'user/mypage.html')
     
 

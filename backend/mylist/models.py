@@ -13,6 +13,7 @@ class Myfolder(models.Model):
     list_number = models.IntegerField(primary_key=True, default=list_number)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+    song_count = models.IntegerField(default=0)
 
 class Mylist(models.Model):
     list_name = models.CharField(max_length=30, default='노래')
@@ -30,3 +31,16 @@ class Mylist(models.Model):
     def __str__(self):
         return self.title
     
+    def save(self, *args, **kwargs):
+        is_new = True if not self.pk else False
+        super(Mylist, self).save(*args, **kwargs)
+        if is_new:
+            myfolder = self.list_number
+            myfolder.song_count = Mylist.objects.filter(list_number=myfolder).count()
+            myfolder.save()
+
+    def delete(self, *args, **kwargs):
+        myfolder = self.list_number
+        super(Mylist, self).delete(*args, **kwargs)
+        myfolder.song_count = Mylist.objects.filter(list_number=myfolder).count()
+        myfolder.save()
