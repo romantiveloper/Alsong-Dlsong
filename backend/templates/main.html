@@ -30,6 +30,7 @@
                 </div>
             </div>
             
+            {% if request.user.is_authenticated %}
             <div class="main-banner">
                 <div class="dashboard"></div>
                 <div class="banner-profile">
@@ -64,6 +65,34 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="main-banner">
+                <div class="dashboard"></div>
+                <div class="banner-profile">
+
+                    <div class="profile-img-box">
+                        <div class="profile-img">
+                            <div class="Dicons">
+                                <img style="width: 56px; height: 72px" src="/static/img/music.svg" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-25">
+                        <div class="frame-25-text-1">아직 로그인을 안하셨나요??</div>
+                    </div>
+                    <div class="frame-1992">
+                        <div class="group-25">
+                            <div class="frame-1992-text-1" style="width: 180px;">
+                                <a href="/user/sign-in/">로그인 하러 가기 >>></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+
 
             <div class="recommend-banner">
                 <div class="recommend-title">
