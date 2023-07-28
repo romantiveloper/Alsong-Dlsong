@@ -51,7 +51,7 @@ class Song(models.Model):
     가수_KY = models.TextField(max_length=255, null=True, blank=True, default='none')
     melon_tj = models.TextField(max_length=255, null=True, blank=True, default='none')
     genre = models.TextField(max_length=255, null=True, blank=True, default='none')
-    master_number = models.TextField(max_length=255, null=True, blank=True, default='none')
+    master_number = models.IntegerField(primary_key=True)
 
     def __str__(self):
         return self.title
