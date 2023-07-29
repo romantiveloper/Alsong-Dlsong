@@ -11,6 +11,7 @@ urlpatterns = [
     path('main/',views.main, name='home'), # 메인페이지(top10, user님 취향에 맞는 콘텐츠)로 랜딩
     path('sign-up/', views.sign_up_view, name='sign-up'), # 회원가입 페이지로 랜딩
     path('sign-in/', views.sign_in_view, name='sign-in'), # 로그인 페이지로 랜딩
+    path('sign-in/', LoginView.as_view(template_name='user/sign-in.html'), name='sign-in'),
     path('kakao/', views.to_kakao, name='kakao'), # 카카오 로그인 하기
     path('kakao/callback/', views.from_kakao, name='kakako_login'), # 카카오 로그인에서 정보 가져오기
     path('logout/', views.log_out, name='logout'), # 로그아웃

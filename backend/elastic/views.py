@@ -10,7 +10,7 @@ from mylist.models import Myfolder
 class SearchView(APIView):
 
     def get(self, request):
-        es = Elasticsearch()
+        es = Elasticsearch(hosts="localhost:9200")
 
         # 검색어
         #search_word = request.query_params.get('search')
