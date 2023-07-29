@@ -1,61 +1,57 @@
 {% extends 'navbar.html' %}
-
-{% block content %}
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+{% block style %}
+<link rel="stylesheet" href="/static/css/signin-html.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
               integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
         {#            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">#}
-        <style>
-            .showcase {
-                z-index: 0;
-            }
+<style></style>
+{% endblock %}
+{% block content %}
 
-            .container {
-                max-width: 500px;
-                position: absolute;
-                top: 15%;
-                left: 50%;
-                transform: translate(-50%, 0);
-                width: 40%;
-            }
+<div class="main-html">
+    <div class="login-box">
+        <div class="login-box-style"></div>
+        <h1 class="login-box-text-1">알송달송 로그인</h1>
+        <form style="width: 70%;" method="post" action="/user/sign-in/">
+            {% csrf_token %}
+            <div class="basic-input">
+                <div class="input-box">
+                    <input class="input-box-text" type="text" id="user_id" name="user_id" placeholder="아이디">
+                </div>
+                <div class="input-box">
+                    <input class="input-box-text" type="password" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+            <hr>
+            <div class="login-button">
+                <button class="btn login-button-style" type="submit">로그인</button>
+            </div>
+            <div id="social-login">
+                <button style="width: 72%;" class="button is-small" id="kakao-btn" type="button">
+                            <span style="font-size: 13px;" class="icon">
+                              <i class="fas fa-comment"></i>
+                              카톡 로그인
+                            </span>
+                    <!-- <span>카카오톡으로 로그인하기</span> -->
+                </button>
+            </div>
+        </form>
+        <div class="id-password-box">
+            <div class="id-text">아이디 찾기</div>
+            <div class="password-text">비밀번호 찾기</div>
+        </div>
+        <div class="sign-up-box">
+            <div class="sign-up-box-text-1"> "아직 계정이 없으신가요?"
+                <a class="sign-up-box-text-2" href="/user/sign-up/">회원가입 하기</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
-            #social-login {
-                width: 80%;
-                margin: 40px auto;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            #social-login #github-btn {
-                width: 220px;
-                background-color: transparent;
-                border-radius: 2px;
-                border: 0.5px solid black;
-                padding: 10px;
-                color: white;
-                border-radius: 5px;
-                background: black;
-            }
-
-            #social-login #kakao-btn {
-                margin-top: 5px;
-                background-color: #fae100;
-                border-radius: 2px;
-                border: 0.5px solid #fae100;
-                padding: 10px;
-                border-radius: 5px;
-            }
-
-        </style>
-    </head>
-    </html>
+   
     <div class="container">
         <h1> 로그인</h1>
         <form method="post" action="/user/sign-in/">
@@ -107,6 +103,8 @@
         </div>        
     </div>
 {% endblock %}
+
+
 {% block script %}
     <script>
 
@@ -143,9 +141,6 @@
 
             });
         }});
-        findBtn.addEventListener('click', next1)
-        $.ajaxSetup({
-            headers: {"X-CSRFToken": '{{csrf_token}}'}
-        });
+        
     </script>
 {% endblock %}
