@@ -418,6 +418,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    min-width: 55px;
 }
 
 .song-list-tj {
@@ -427,6 +428,7 @@
     position: relative;
     width: 50px;
     white-space: nowrap;
+    min-width: 35px;
 }
 
 .song-list-ky {
@@ -436,6 +438,7 @@
     position: relative;
     width: 50px;
     white-space: nowrap;
+    min-width: 35px;
 }
 
 .checkbox {
