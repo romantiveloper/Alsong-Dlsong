@@ -34,6 +34,8 @@
             return cookieValue;
         }
 
+        var csrftoken;
+
         $(document).ready(function() {
             // CSRF 토큰 설정
             const csrftoken = getCookie('csrftoken');

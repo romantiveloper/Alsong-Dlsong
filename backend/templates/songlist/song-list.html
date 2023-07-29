@@ -1,7 +1,7 @@
 {% extends 'navbar.html' %}
 {% block style %}
 
-<link rel="stylesheet" href="/static/css/song-list-html.css">
+<link rel="stylesheet" href="/static/css/song-list-html2.css">
 
 {% endblock %}
 {% block content %}
@@ -146,6 +146,7 @@
                 var parsedResponse = JSON.parse(response);
                 if (parsedResponse.status === 'success') {
                     console.log('데이터 추가 성공');
+                    location.reload();
                     var successMessage = '추가되었습니다.';
                     alert(successMessage)
                 } else if (parsedResponse.status === 'error') {

@@ -288,18 +288,8 @@
     overflow-y: scroll;
   }
 
-  .modal_window::-webkit-scrollbar{
+.modal_window::-webkit-scrollbar{
     display: none;
-  }
-
-  .modal_window::-webkit-scrollbar-thumb{
-    background-color: #c6c7c8;
-    border-radius: 10px;
-  }
-
-  .modal_window::-webkit-scrollbar-track{
-    background-color: #ffffff;
-    border-radius: 10px;
   }
   
   .modal-title-side {

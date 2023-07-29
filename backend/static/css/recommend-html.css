@@ -49,6 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
 }
 
 .arrows-box {
@@ -83,6 +84,7 @@
     text-align: left;
     font: 900 24px/30px "Noto Sans KR", sans-serif;
     position: relative;
+    white-space: nowrap;
 }
 
 .pop-text-2 {
@@ -118,6 +120,7 @@
     text-align: left;
     font: 900 16px/22px "Noto Sans KR", sans-serif;
     position: relative;
+    white-space: nowrap;
 }
 
 .img-text-group {
@@ -157,6 +160,7 @@
     text-align: left;
     font: 500 14px/20px "Noto Sans KR", sans-serif;
     position: relative;
+    white-space: nowrap;
 }
 
 .text-box-text-2 {
@@ -168,6 +172,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
 }
 
 .clock-style {
@@ -189,6 +194,7 @@
     flex-shrink: 0;
     width: 100%;
     position: relative;
+    min-width: 195px;
 }
 
 .reload-text{
@@ -200,6 +206,7 @@
     font-weight: 500;
     line-height: 18px; /* 128.571% */
     letter-spacing: -0.21px;
+    white-space: nowrap;
 }
 
 .main-text {
