@@ -16,19 +16,21 @@
     <div class="main">
         <div class="logo-box">
             <div class="logo-text">
-                알송달송<br/>로고
+                <img style="width: 160%; height: 150%" src="/static/img/알송달송-로고-final_여백제거.png" />
             </div>
         </div>
 
         <div class="main-box">
-            <div class="searchbar">
-                <div class="search-img">
-                    <img src="/static/img/icon-search-normal-1.svg">
+            <a href="/song-list/search/" style="width: 80%;">
+                <div class="searchbar">
+                    <div class="search-img">
+                        <img src="/static/img/icon-search-normal-1.svg">
+                    </div>
+                    <div class="search-text">
+                        부르고 싶은 곡을 검색하세요!
+                    </div>
                 </div>
-                <div class="search-text">
-                    부르고 싶은 곡을 검색하세요!
-                </div>
-            </div>
+            </a>
             
             {% if request.user.is_authenticated %}
             <div class="main-banner">
@@ -92,13 +94,14 @@
 
             {% endif %}
 
-
-
+            
             <div class="recommend-banner">
-                <div class="recommend-title">
-                    <div class="ai">Ai 부를곡 추천 받기!</div>
-                    <img class="frame-4" src="/static/img/vector.svg">
-                </div>
+                <a href="/recommend/">
+                    <div class="recommend-title">
+                        <div class="ai">Ai 부를곡 추천 받기!</div>
+                        <img class="frame-4" src="/static/img/vector.svg">
+                    </div>
+                </a>
             </div>
 
             <div class="folder-box">
