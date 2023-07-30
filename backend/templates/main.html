@@ -149,6 +149,7 @@
     <div class="modal_window">
         <div class="modal_title">
             <div class="modal_title_side"></div>
+            <div class="modal-title-center">폴더 생성</div>
             <div class="modal_title_side">
                 <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 15px">
                     X
@@ -156,12 +157,12 @@
             </div>
         </div>
         <div class="modal_content_write">
-            <div style="height: 150px">
-                <textarea id="input_list_name" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요"></textarea>
+            <div class="feed_content_textarea">
+                <input id="input_list_name" class="feed_content_textarea-box col-sm-5" rows="10" placeholder="7글자 이하 폴더 이름을 입력하세요"></input>
             </div>
-            <div style="width: 100%; text-align: center">
-                <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 추가하기</button>
-            </div>
+        </div>
+        <div class="modal-add-button-box">
+            <button id="button_write_feed" type="button" class="modal-add-button btn btn-primary"> 추가하기</button>
         </div>
     </div>
 </div>
@@ -246,6 +247,11 @@
 
     $('#button_write_feed').on('click', () => {
         const list_name = $('#input_list_name').val();
+
+        if (list_name.length >= 7) {
+                alert('폴더 이름이 너무 깁니다. 7글자 이하로 입력해 주세요.');
+                return error;
+            }
 
         let fd = new FormData();
 

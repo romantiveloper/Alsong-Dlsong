@@ -87,7 +87,7 @@
 .pop-text-2 {
     color: var(--white, #ffffff);
     text-align: left;
-    font: 400 14px/20px "Noto Sans KR", sans-serif;
+    font: 400 13px/20px "Noto Sans KR", sans-serif;
     position: relative;
     width: 342px;
 }
@@ -154,8 +154,8 @@
     justify-content: flex-start;
     position: relative;
     padding-top: 52px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-bottom: 56px;
   }
 
@@ -211,14 +211,18 @@
 .title-text {
     color: var(--main, #1e1f4b);
     text-align: left;
-    font: 700 14px "Noto Sans KR", sans-serif;
+    font: 700 13px "Noto Sans KR", sans-serif;
     position: relative;
     width: 100px;
     height: 23px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+}
 
+.title-text::-webkit-scrollbar{
+  display: none;
 }
 
 .artist-text{
@@ -227,11 +231,15 @@
     font: 400 12px "Noto Sans KR", sans-serif;
     position: relative;
     height: 17px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow-x: scroll;
     width: 80px;
 }
+
+.artist-text::-webkit-scrollbar{
+  display: none;
+}
+
 
 .tj {
     color: #ff4b00;

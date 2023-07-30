@@ -3,13 +3,17 @@
   box-sizing: border-box;
 }
 .mylist {
-  background: #f5f8ff;
-  border-radius: 32px;
-  padding: 10px;
-  width: 100%;
-  min-width: 350px;
-  position: relative;
-  padding-bottom: 56px;
+    background: #f5f8ff;
+    border-radius: 32px;
+    padding: 10px;
+    width: 100%;
+    min-width: 350px;
+    position: relative;
+    padding-bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
 }
 
 .mylist-flex-group {
@@ -22,7 +26,6 @@
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 300px;
 }
 
 .mylist-top {
@@ -32,7 +35,7 @@
     position: absolute;
     left: 0px;
     top: 0px;
-    min-width: 400px;
+    min-width: 350px;
     border-top-left-radius: 32px;
     border-top-right-radius: 32px;
   }
@@ -99,11 +102,11 @@
 .card {
     width: 90%;
     height: 189px;
-    position: absolute;
+    position: relative;
     transform-origin: 0 0;
     transform: rotate(0deg) scale(1, 1);
-    top: 130px;
-    left: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .mask-group {
@@ -164,14 +167,29 @@
 .list-name {
     color: var(--other-colors-white, #ffffff);
     text-align: center;
-    font: 700 32px/150% "Noto Sans KR", sans-serif;
+    font: 700 27px/150% "Noto Sans KR", sans-serif;
     position: relative;
-    left: 0px;
-    top: 20px;
+}
+
+.title-box {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 32px;
+}
+
+.title-box-1 {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
 }
 
 .title-img {
-    position: absolute;
+    position: relative;
     inset: 0;
 }
 
@@ -180,19 +198,18 @@
     border-radius: 50%;
     width: 53px;
     height: 53px;
-    position: absolute;
-    left: 24px;
-    top: 20px;
+    position: relative;
     transform-origin: 0 0;
     transform: rotate(0deg) scale(1, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title-img-style {
     width: 33px;
     height: 29px;
-    position: absolute;
-    left: 34px;
-    top: 33px;
+    position: relative;
     transform-origin: 0 0;
     transform: rotate(0deg) scale(1, 1);
 }
@@ -201,7 +218,6 @@
     text-align: center;
     position: relative;
     left: 0px;
-    top: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -390,7 +406,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    gap: 30px;
+    gap: 12px;
 }
 
 .song-list-title {
@@ -402,10 +418,13 @@
     top: 0px;
     width: 130px;
     min-width: 100px;
-    overflow: hidden;
+    overflow: scroll;
     white-space: nowrap;
-    text-overflow: ellipsis;
 }
+
+.song-list-title::-webkit-scrollbar{
+    display: none;
+  }
 
 .song-list-artist {
     color: var(--sub, #37385e);
@@ -415,11 +434,15 @@
     left: 0px;
     top: 0px;
     width: 80px;
-    overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
     min-width: 55px;
+    overflow: scroll;
+    white-space: nowrap;
 }
+
+.song-list-artist::-webkit-scrollbar{
+    display: none;
+  }
 
 .song-list-tj {
     color: #ff4b00;

@@ -8,12 +8,10 @@ from mylist.models import Myfolder
   
 
 class SearchView(APIView):
-
     def get(self, request):
         es = Elasticsearch()
 
         # 검색어
-        #search_word = request.query_params.get('search')
         query = request.GET.get('query')
         user_id = request.user
         folders = Myfolder.objects.filter(user_id=user_id)
@@ -53,15 +51,8 @@ class SearchView(APIView):
         else:
            results = []
 
-        
-
         print(results)
-        # title = [x['_source']['title'] for x in data_list['hits']]
-        # artist = [x['_source']['artist'] for x in data_list['hits']]
-        # ky = [x['_source']['ky_song_num_id'] for x in data_list['hits']]
-        # tj = [x['_source']['tj_song_num_id'] for x in data_list['hits']]
 
         data = {'results':results, 'folders':folders}
-
 
         return render(request, 'search_results.html', data)

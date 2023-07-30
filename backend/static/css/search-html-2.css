@@ -208,10 +208,12 @@
     position: relative;
     width: 100px;
     height: 23px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow-x: scroll;
+}
 
+.title-text::-webkit-scrollbar{
+  display: none;
 }
 
 .artist-text{
@@ -220,9 +222,12 @@
     font: 400 12px "Noto Sans KR", sans-serif;
     position: relative;
     height: 17px;
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow-x: scroll;
+}
+
+.artist-text::-webkit-scrollbar{
+  display: none;
 }
 
 .tj {

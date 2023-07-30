@@ -7,6 +7,13 @@
 
 <div class="mylist">
     <div class="mylist-top"></div>
+    <div class="mylist-title">
+        <div class="arrows" style="width: 7px; height: 14px;">
+            <img class="arrwos-style" src="/static/img/vector2.svg">
+        </div>
+        <div class="mylist-title-text">달송 폴더</div>
+        <div class="more"></div>
+    </div>
     <div class="card">
         <div class="mask-group">
             <div class="rectangle-356"></div>
@@ -14,22 +21,23 @@
             <div class="rectangle-368"></div>
             <div class="rectangle-369"></div>
         </div>
+        <div class="title-box">
+            <div class="title-box-1">
+                <div class="title-img-box">
+                    <img class="title-img-style" src="/static/img/mic-dicons.svg" />
+                </div>
+                {% for folder in folders %}
+                <div class="list-name">
+                    {{folder.list_name}}
+                </div>
+            </div>
 
-        <div class="title-img">
-            <div class="title-img-box"></div>
-        
-            <img class="title-img-style" src="/static/img/mic-dicons.svg" />
+            <div class="title-text-box">
+                <div class="title-text-2">{{folder.song_count}}</div>
+                <div class="title-text-1">곡 달릴 예정</div>
+            </div>
+            {% endfor %}
         </div>
-        {% for folder in folders %}
-        <div class="list-name">
-            {{folder.list_name}}
-        </div>
-
-        <div class="title-text-box">
-            <div class="title-text-2">{{folder.song_count}}</div>
-            <div class="title-text-1">곡 달릴 예정</div>
-        </div>
-        {% endfor %}
     </div>
 
     <div class="edit-delete-box">
@@ -53,14 +61,6 @@
             
             {% endfor %}
         </div>
-    </div>
-
-    <div class="mylist-title">
-        <div class="arrows" style="width: 7px; height: 14px;">
-            <img class="arrwos-style" src="/static/img/vector2.svg">
-        </div>
-        <div class="mylist-title-text">달송 폴더</div>
-        <div class="more"></div>
     </div>
 
     <div class="mylist-flex-group">
@@ -260,6 +260,12 @@
             console.log(listNumber);
             console.log(newFolderName);
 
+            // newFolderName의 길이가 8글자 이상인지 확인
+            if (newFolderName.length >= 7) {
+                alert('폴더 이름이 너무 깁니다. 7글자 이하로 입력해 주세요.');
+                return error;
+            }
+
             // 해당 폴더의 이름을 변경하는 Ajax 요청을 보내는 코드 추가
             $.ajax({
                 url: '/mylist/editfolder/',
@@ -284,6 +290,7 @@
             editModal.style.visibility = 'hidden';
             editModal.style.opacity = '0';
         });
+
 
         confirmEditButton.addEventListener('click', function() {
             const listNumber = folderEditButton.getAttribute('data-list-number');
