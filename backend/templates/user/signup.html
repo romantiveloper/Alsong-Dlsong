@@ -19,71 +19,48 @@
 <div class="main-html">
     <div class="sign-up-box">
         <div class="sign-up-box-style"></div>
-        
-    </div>
-</div>
+        <div class="sign-up-box-text-1">회원가입</div>
+        <div class="basic-input">
+            <div class="input-box">
+                <input type="text" class="input-box-text" id="username" name="username" value="{{form.username}}" placeholder="이름">
+            </div>
 
+            <div class="input-box">
+              <input type="text" class="input-box-text" id="user_id" name="user_id" value="{{form.user_id}}" placeholder="아이디">
+            </div>
 
+            <div class="input-box">
+              <input type="password" class="input-box-text"  id="password1" name="password1" value="{{form.password1}}"  placeholder="비밀번호">
+            </div>
+            <div class="input-box">
+              <input type="password" class="input-box-text"  id="password2" name="password2" value="{{form.password2}}"  placeholder="비밀번호 확인">
+            </div>
+            <div class="input-box">
+              <input type="text" class="input-box-text"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="닉네임">
+            </div>
+            <div class="input-box">
+                <input type="email" class="input-box-text" name="email" id="email" value="{{form.email}}" placeholder="이메일">
+            </div>
+            <div  class="input-box">
+                <input type="date" class="input-box-text" name="birthday" id="birthday" value="{{form.birthday}}" placeholder="인증 번호">
+            </div>
 
-
-
-    <div class="container">
-     
-            <h2 > 회원가입 </h2>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" value="{{form.username}}" placeholder="김알송">
-                    <label for="username">이름</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="user_id" name="user_id" value="{{form.user_id}}" placeholder="아이디">
-                  <label for="user_id">아이디</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                  <input type="password" class="form-control"  id="password1" name="password1" value="{{form.password1}}"  placeholder="비밀번호">
-                  <label for="password1">비밀번호</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input type="password" class="form-control"  id="password2" name="password2" value="{{form.password2}}"  placeholder="비밀번호 확인">
-                  <label for="password2">비밀번호 확인</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input type="text" class="form-control"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="닉네임">
-                  <label for="nickname">닉네임</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" name="email" id="email" value="{{form.email}}" placeholder="name@example.com">
-                    <label for="email">이메일</label>
-                </div>
-                <!-- <div class="form-floating mb-3">
-                    <button id="submit" class="btn btn-primary">인증번호 보내기</button></div>
-                <div  class="form-floating mb-3">
-                    <input type="text" class="form-control" name="text2" id="text2" placeholder="인증 번호">
-                    <label for="text2">인증번호</label>
-                </div> -->
-                <div  class="form-floating mb-3">
-                    <input type="date" class="form-control" name="birthday" id="birthday" value="{{form.birthday}}" placeholder="인증 번호">
-                    <label for="birthday">생년월일</label>
-                </div>
-
-                <div class="mb-3">
-                    <select class="form-select" aria-label="Default select example" name="gender" id="gender">
-                        <option value="1" selected="">성별</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-                <div class="form-floating mb-3">
-                    <button id='signBtn' class="btn btn-primary" >회원가입</button>
-                </div>
-
-            
-            <!-- </form> -->
-            <a href="{% url 'user:sign-in' %}">로그인 페이지로</a>
+            <div class="input-box" style="width: 40%;">
+                <select class="input-box-text" style="height: 30px; width: 80%;" aria-label="Default select example" name="gender" id="gender">
+                    <option value="1" selected="">성별</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
+            <div class="sign-up-button">
+                <button id='signBtn' class="btn sign-up-button-style" >회원가입</button>
+            </div>
+            <div class="sign-up-box-1">
+                <a class="sign-up-box-text-2" href="{% url 'user:sign-in' %}">로그인 페이지로</a>
+            </div>
         </div>
     </div>
-
+</div>
 
     
 {% endblock %}
