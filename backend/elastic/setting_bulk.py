@@ -37,6 +37,9 @@ es.indices.create(
                 },
                 "tj_song_num_id": {
                     "type": "integer"
+                },
+                "master_number": {
+                    "type": "integer"
                 }
             }
         }
@@ -45,7 +48,7 @@ es.indices.create(
 
 import json
 
-with open("./total-song.json", encoding='utf-8') as json_file:
+with open("./total-song2.json", encoding='utf-8') as json_file:
     json_data = json.loads(json_file.read())
 
 songs = json_data['rows']

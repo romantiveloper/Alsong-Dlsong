@@ -88,8 +88,8 @@ class SearchView(APIView):
                                 })
 
             data_list = docs['hits']
-            Song = namedtuple("Song", ["title", "artist", "ky", "tj"])
-            results = [Song(x['_source']['title'], x['_source']['artist'], x['_source']['ky_song_num_id'], x['_source']['tj_song_num_id']) for x in data_list['hits']]
+            Song = namedtuple("Song", ["title", "artist", "ky", "tj", "master_number"])
+            results = [Song(x['_source']['title'], x['_source']['artist'], x['_source']['ky_song_num_id'], x['_source']['tj_song_num_id'], x['_source']['master_number']) for x in data_list['hits']]
         
         else:
            results = []
@@ -97,10 +97,6 @@ class SearchView(APIView):
         
 
         print(results)
-        # title = [x['_source']['title'] for x in data_list['hits']]
-        # artist = [x['_source']['artist'] for x in data_list['hits']]
-        # ky = [x['_source']['ky_song_num_id'] for x in data_list['hits']]
-        # tj = [x['_source']['tj_song_num_id'] for x in data_list['hits']]
 
         data = {'results':results, 'folders':folders}
 
