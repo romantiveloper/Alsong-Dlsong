@@ -8,6 +8,7 @@
   width: 100%;
   /* height: 844px; */
   position: relative;
+  min-width: 350px;
 }
 
 .search-html-top {
