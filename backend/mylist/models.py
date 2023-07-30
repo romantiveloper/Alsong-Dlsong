@@ -1,5 +1,5 @@
 from django.db import models
-from song.models import Kysong, Tjsong
+from song.models import Kysong, Tjsong, Song
 from user.models import User
 import random
 
@@ -27,7 +27,7 @@ class Mylist(models.Model):
     tj_number = models.ForeignKey(Tjsong, on_delete=models.CASCADE, related_name='mylist_set', to_field='song_num')
     list_number = models.ForeignKey('Myfolder', on_delete=models.CASCADE, default=1)
     update_date = models.DateTimeField(auto_now=True)
-
+    master_number = models.IntegerField()
     def __str__(self):
         return self.title
     

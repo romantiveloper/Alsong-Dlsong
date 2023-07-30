@@ -52,11 +52,10 @@
   background: #f5f8ff;
   padding: 10px;
   width: 100%;
-  height: 800px;
+  height: 700px;
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .login-box {
@@ -68,6 +67,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    padding-top: 70px;
   }
   .login-box-style {
     background: var(--ui-white, #45d3b1);
@@ -149,6 +149,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    padding-top: 20px;
   }
 
   .id-text {
