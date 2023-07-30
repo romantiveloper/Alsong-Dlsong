@@ -8,9 +8,11 @@
 <div class="mylist">
     <div class="mylist-top"></div>
     <div class="mylist-title">
-        <div class="arrows" style="width: 7px; height: 14px;">
-            <img class="arrwos-style" src="/static/img/vector2.svg">
-        </div>
+        <a href="/">
+            <div class="arrows" style="width: 7px; height: 14px;">
+                <img class="arrwos-style" src="/static/img/vector2.svg">
+            </div>
+        </a>
         <div class="mylist-title-text">달송 폴더</div>
         <div class="more"></div>
     </div>
@@ -73,8 +75,9 @@
                 <div class="checkbox-off">
                     <div style="width: 20px; height: 20px;"></div>
                 </div>
-                <div class="song-list-title">곡명</div>
-                <div class="song-list-artist">가수</div>
+                
+                <div class="song-list-title">곡명/아티스트</div>
+                <!-- <div class="song-list-artist">가수</div> -->
                 <div class="song-list-tj">TJ곡번호</div>
                 <div class="song-list-ky">KY곡번호</div>
             </div>
@@ -83,8 +86,10 @@
                 <div class="checkbox">
                     <button id="choice-button-{{ song.id }}" class="checkbox-style" data-song-id="{{ song.id }}"></button>
                 </div>
-                <div class="song-list-title">{{song.title}}</div>
-                <div class="song-list-artist">{{song.artist}}</div>
+                <div class="title-artist-box">
+                    <div class="song-list-title">{{song.title}}</div>
+                    <div class="song-list-artist">{{song.artist}}</div>
+                </div>
                 <div class="song-list-tj">{{song.tj_number_id}}</div>
                 <div class="song-list-ky">{{song.ky_number_id}}</div>
             </div>

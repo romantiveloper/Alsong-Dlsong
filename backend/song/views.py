@@ -249,6 +249,7 @@ def add_to_kylist(request):
 
         print(ky_song_num)
         song_data = Song.objects.get(ky_song_num=ky_song_num)
+        print("~~~~~~~~~~~~~~~~~~~")
         print(song_data)
 
         # 중복된 데이터 확인

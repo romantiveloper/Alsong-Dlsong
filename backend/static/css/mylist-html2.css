@@ -400,22 +400,27 @@
 .song-list-text {
     text-align: center;
     position: relative;
-    left: 0px;
-    top: 0px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    gap: 12px;
+    gap: 20px;
 }
+
+.title-artist-box {
+    width: 130px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
 .song-list-title {
     color: var(--main, #1e1f4b);
     text-align: left;
-    font: 700 8px "Noto Sans KR", sans-serif;
+    font: 700 14px "Noto Sans KR", sans-serif;
     position: relative;
-    left: 0px;
-    top: 0px;
     width: 130px;
     min-width: 100px;
     overflow: scroll;
@@ -429,12 +434,9 @@
 .song-list-artist {
     color: var(--sub, #37385e);
     text-align: left;
-    font: 400 8px "Noto Sans KR", sans-serif;
+    font: 400 10px "Noto Sans KR", sans-serif;
     position: relative;
-    left: 0px;
-    top: 0px;
     width: 80px;
-    text-overflow: ellipsis;
     min-width: 55px;
     overflow: scroll;
     white-space: nowrap;
@@ -447,7 +449,7 @@
 .song-list-tj {
     color: #ff4b00;
     text-align: center;
-    font: 400 8px "Noto Sans KR", sans-serif;
+    font: 400 12px "Noto Sans KR", sans-serif;
     position: relative;
     width: 50px;
     white-space: nowrap;
@@ -457,7 +459,7 @@
 .song-list-ky {
     color: #836cde;
     text-align: center;
-    font: 400 8px "Noto Sans KR", sans-serif;
+    font: 400 12px "Noto Sans KR", sans-serif;
     position: relative;
     width: 50px;
     white-space: nowrap;
@@ -479,8 +481,6 @@
     width: 20px;
     height: 20px;
     position: relative;
-    left: 0px;
-    top: 0px;
     box-shadow: var(
         --field-inset-box-shadow,
         inset 0px 2px 2px -1px rgba(74, 74, 104, 0.1)
@@ -494,8 +494,6 @@
     width: 20px;
     height: 20px;
     position: relative;
-    left: 0px;
-    top: 0px;
     box-shadow: var(
       --field-inset-box-shadow,
       inset 0px 2px 2px -1px rgba(74, 74, 104, 0.1)
