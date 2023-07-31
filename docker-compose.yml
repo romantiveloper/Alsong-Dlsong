@@ -37,3 +37,23 @@ services:
           - ./letsencrypt:/etc/letsencrypt
         depends_on:
               - nginx
+    
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq_ctn
+        restart: unless-stopped
+        ports:
+          - "5672:5672"
+          - "15672:15672"
+          - "25672:25672"
+        volumes:
+          - ./config/rabbitmq/etc/:/etc/rabbitmq/
+          - ./config/rabbitmq/data/:/var/lib/rabbitmq/
+          - ./config/rabbitmq/logs/:/var/log/rabbitmq/
+          - ./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+          - ./config/rabbitmq/my_definition.json:/etc/rabbitmq/my_definition.json
+        environment:
+          RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
+          RABBITMQ_DEFAULT_USER: "admin"
+          RABBITMQ_DEFAULT_PASS: "AlsongDlsong"  
+
