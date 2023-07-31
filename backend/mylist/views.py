@@ -22,6 +22,7 @@ def mylist(request):
     user = User.objects.filter(user_id=user_id)
     print(folder_list)
     print(user_id)
+    
 
     data = {'folder_list':folder_list, 'user':user}
     return render(request, 'main.html', data)
@@ -39,15 +40,7 @@ def add_list(request):
 
     return Response(status=200)
 
-# @api_view(['POST'])
-# def add_list(request):
-#     print("add_list 실행")
-#     list_name = request.POST.get('list_name')
-#     user_obj = User.objects.get(id=request.user.id)
-#     print(list_name)
-#     Myfolder.objects.create(list_name=list_name, user_id=user_obj)
 
-#     return Response(status=200)
 
 @api_view(['GET'])
 def mylist_detail(request, list_number):
@@ -55,11 +48,10 @@ def mylist_detail(request, list_number):
     lists = Mylist.objects.filter(list_number=list_number)
     folders = Myfolder.objects.filter(list_number=list_number)
     test = Song.objects.all()
-    recommend = random.sample(list(test), 3)
 
-    print(recommend)
+
     print(lists)
-    data = {'lists':lists, 'folders':folders, 'recommend':recommend}
+    data = {'lists':lists, 'folders':folders}
     return render(request, 'songlist/mylist.html', data)
 
 

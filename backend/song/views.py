@@ -151,6 +151,10 @@ def add_to_search(request):
         artist = data['artist']
         ky_number = data['kySongNum']
         tj_number = data['tjSongNum']
+        master_number = data['master']
+
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("master:", master_number)
 
         # 중복된 데이터 확인
         duplicate_records = Mylist.objects.filter(
@@ -177,7 +181,8 @@ def add_to_search(request):
             writer=writer,
             ky_number_id=ky_number,
             tj_number_id=tj_number,
-            list_number_id=list_number
+            list_number_id=list_number,
+            master_number=master_number
         )
         mylist.save()
 
@@ -200,6 +205,7 @@ def add_to_tjlist(request):
 
         print(tj_song_num)
         song_data = Song.objects.get(tj_song_num=tj_song_num)
+        print("~~~~~~~~~~~~~~~~~")
         print(song_data)
 
         # 중복된 데이터 확인
@@ -223,7 +229,8 @@ def add_to_tjlist(request):
             writer = song_data.writer,
             ky_number_id = song_data.ky_song_num_id,
             tj_number_id = song_data.tj_song_num_id,
-            list_number_id = list_number
+            list_number_id = list_number,
+            master_number = song_data.master_number
         )
         mylist.save()
 
@@ -269,7 +276,8 @@ def add_to_kylist(request):
             writer = song_data.writer,
             ky_number_id = song_data.ky_song_num_id,
             tj_number_id = song_data.tj_song_num_id,
-            list_number_id = list_number
+            list_number_id = list_number,
+            master_number = song_data.master_number
         )
         mylist.save()
 

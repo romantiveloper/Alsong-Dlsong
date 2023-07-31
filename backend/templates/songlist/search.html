@@ -238,7 +238,8 @@
                                 data-title="{{ result.title }}"
                                 data-artist="{{ result.artist }}"
                                 data-cmp="{{ result.cmp }}"
-                                data-writer="{{ result.writer }}">
+                                data-writer="{{ result.writer }}"
+                                data-master="{{ result.master_number }}">
                             <img style="width: 18px; height: 18px;" src="/static/img/icon-add.svg">
                         </button>
                     </div>
@@ -306,6 +307,7 @@
             var button = e.target.closest('.button-add-list');
             // Assign song data on selectedSongData
             selectedSongData = {
+                master: button.getAttribute('data-master'),
                 kySongNum: button.getAttribute('data-ky'),
                 tjSongNum: button.getAttribute('data-tj'),
                 title: button.getAttribute('data-title'),
@@ -323,6 +325,8 @@
             var listNumber = folderElement.getAttribute('data-list-number');
             var listName = folderElement.querySelector('.list-name').textContent.trim();
 
+            console.log(selectedSongData)
+
             // Merge the song and folder data into one object
             var sendData = Object.assign({}, selectedSongData, { listNumber, listName });
 
@@ -339,6 +343,7 @@
                     var parsedResponse = JSON.parse(response);
                     if (parsedResponse.status === 'success') {
                         console.log('데이터 추가 성공');
+                        location.reload();
                         var successMessage = '추가되었습니다.';
                         alert(successMessage)
                     } else if (parsedResponse.status === 'error') {

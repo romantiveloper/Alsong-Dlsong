@@ -181,12 +181,12 @@ def from_kakao(request):
     user_id = res_dict.get('id')
     properties = res_dict.get('properties')
 
-    username = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
+    username = res_dict.get('id')
     email = res_dict.get('kakao_account', {}).get('email', None)
     uid = 'kakao_{}'.format(res_dict.get('id'))
     
     #username = properties.get('nickname', None)
-    nickname = username
+    nickname = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
     birthday = kakao_account.get('birthday', None)
@@ -208,7 +208,7 @@ def from_kakao(request):
 
 
     except:
-        user = models.User.objects.create(user_id=user_id, nickname=nickname, profile_img=profile_img, 
+        user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
                                    email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
 
         user.set_unusable_password()

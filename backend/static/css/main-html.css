@@ -141,6 +141,7 @@ li, ol, ul{
     display: flex;
     text-align: center; 
     color: black; 
+    background-color: #f5f8ff;
     font-size: 12px; 
     font-family: Inter; 
     font-weight: 500; 
