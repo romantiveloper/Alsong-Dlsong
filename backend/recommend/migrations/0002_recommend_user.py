@@ -10,18 +10,13 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('mylist', '0001_initial'),
+        ('recommend', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mylist',
-            name='user',
-            field=models.ForeignKey(default='none', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='user_id'),
-        ),
-        migrations.AddField(
-            model_name='myfolder',
+            model_name='recommend',
             name='user',
             field=models.ForeignKey(default='none', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='user_id'),
         ),
