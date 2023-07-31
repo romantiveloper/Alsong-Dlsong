@@ -1,0 +1,39 @@
+version: "3"
+services:
+    web:
+        build: .
+        container_name: django_ctn
+        restart: unless-stopped
+        command: bash -c "
+            python3 manage.py collectstatic --no-input &&
+            python3 manage.py makemigrations && 
+            python3 manage.py migrate && 
+            gunicorn config.wsgi:application -b 0:8000"      
+        volumes:
+            - ./src:/src
+
+    nginx:
+        image: nginx:1.17.10
+        container_name: nginx_ctn
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        volumes:
+            - ./src:/src
+            - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - web
+    
+    nginx-proxy-manager:
+        image: 'jc21/nginx-proxy-manager:latest'
+        container_name: nginx_manager_ctn
+        restart: unless-stopped
+        ports:
+          - "80:80"
+          - "81:81"
+          - "443:443"
+        volumes:
+          - ./src:/src
+          - ./letsencrypt:/etc/letsencrypt
+        depends_on:
+              - nginx
