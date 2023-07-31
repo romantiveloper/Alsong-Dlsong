@@ -8,6 +8,7 @@
   width: 100%;
   height: auto;
   position: relative;
+  min-width: 350px;
 }
 
 .bg-gradation {
@@ -86,6 +87,7 @@
     position: relative;
     display: flex;
     justify-content: space-evenly;
+    gap: 10px;
   }
 
   .edit-profile {

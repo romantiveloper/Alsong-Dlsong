@@ -50,58 +50,6 @@
 </div>
 
 
-
-   
-    <div class="container">
-        <h1> 로그인</h1>
-        <form method="post" action="/user/sign-in/">
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="아이디">
-                <label for="user_id">아이디</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                <label for="password">비밀번호</label>
-            </div>
-
-            <hr>
-            {% if error %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endif %}
-
-            <div class="form-floating mb-3">
-                <button class="btn btn-primary" type="submit">로그인</button>
-            </div>
-        </form>
-        <div id="social-login">
-            <button class="button is-small" id="kakao-btn" type="button">
-                        <span class="icon">
-                          <i class="fas fa-comment"></i>
-                        </span>
-                <span>카카오톡으로 로그인하기</span>
-            </button>
-            <br>
-            <br>
-            <div class="form-floating mb-3">
-                <button id="find_pw" class="btn btn-rounded">비밀번호 찾기</button>
-            </div>
-            <div hidden id="hidden_box">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="find_id" name="password" placeholder="아이디">
-                    <label for="password">아이디를 적어주세요</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <button id="find" class="btn btn-rounded">임시 비밀번호 전송</button>
-                </div>
-            </div>
-        </div>
-        <div style="margin-bottom : 50px; margin-left : 120px">
-        <a href="{% url 'user:sign-up' %}">회원가입 페이지로</a>
-        </div>        
-    </div>
 {% endblock %}
 
 

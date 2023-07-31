@@ -8,6 +8,7 @@
     width: 100%;
     height: auto;
     position: relative;
+    min-width: 350px;
 }
 
 .ai-top {
@@ -101,6 +102,9 @@
     width: 100%;
     height: 190px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .model-text-box {
@@ -110,9 +114,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
-    width: 60%;
-    padding-top: 20px;
-    padding-left: 12px;
+    width: 80%;
 }
 
 .model-text-1 {
@@ -192,7 +194,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 100%;
+    width: 250px;
     position: relative;
     min-width: 195px;
 }

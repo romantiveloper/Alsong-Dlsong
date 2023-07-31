@@ -26,6 +26,7 @@
   position: relative;
   display: flex;
   justify-content: center;
+  min-width: 350px;
 }
 
 .sign-up-box {
