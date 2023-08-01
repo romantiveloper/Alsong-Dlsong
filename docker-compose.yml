@@ -3,7 +3,7 @@ services:
     web:
         build: .
         container_name: django_ctn
-        restart: unless-stopped
+        restart: "no"
         command: bash -c "
             python3 manage.py collectstatic --no-input &&
             python3 manage.py makemigrations && 
@@ -11,25 +11,30 @@ services:
             gunicorn config.wsgi:application -b 0:8000"      
         volumes:
             - ./src:/src
+        networks:
+            - custom_network
 
     nginx:
         image: nginx:1.17.10
         container_name: nginx_ctn
-        restart: unless-stopped
+        restart: "no"
         ports:
             - "80:80"
         volumes:
             - ./src:/src
             - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./src/static:/src/static_root  
         depends_on:
             - web
+        networks:
+            - custom_network
     
     nginx-proxy-manager:
         image: 'jc21/nginx-proxy-manager:latest'
         container_name: nginx_manager_ctn
-        restart: unless-stopped
+        restart: "no"
         ports:
-          - "80:80"
+          - "8080:80"
           - "81:81"
           - "443:443"
         volumes:
@@ -37,23 +42,31 @@ services:
           - ./letsencrypt:/etc/letsencrypt
         depends_on:
               - nginx
+        networks:
+            - custom_network
     
     rabbitmq:
         image: rabbitmq:management
         container_name: rabbitmq_ctn
-        restart: unless-stopped
-        ports:
-          - "5672:5672"
-          - "15672:15672"
-          - "25672:25672"
+        restart: "no"
         volumes:
           - ./config/rabbitmq/etc/:/etc/rabbitmq/
           - ./config/rabbitmq/data/:/var/lib/rabbitmq/
           - ./config/rabbitmq/logs/:/var/log/rabbitmq/
-          - ./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-          - ./config/rabbitmq/my_definition.json:/etc/rabbitmq/my_definition.json
+        user: "1001:1002"
+        ports:
+          - "5672:5672"
+          - "15672:15672"
+          - "25672:25672"
         environment:
           RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
           RABBITMQ_DEFAULT_USER: "admin"
-          RABBITMQ_DEFAULT_PASS: "AlsongDlsong"  
+          RABBITMQ_DEFAULT_PASS: "AlsongDlsong"
+        networks:
+            - custom_network
+
+networks:
+    custom_network:
+        driver: bridge
+
 
