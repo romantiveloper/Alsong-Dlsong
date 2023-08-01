@@ -17,6 +17,7 @@ from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
 
@@ -96,7 +97,7 @@ DATABASES = {
         "NAME": "final",
         "USER": "heesu",
         "PASSWORD": secrets['DB_KEY'],
-        "HOST": "34.22.93.218",
+        "HOST": "35.216.91.72",
         "PORT": "5432",
     }
 }
@@ -141,10 +142,16 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-STATIC_URL = "/static/"
+STATIC_URL = '/static_root/'
+
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
+
 
 LOGIN_URL = '/user/sign-in/'
 
