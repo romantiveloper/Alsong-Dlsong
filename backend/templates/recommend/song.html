@@ -58,29 +58,6 @@
         </div>
 
         <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
-
-        <div class="recommend-song-box">
-            <div class="recommend-song">
-                <div class="avatar-05">
-                    <img class="ellipse-144" src="/static/img/music.svg">
-                </div>
-                <div class="recommend-title-artist">
-                    <div class="recommend-title-text">곡 제목</div>
-                    <div class="recommend-artist-text">가수</div>
-                </div>
-            </div>
-        </div>
-        <div class="recommend-song-box">
-            <div class="recommend-song">
-                <div class="avatar-05">
-                    <img class="ellipse-144" src="/static/img/music.svg">
-                </div>
-                <div class="recommend-title-artist">
-                    <div class="recommend-title-text">곡 제목</div>
-                    <div class="recommend-artist-text">가수</div>
-                </div>
-            </div>
-        </div>
         <div class="recommend-song-box">
             <div class="recommend-song">
                 <div class="avatar-05">
@@ -188,7 +165,7 @@
     function handleEnterKeyPress(event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            $('#search-button').click(); // "로그인" 버튼 클릭 이벤트 발생
+            $('#search-button').click(); 
         }
     }
 
@@ -216,7 +193,55 @@
         });
     });
 
-    
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list-name').textContent.trim();
+
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, { listNumber, listName });
+
+            
+
+            $.ajax({
+            type: 'POST',
+            url: '/recommend/process/',
+            dataType: 'json',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            
+            success: function(response) {
+                const jsonResponse = response;
+
+                if (jsonResponse.status === 'success') {
+                    console.log('데이터 전송 완료');
+                    location.reload();
+                    var successMessage = '추천 모델 돌아가는 중';
+                    alert(successMessage);
+                } else if (jsonResponse.status === 'error') {
+                    console.log('데이터 전송 실패: ' + jsonResponse.message);
+                    var errorMessage = '추천 모델 오류 발생';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+
+            console.log(sendData);
+        }
+    });
 
 
     document.addEventListener("DOMContentLoaded", function() {

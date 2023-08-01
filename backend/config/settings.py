@@ -96,7 +96,7 @@ DATABASES = {
         "NAME": "final",
         "USER": "heesu",
         "PASSWORD": secrets['DB_KEY'],
-        "HOST": "34.22.93.218",
+        "HOST": "35.216.91.72",
         "PORT": "5432",
     }
 }

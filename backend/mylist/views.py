@@ -7,8 +7,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from song.models import Song
-import random
+from recommend.models import Recommend
 from user.models import User
 
 
@@ -45,13 +44,15 @@ def add_list(request):
 @api_view(['GET'])
 def mylist_detail(request, list_number):
     print(list_number)
+    user=request.user
     lists = Mylist.objects.filter(list_number=list_number)
     folders = Myfolder.objects.filter(list_number=list_number)
-    test = Song.objects.all()
+    recommend = Recommend.objects.filter(list_number_id=list_number, user_id=user)
+
 
 
     print(lists)
-    data = {'lists':lists, 'folders':folders}
+    data = {'lists':lists, 'folders':folders, 'recommend':recommend}
     return render(request, 'songlist/mylist.html', data)
 
 
