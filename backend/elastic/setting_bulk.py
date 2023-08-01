@@ -47,7 +47,6 @@ es.indices.create(
 )
 
 import json
-
 with open("./total-song2.json", encoding='utf-8') as json_file:
     json_data = json.loads(json_file.read())
 

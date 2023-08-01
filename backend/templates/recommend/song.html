@@ -48,7 +48,11 @@
                 </div>
 
                 <div class="reload-box">
-                    <div class="reload-text">새로 부를 곡들 추천 받기 ✨</div>
+                    <div class="reload-text">
+                        <button class="recommend-button button-add-list" id="button-add-list">
+                        새로 부를 곡들 추천 받기 ✨
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +93,36 @@
             </div>
         </div>
     </div>
+</div>
 
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">추천 받을 폴더 선택하기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list-name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -198,6 +231,29 @@
         if (query) {
             $("input[name='query']").val(decodeURIComponent(query));
         }
+    });
+
+    //모달 띄우기 코드
+    const modal = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-button");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
     });
 
 
