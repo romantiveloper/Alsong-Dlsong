@@ -37,7 +37,7 @@ SECRET_KEY = secrets['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','35.216.62.167']
 
 
 # Application definition
@@ -69,7 +69,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "user.middleware.CustomCsrfMiddleware"
     ]
 
 
