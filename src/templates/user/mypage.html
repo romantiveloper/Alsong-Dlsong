@@ -1,0 +1,361 @@
+{% extends 'navbar.html' %}
+{% block style %}
+<link rel="stylesheet" href="/static/css/mypage-html.css">
+<style>
+    .showcase::after {
+        background: rgba(0, 0, 0, 0);
+
+    }
+    .showcase {
+        z-index: 0;
+    }
+    .my-page-container {
+        width: 60%;
+        background: rgba(0, 0, 0, 0.5);
+        position: relative;
+        top : 20%;
+        left: 50%;
+        transform: translate(-50%,0);
+        border-radius: 30px;
+
+    }
+    .my-page-wrapper {
+        display: flex;
+        margin-bottom: 50px;
+
+    }
+    .my-page-img {
+
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .my-page-img img {
+        border-radius: 20px;
+        width: 50%;
+    }
+    .my-page-info {
+        border-left: 2px dashed gainsboro;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 600px;
+        width: 50%;
+
+    }
+
+
+    .my-favorite-movies {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-bottom: 50px;
+    }
+    .footer {
+        display: none;
+    }
+    .title1 {
+        margin-top: 10px;
+        text-align: center;
+    }
+    .movie {
+        margin: 0 10px;
+    }
+    .movie:hover {
+        transform: translate(-2%,-2%);
+        transition: 0.4s;
+    }
+    .change-pw {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .change-pw button{
+        width: 100%;
+    }
+    .change-pw .form-floating {
+        margin-bottom: 5px;
+    }
+    .change-id {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .change-id .form-floating {
+        margin-bottom: 5px;
+    }
+    .change-id button{
+        width: 100%;
+    }
+
+    .change-birth {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .change-birth .form-floating {
+        margin-bottom: 5px;
+    }
+    .change-birth button{
+        width: 100%;
+    }
+    .change-gender {
+        display: flex;
+        flex-direction: column;
+
+    }
+    .change-gender .form-floating {
+        margin-bottom: 5px;
+    }
+    .change-gender button{
+        width: 100%;
+    }
+</style>
+{% endblock %}
+{% block content%}
+<div class="mypage-html">
+    <img class="bg-gradation" src="/static/img/mypage-background.svg">
+
+    <div class="main-frame">
+        <div class="top-frame">
+            <a href="/">
+                <div class="arrwos-box">
+                    <img class="arrwos-box-style" src="/static/img/dark-arrows-diagrams-group.svg">
+                </div>
+            </a>
+
+            <div class="main-frame-text-style">마이페이지</div>
+            
+            <div class="arrwos-box">
+                <img class="arrwos-box-style" src="/static/img/dark-interface-essential-group.svg">
+            </div>
+        </div>
+
+        <div class="profile-img">
+            <img class="profile-img" src="/static/img/rectangle.png"/>
+        </div>
+
+        <div class="profile-box">
+            <div class="edit-profile">
+                <div class="edit-profile2">
+                    <div class="edti-img">
+                        <img class="edit-img" src="/static/img/user-group.svg">
+                    </div>
+                    <div class="edit-share-text">이미지 수정</div>
+                </div>
+            </div>
+
+            <div class="share">
+                <div class="share-img">
+                    <img class="share-img" src="/static/img/share.svg">
+                </div>
+                <div class="edit-share-text">프로필 공유</div>
+            </div>
+        </div>
+
+        <div class="basic-settings">
+            <div class="basic-settings-text">내 정보 변경</div>
+
+            <div class="settings-box">
+                <div class="settings-box-frame">
+                    <img class="settings-box-img" src="/static/img/settings-user.svg">
+                    <div class="settings-box-text">아이디 변경하기</div>
+                </div>
+            </div>
+            <div class="settings-box">
+                <div class="settings-box-frame">
+                    <img class="settings-box-img" src="/static/img/settings-key.svg">
+                    <div class="settings-box-text">비밀번호 변경하기</div>
+                </div>
+            </div>
+            <div class="settings-box">
+                <div class="settings-box-frame">
+                    <img class="settings-box-img" src="/static/img/settings-question.svg">
+                    <div class="settings-box-text">문의하기</div>
+                </div>
+            </div>
+            <div class="settings-box">
+                <div class="settings-box-frame">
+                    <img class="settings-box-img" src="/static/img/logout2.svg">
+                    <div class="settings-box-text">
+                        <a href="/user/logout/">로그아웃</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-box">
+            <div class="banner-box-style"></div>
+            <div class="banner-text-box">
+                <div class="body-subtext">
+                    <div class="subtext-1">배너 자리 입니당 ❗</div>
+                    <div class="subtext-2">뭐 쓸진 모르겠음.. 아마도<br> “알송달송이 처음이라면?” 등 사용 메뉴얼 관련일듯용</div>
+                </div>
+                <div class="banner-box-frame">
+                    <div class="banner-box-frame-text">살펴보기</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+    <!-- {% if err %}
+        <script>
+            alert("{{ err }}")
+        </script>
+    {% endif %}
+    <div class="my-page-container">
+        <div class="my-page-wrapper">
+            <div class="my-page-img">
+                <h1 class="my-page-h1">{{ user.username }}</h1>
+                <img src="{{user.profile_img}}"/>
+                <a href=/user/logout class="btn btn-rounded">로그아웃</a>
+            </div>
+
+            <div class="my-page-info">
+                {% if err %}
+                    <button class="to-change-birth btn btn-primary btn-lg">생년월일 변경</button>
+                    <form action="/user/birth-change/" method="post" class="change-birth" hidden>
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
+                            <label for="birth">생년월일</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
+
+
+
+                    <button class="to-change-gender btn btn-primary btn-lg">성별</button>
+                    <form action="/user/gender-change/" method="post" class="change-gender" hidden>
+                        {% csrf_token %}
+                        <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                            <option value="1" selected="">성별</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
+                {% endif %}
+
+
+                <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
+                <form action="/user/idchange/" method="post" class="change-id" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="id" placeholder="Password" name="id">
+                        <label for="id">변경할 아이디</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+                <button class="to-change-pw btn btn-primary btn-lg">비밀 번호 변경</button>
+                <form action="/user/pwchange/" method="post" class="change-pw" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
+                        <label for="floatingPassword">변경할 비밀번호</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password2">
+                        <label for="floatingPassword">비밀번호 확인</label>
+                    </div>
+                    <div class="err_box">
+                        {%if error %}
+                            {{error}}
+                        {%endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+                <button class="to-change-img btn btn-primary btn-lg"><p>프로필사진 변경</p></button>
+                <form method="POST" enctype="multipart/form-data" action="/user/my-modify/" class="change-img" hidden>
+                    {% csrf_token %}
+                    <input type="file" name="file">
+                    <button type="submit">사진 업로드</button>
+                </form>
+            </div>
+        </div>
+
+    </div> -->
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        const toChangeImg = document.querySelector('.to-change-img')
+        const toChangePw = document.querySelector('.to-change-pw')
+        const toChangeId = document.querySelector('.to-change-id')
+        const toChangeBirth = document.querySelector('.to-change-birth')
+        const toChangeGender = document.querySelector('.to-change-gender')
+
+
+
+
+        const change1 = ()=> {
+            document.querySelector('.change-img').hidden = false
+            toChangeImg.removeEventListener('click', change1)
+            toChangeImg.addEventListener('click',backTo1)
+        }
+        function backTo1(){
+            document.querySelector('.change-img').hidden = true
+            toChangeImg.addEventListener('click', change1)
+            toChangeImg.removeEventListener('click', backTo1)
+        }
+        toChangeImg.addEventListener('click',change1)
+        const change2 = ()=> {
+            document.querySelector('.change-pw').hidden = false
+            toChangePw.removeEventListener('click', change2)
+            toChangePw.addEventListener('click',backTo2)
+        }
+        function backTo2(){
+            document.querySelector('.change-pw').hidden = true
+            toChangePw.addEventListener('click', change2)
+            toChangePw.removeEventListener('click', backTo2)
+        }
+        toChangePw.addEventListener('click',change2)
+
+        const change3 = ()=> {
+            document.querySelector('.change-id').hidden = false
+            toChangeId.removeEventListener('click', change3)
+            toChangeId.addEventListener('click',backTo3)
+        }
+        function backTo3(){
+            document.querySelector('.change-id').hidden = true
+            toChangeId.addEventListener('click', change3)
+            toChangeId.removeEventListener('click', backTo3)
+        }
+        toChangeId.addEventListener('click',change3)
+
+        const change4 = ()=> {
+            document.querySelector('.change-birth').hidden = false
+            toChangeBirth.removeEventListener('click', change4)
+            toChangeBirth.addEventListener('click',backTo4)
+        }
+        function backTo4(){
+            document.querySelector('.change-birth').hidden = true
+            toChangeBirth.addEventListener('click', change4)
+            toChangeBirth.removeEventListener('click', backTo4)
+        }
+        toChangeBirth.addEventListener('click',change4)
+        const change5 = ()=> {
+            document.querySelector('.change-gender').hidden = false
+            toChangeGender.removeEventListener('click', change5)
+            toChangeGender.addEventListener('click',backTo5)
+        }
+        function backTo5(){
+            document.querySelector('.change-gender').hidden = true
+            toChangeGender.addEventListener('click', change5)
+            toChangeGender.removeEventListener('click', backTo5)
+        }
+        toChangeGender.addEventListener('click',change5)
+    </script>
+{% endblock %}
