@@ -53,15 +53,7 @@
                     <div class="frame-1992">
                         <div class="group-25">
                             <div class="frame-1992-text-1">총 달린 곡</div>
-                            {% with total_song_count=0 %}
-                                {% for list in folder_list %}
-                                    {% with new_total_song_count=total_song_count|add:list.song_count %}
-                                        {% with total_song_count=new_total_song_count %}
-                                        {% endwith %}
-                                    {% endwith %}
-                                {% endfor %}
-                                <div class="frame-1992-text-2">{{ total_song_count }}</div>
-                            {% endwith %}
+                                <div class="frame-1992-text-2">{{ total_song }}</div>
                             <div class="frame-1992-text-3">곡</div>
                         </div>
                     </div>

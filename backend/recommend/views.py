@@ -67,8 +67,57 @@ def process(request):
 @api_view(['GET'])
 def recommend_detail(request, list_number):
     user=request.user
+    folders = Myfolder.objects.filter(user_id=user, list_number=list_number)
     recommend = Recommend.objects.filter(list_number_id=list_number, user_id=user)
 
-    data = {'recommend':recommend}
+    data = {'recommend':recommend, 'folders':folders}
 
     return render(request, 'recommend/recommend.html', data)
+
+
+@api_view(['POST'])
+@login_required
+def add_recommend(request, list_number):
+    if request.method == 'POST':
+        data = request.data
+        list_number = data['listNumber']
+        list_name = data['listName']
+        user = request.user
+        master_number_id = data['master_number_id']
+
+        print(data)
+
+
+        song_data = Song.objects.get(master_number=master_number_id)
+        print("~~~~~~~~~~~~~~~~~")
+        print(song_data)
+
+        # 중복된 데이터 확인
+        duplicate_records = Mylist.objects.filter(
+            title=song_data.title,
+            artist=song_data.artist,
+            master_number=master_number_id,
+            list_number_id=list_number,
+            user=user
+        )
+
+        if duplicate_records.exists():
+            return JsonResponse({'status':'error', 'message':'이미 추가된 노래입니다.'})
+
+        mylist = Mylist(
+            list_name = list_name,
+            user = user,
+            title = song_data.title,
+            artist = song_data.artist,
+            cmp = song_data.cmp,
+            writer = song_data.writer,
+            ky_number_id = song_data.ky_song_num_id,
+            tj_number_id = song_data.tj_song_num_id,
+            list_number_id = list_number,
+            master_number = song_data.master_number
+        )
+        mylist.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 500, 'message':'잘못된 요청입니다.'})

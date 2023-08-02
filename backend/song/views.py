@@ -25,6 +25,7 @@ def song_list(request):
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
 
+    
     print(songs)
 
     data = {'songs': songs, 'folders': folders}
@@ -45,7 +46,7 @@ def ky_song_list(request):
     folders = Myfolder.objects.filter(user_id=user_id)
 
     print(songs)
-    
+
     data = {'songs':songs, 'folders': folders}
 
     return render(request, 'songlist/ky-song-list.html', data)

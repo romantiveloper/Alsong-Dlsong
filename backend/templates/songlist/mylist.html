@@ -96,21 +96,20 @@
             {% endfor %}
         </div>
 
-        <div class="recommend-text-box">
-            {% for folder in folders %}
+        
+        <a href="/recommend/" class="recommend-text-box">
             <div class="recommend-text">
-                {{folder.list_name}}.zip 에<br> 
-                이런 곡을 불러보는건 어떨까요?
+                지금 이 폴더에<br> 
+                부를 곡 추천!<br>
             </div>
-            {% endfor %}
             <div class="vector">
-                <a href="/recommend/">
-                    <img src="/static/img/vector.svg">
-                </a>
+                <div class="vector-text">더보기</div>
+                <img class="vector-img" src="/static/img/vector.svg">
             </div>
-        </div>
+        </a>
         {% for recommends in recommend %}
-        <div class="recommend-song-box">
+        <div class="recommend-song-box button-add-list" id="button_add_list" 
+                master_number="{{recommends.master_number_id}}">
             <div class="recommend-song">
                 <div class="avatar-05">
                     <img class="ellipse-144" src="/static/img/music.svg">
@@ -148,6 +147,35 @@
     </div>
 </div>
 
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">내 리스트에 담기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list_name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
 <script>
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 </script>
@@ -160,6 +188,60 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'button-add-list' class
+        if (e.target.closest('.button-add-list')) {
+            var button = e.target.closest('.button-add-list');
+            // Assign song data on selectedSongData
+            selectedSongData = {
+                master_number_id: button.getAttribute('master_number')
+            };
+        }
+    });
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list_name').textContent.trim();
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, selectedSongData, { listNumber, listName });
+
+            $.ajax({
+            type: 'POST',
+            url: '/add-to-mylist/',
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                    location.reload();
+                    var successMessage = '추가되었습니다.';
+                    alert(successMessage)
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+            console.log(data);
+        }
+    });
     
     
     const choiceButtons = document.querySelectorAll('.checkbox-style');
@@ -333,7 +415,7 @@
         });
     });
 
-    //모달 닫기 코드
+    //수정 모달 닫기 코드
     const modal = document.getElementById('edit-modal');
     const buttonCloseModal = 
     document.getElementById("close_modal");
@@ -342,6 +424,29 @@
         document.body.style.overflowY = "visible";
     });
 
+    
+    //모달 띄우기 코드
+    const modal2 = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-song-box");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal2.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal2.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal2 = 
+    document.getElementById("close_modal");
+    buttonCloseModal2.addEventListener("click", e => {
+        modal2.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
 
 
 
