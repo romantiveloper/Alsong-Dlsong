@@ -9,6 +9,10 @@ from django.contrib.auth.decorators import login_required   # 로그인한 사�
 from rest_framework.decorators import api_view, permission_classes
 from collections import namedtuple
 from elasticsearch import Elasticsearch
+import json
+
+with open('secrets.json') as f:
+   secrets = json.loads(f.read())
 
 # Create your views here.
 
@@ -49,8 +53,10 @@ def ky_song_list(request):
 
 class SearchView(APIView):
     def get(self, request):
-        es = Elasticsearch()
-
+        user = secrets['elastic_user']
+        password = secrets['elastic_password']
+        es = Elasticsearch([{'host':'34.64.73.208', 'port': 9200}],http_auth=(user,password), timeout=300)
+        
         # 검색어
         #search_word = request.query_params.get('search')
         query = request.GET.get('query')

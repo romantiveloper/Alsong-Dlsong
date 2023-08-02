@@ -21,8 +21,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 
 CSRF_TRUSTED_ORIGINS = [
         'http://127.0.0.1',
-        'http://35.216.62.167'
-        '35.216.62.167'
+        'http://35.216.62.167',
         ]
 
 # Quick-start development settings - unsuitable for production
@@ -109,7 +108,7 @@ DATABASES = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': '127.0.0.1:9200'
+        'hosts': '34.64.73.208:9200'
     },
 }
 

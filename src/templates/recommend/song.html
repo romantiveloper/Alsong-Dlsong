@@ -48,35 +48,16 @@
                 </div>
 
                 <div class="reload-box">
-                    <div class="reload-text">새로 부를 곡들 추천 받기 ✨</div>
+                    <div class="reload-text">
+                        <button class="recommend-button button-add-list" id="button-add-list">
+                        새로 부를 곡들 추천 받기 ✨
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
-
-        <div class="recommend-song-box">
-            <div class="recommend-song">
-                <div class="avatar-05">
-                    <img class="ellipse-144" src="/static/img/music.svg">
-                </div>
-                <div class="recommend-title-artist">
-                    <div class="recommend-title-text">곡 제목</div>
-                    <div class="recommend-artist-text">가수</div>
-                </div>
-            </div>
-        </div>
-        <div class="recommend-song-box">
-            <div class="recommend-song">
-                <div class="avatar-05">
-                    <img class="ellipse-144" src="/static/img/music.svg">
-                </div>
-                <div class="recommend-title-artist">
-                    <div class="recommend-title-text">곡 제목</div>
-                    <div class="recommend-artist-text">가수</div>
-                </div>
-            </div>
-        </div>
         <div class="recommend-song-box">
             <div class="recommend-song">
                 <div class="avatar-05">
@@ -89,7 +70,36 @@
             </div>
         </div>
     </div>
+</div>
 
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">추천 받을 폴더 선택하기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list list_button" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list-name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -155,7 +165,7 @@
     function handleEnterKeyPress(event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            $('#search-button').click(); // "로그인" 버튼 클릭 이벤트 발생
+            $('#search-button').click(); 
         }
     }
 
@@ -183,7 +193,55 @@
         });
     });
 
-    
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list-name').textContent.trim();
+
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, { listNumber, listName });
+
+            
+
+            $.ajax({
+            type: 'POST',
+            url: '/recommend/process/',
+            dataType: 'json',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            
+            success: function(response) {
+                const jsonResponse = response;
+
+                if (jsonResponse.status === 'success') {
+                    console.log('데이터 전송 완료');
+                    location.reload();
+                    var successMessage = '추천 모델 돌아가는 중';
+                    alert(successMessage);
+                } else if (jsonResponse.status === 'error') {
+                    console.log('데이터 전송 실패: ' + jsonResponse.message);
+                    var errorMessage = '추천 모델 오류 발생';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+
+            console.log(sendData);
+        }
+    });
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -198,6 +256,40 @@
         if (query) {
             $("input[name='query']").val(decodeURIComponent(query));
         }
+    });
+
+    // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
+    const listButtons = document.querySelectorAll(".list_button");
+    listButtons.forEach((listButton) => {
+        listButton.addEventListener('click', () => {
+            const listNumber = listButton.dataset.listNumber;
+            const url = `/recommend/${listNumber}/`; // 이동할 URL 설정
+            window.location.href = url; // URL로 이동
+        });
+    });
+
+
+    //모달 띄우기 코드
+    const modal = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-button");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
     });
 
 

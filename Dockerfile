@@ -12,6 +12,12 @@ RUN apt-get install -y apt-utils dialog libpq-dev
 # pip dev 설치
 RUN apt-get install -y python3-pip python3-dev
 
+# Seoul/Asia timezone을 읽어들이기 위해 pytz 패키지 설치
+RUN apt-get -y update \
+    && DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata \
+    && ln -fs /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata
+
 # 파이썬에서 콘솔 출력이 느릴 경우 다음과 같이 환경 변수를 설정해준다.
 ENV PYTHONUNBUFFERED=0
 
@@ -34,5 +40,3 @@ RUN mkdir /src;
 # 작업 디렉토리 src로 변경
 WORKDIR /src
 
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh

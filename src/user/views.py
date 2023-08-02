@@ -143,7 +143,7 @@ def user_view(request):
 # 카카오 로그인 시도
 def to_kakao(request):
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
+    REDIRECT_URI = 'http://35.216.62.167/user/kakao/callback'
     
     return redirect(
         f'https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code')
@@ -152,7 +152,7 @@ def to_kakao(request):
 # 카카오 로그인에서 필요 정보 가져오기
 def from_kakao(request):
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = 'http://localhost:8000/user/kakao/callback'
+    REDIRECT_URI = 'http://35.216.62.167/user/kakao/callback'
     code = request.GET.get('code', 'None')
     if code is None:
         # 코드 발급 x일 경우
