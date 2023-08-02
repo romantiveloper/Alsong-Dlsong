@@ -58,17 +58,19 @@
         </div>
 
         <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
+        {% for recommends in recommend %}
         <div class="recommend-song-box">
             <div class="recommend-song">
                 <div class="avatar-05">
                     <img class="ellipse-144" src="/static/img/music.svg">
                 </div>
                 <div class="recommend-title-artist">
-                    <div class="recommend-title-text">곡 제목</div>
-                    <div class="recommend-artist-text">가수</div>
+                    <div class="recommend-title-text"> {{recommends.title}} </div>
+                    <div class="recommend-artist-text"> {{recommends.artist}} </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 

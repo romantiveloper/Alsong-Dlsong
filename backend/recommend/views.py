@@ -17,11 +17,9 @@ from rest_framework.decorators import api_view
 def recommend(request):
     user_id = request.user
     user = User.objects.filter(user_id=user_id)
-    song = Song.objects.all()
-    songs = random.sample(list(song), 20)
     folders = Myfolder.objects.filter(user_id=user_id)
 
-    data = {'songs':songs, 'folders':folders, 'user':user}
+    data = {'folders':folders, 'user':user}
     return render(request, 'recommend/song.html', data)
 
 
@@ -66,3 +64,11 @@ def process(request):
 
         
         
+@api_view(['GET'])
+def recommend_detail(request, list_number):
+    user=request.user
+    recommend = Recommend.objects.filter(list_number_id=list_number, user_id=user)
+
+    data = {'recommend':recommend}
+
+    return render(request, 'recommend/recommend.html', data)
