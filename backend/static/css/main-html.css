@@ -481,12 +481,13 @@ li, ol, ul{
 
 .folder {
     flex-shrink: 0;
-    width: 155px;
+    width: 150px;
     height: 140px;
     display: flex;
     background: #45d3b1;
     border-radius: 20px;
     margin: 5px;
+    flex-direction: column;
 }
 
 .folder-design {
@@ -509,9 +510,7 @@ li, ol, ul{
     color: #ffffff;
     text-align: left;
     font: 700 15px "Noto Sans KR", sans-serif;
-    left: 19.26px;
-    top: 8.41px;
-    width: 89.06px;
+    width: 100%;
     height: 45.66px;
     display: flex;
     align-items: flex-end;
@@ -523,14 +522,19 @@ li, ol, ul{
     color: #8d94a0;
     text-align: left;
     font: 700 15px "Noto Sans KR", sans-serif;
-    left: 19.26px;
-    top: 8.41px;
     width: 110px;
     height: 45.66px;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     padding-left: 15px;
+}
+
+.img-box{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 15px;
+    padding-top: 10px;
 }
 
 .folder-in-song {

@@ -113,11 +113,11 @@
                 <div class="folder-box" style="margin-top: 50px; margin-bottom: 20px; justify-content: space-around; flex-direction: row; flex-wrap: wrap; width: calc(2*168px + 2*1vw);">
                     {% for list in folder_list %}
                     <div class="folder list_button" data-list-number="{{ list.list_number }}">
-                        <div>
+                        <div style="height: 80px;">
                             <div class="folder-name-1">{{list.list_name}}</div>
                             <div class="folder-in-song">{{list.song_count}} 곡</div>
                         </div>
-                        <div style="padding-top: 80px; padding-left: 20px;">
+                        <div class="img-box">
                             <div class="ellipse-11">
                                 <div class="_3-dicons">
                                     <img class="_3-dicons2" src="/static/img/mic-dicons.svg" />
@@ -127,8 +127,11 @@
                     </div>
                     {% endfor %}
                     <div class="folder" id="button_add_list">
-                        <div class="folder-name-2">새 폴더 추가</div>
-                        <div style="padding-top: 80px; padding-right: 10px;">
+                        <div style="height: 80px;">
+                            <div class="folder-name-2">새 폴더 추가</div>
+                            <div class="folder-in-song"></div>
+                        </div>
+                        <div class="img-box">
                             <div class="ellipse-11">
                                 <div class="_3-dicons">
                                     <img class="_3-dicons2" src="/static/img/add-dicons.png" />
