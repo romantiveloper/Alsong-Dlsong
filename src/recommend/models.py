@@ -4,7 +4,7 @@ from user.models import User
 from mylist.models import Myfolder
 
 
-class recommend(models.Model):
+class Recommend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='user_id', default='none')
     list_number = models.ForeignKey(Myfolder, on_delete=models.CASCADE, default=1)
     master_number = models.ForeignKey(Song, on_delete=models.CASCADE, to_field='master_number')
