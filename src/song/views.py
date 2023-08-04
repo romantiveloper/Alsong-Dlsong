@@ -14,8 +14,6 @@ import json
 with open('secrets.json') as f:
    secrets = json.loads(f.read())
 
-# Create your views here.
-
 
 @login_required
 def song_list(request):
@@ -28,6 +26,9 @@ def song_list(request):
 
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
+
+    
+    print(songs)
 
     data = {'songs': songs, 'folders': folders}
 
@@ -46,11 +47,13 @@ def ky_song_list(request):
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
 
+    print(songs)
+
     data = {'songs':songs, 'folders': folders}
 
     return render(request, 'songlist/ky-song-list.html', data)
 
-
+   
 class SearchView(APIView):
     def get(self, request):
         user = secrets['elastic_user']

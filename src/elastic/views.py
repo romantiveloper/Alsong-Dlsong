@@ -9,7 +9,7 @@ from mylist.models import Myfolder
 
 class SearchView(APIView):
     def get(self, request):
-        es = Elasticsearch(hosts="localhost:9200")
+        es = Elasticsearch()
 
         # 검색어
         query = request.GET.get('query')

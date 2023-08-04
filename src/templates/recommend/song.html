@@ -26,23 +26,23 @@
             </div>
         </div>
 
-        <div class="pop-text-box">
+         <div class="pop-text-box">
             <div class="pop-text-1">다음엔 뭐 부르지?🎤 <br>고민된다면! 🤔</div>
-            <div class="pop-text-2">우리의 Word2Vec 기반의 개쩌는 모델이<br>담은 곡들을 학습하여 다음에 부를 곡을 골라드려요</div>
+            <div class="pop-text-2">알송달송의 인공지능 모델이<br>담은 곡들을 학습한 뒤 다음에 부를 곡을 골라드려요</div>
         </div>
 
         <div class="model-box">
             <div class="model-text-box">
-                <div class="model-text-1">다음에 코노 가서 부를 곡 추천!</div>
+                <div class="model-text-1">다음 번 노래방에서 부를 곡 추천💁✨</div>
 
                 <div class="img-text-group">
                     <div class="ddabong-img-box">
                         <img class="ellipse-147" src="/static/img/ddabong.png">
                     </div>
                     <div class="text-box">
-                        <div class="text-box-text-1">여기도 모델 관련 내용</div>
+                        <div class="text-box-text-1">유사도 기반 부를 곡 추천 모델(beta)</div>
                         <div class="text-box-text-2">
-                            <img  class="clock-style" src="/static/img/clock.svg"> 2분 소요 예정
+                             예상 소요 시간: 1분 이내
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
-        <div class="recommend-song-box">
+        <!-- <div class="recommend-song-box">
             <div class="recommend-song">
                 <div class="avatar-05">
                     <img class="ellipse-144" src="/static/img/music.svg">
@@ -68,7 +68,7 @@
                     <div class="recommend-artist-text">가수</div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -222,7 +222,6 @@
 
                 if (jsonResponse.status === 'success') {
                     console.log('데이터 전송 완료');
-                    location.reload();
                     var successMessage = '추천 모델 돌아가는 중';
                     alert(successMessage);
                 } else if (jsonResponse.status === 'error') {

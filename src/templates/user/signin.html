@@ -12,7 +12,7 @@
 <div class="main-html">
     <div class="login-box">
         <div class="login-box-style"></div>
-        <h1 class="login-box-text-1">알송달송 로그인</h1>
+	<img src="/static/img/알송달송-로고-final_여백제거.png" />
         <form style="width: 70%;" method="post" action="/user/sign-in/">
             {% csrf_token %}
             <div class="basic-input">
@@ -42,9 +42,9 @@
             <div class="password-text">비밀번호 찾기</div>
         </div>
         <div class="sign-up-box">
-            <div class="sign-up-box-text-1"> "아직 계정이 없으신가요?"
-                <a class="sign-up-box-text-2" href="/user/sign-up/">회원가입 하기</a>
+		<div class="sign-up-box-text-1"> 아직 계정이 없으신가요?<br>
             </div>
+	    <a class="sign-up-box-text-2" href="/user/sign-up/">가입하고 풍부한 코노 생활 즐기기!🎤✨</a>
         </div>
     </div>
 </div>

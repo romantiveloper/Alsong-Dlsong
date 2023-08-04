@@ -13,6 +13,11 @@
     <meta property="og:image" content="/static/img/알송달송_logo_2.png">
     <meta property="og:description" content="뭐 부를지 고민될땐❓ 알송달송해❗">	
     <link rel="icon" href="/static/img/alsong_icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
     <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
@@ -55,6 +60,7 @@
         * {
             box-sizing: border-box;
             -webkit-touch-callout: none;
+	    font-family: 'Noto Sans KR', sans-serif;
         }
         
         .home {
@@ -65,7 +71,7 @@
 
         .main {
             flex: 1 1 0%;
-            padding-bottom: 56px;
+            padding-bottom: 60px;
             background: #F5F8FF;
             padding-top: 15px;
             min-width: 350px;
@@ -173,7 +179,7 @@
             <!-- 버튼: 홈 -->
             <li class="nav-btn-a-li">
                 <a href="/" class="nav-btn-a">
-                    <img src="/static/img/home.svg">
+                    <img class="nav-icon" src="/static/img/home.svg">
                     <span>홈</span>
                 </a>
             </li>
@@ -181,7 +187,7 @@
             <!-- 버튼: 검색 -->
             <li class="nav-btn-a-li">
                 <a href="/song-list/search/" class="nav-btn-a">
-                    <img src="/static/img/search.svg">
+                    <img class="nav-icon" src="/static/img/search.svg">
                     <span>검색</span>
                 </a>
             </li>
@@ -189,7 +195,7 @@
             <!-- 버튼: 인기차트 -->
             <li class="nav-btn-a-li">
                 <a href="/song-list/" class="nav-btn-a">
-                    <img src="/static/img/popular.svg">
+                    <img class="nav-icon" src="/static/img/popular.svg">
                     <span>인기차트</span>
                 </a>
             </li>
@@ -197,7 +203,7 @@
             <!-- 버튼: 알송Ai(추천) -->
             <li class="nav-btn-a-li">
                 <a href="/recommend/" class="nav-btn-a">
-                    <img src="/static/img/Ai.svg">
+                    <img class="nav-icon" src="/static/img/Ai.svg">
                     <span>알송Ai</span>
                 </a>
             </li>
@@ -205,8 +211,8 @@
             <!-- 버튼: 더보기 -->
             <li class="nav-btn-a-li">
                 <a href="/user/mypage/" class="nav-btn-a">
-                    <img src="/static/img/more.svg">
-                    <span>더보기</span>
+                    <img class="nav-icon" src="/static/img/more.svg">
+                    <span>내 정보</span>
                 </a>
             </li>
 

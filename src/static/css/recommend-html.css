@@ -351,7 +351,7 @@
     list-style: none;
   }
   
-  .popup_list-thumbnail, .popup_list{
+  .popup_list-thumbnail, .popup_list, .popup_list2{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -361,6 +361,14 @@
   }
   
   .popup_list{
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    cursor: pointer;
+  }
+
+  .popup_list2{
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;

@@ -151,6 +151,7 @@ def to_kakao(request):
 
 # 카카오 로그인에서 필요 정보 가져오기
 def from_kakao(request):
+    print("카카오API 접속 시도")
     REST_API_KEY = secrets['REST_API_KEY']
     REDIRECT_URI = 'http://35.216.62.167/user/kakao/callback'
     code = request.GET.get('code', 'None')
@@ -185,42 +186,37 @@ def from_kakao(request):
     email = res_dict.get('kakao_account', {}).get('email', None)
     uid = 'kakao_{}'.format(res_dict.get('id'))
     
-    #username = properties.get('nickname', None)
     nickname = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
     birthday = kakao_account.get('birthday', None)
     modified_birthday = parse_birthday(birthday)
-    #email = kakao_account.get('email', None)
-    
-    
-    if email is None:
-        # 이메일 동의 안하면 로그인 불가 처리
-        print('이메일 없이는 가입이 불가해요😢')
-        return redirect('/user/sign-in')
+    print("카카오API에서 data 가져오기 성공!")
     
     try:
         user = get_user_model().objects.get(email=email)
 
         if user.login_method != models.User.LOGIN_KAKAO:
-            print('카카오로 가입하지 않은 다른 아이디가 존재합니다😲')
-            return redirect('/user/sign-in')
+            print('카카오로 가입하지 않은 다른 아이디가 존재함')
+            return redirect('/')
 
 
     except:
+        print("카카오API로 받은 data 저장 시도")
         user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
                                    email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
 
         user.set_unusable_password()
         user.save()
-
+    
+    print("카카오API로 로그인 시도")
     auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     return redirect('/')
 
 
 @login_required
 def my_page(request):
-    print("~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("마이페이지 접속 시도")
     print(request.method)
     if request.method == 'POST':
         pass

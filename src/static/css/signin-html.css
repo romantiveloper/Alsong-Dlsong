@@ -87,6 +87,13 @@
     padding-top: 20px;
   }
 
+  .login-box img {
+    position: absolute;
+    top: 0;
+    left: 145px;
+    width: 25%;
+  }
+
   .basic-input {
     display: flex;
     flex-direction: column;
@@ -172,7 +179,7 @@
   }
 
   .sign-up-box-text-1 {
-    color: #6B6B6B;
+    color: #2c846f;
     font: 500 15px/20px "Noto Sans KR", sans-serif;
     position: relative;
     display: flex;
@@ -183,7 +190,8 @@
 
   .sign-up-box-text-2 {
     position: relative;
-    color: #A6A6A6;
-    font: 500 15px/20px "Noto Sans KR", sans-serif;
-  }
+    color: #1f5d4e;
+    font: 800 15px/20px "Noto Sans KR", sans-serif;
+    margin-left: 19%;
+}
 
