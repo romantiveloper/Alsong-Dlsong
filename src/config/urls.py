@@ -12,3 +12,4 @@ urlpatterns = [
     path("elastic/", include('elastic.urls')),
 ]
 
+
