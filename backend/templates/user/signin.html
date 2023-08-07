@@ -12,7 +12,10 @@
 <div class="main-html">
     <div class="login-box">
         <div class="login-box-style"></div>
-        <h1 class="login-box-text-1">알송달송 로그인</h1>
+        <a class="login-box-text-1" href="/">
+            <img style="width: 100%; height: 100%;" src="/static/img/알송달송-로고-final_여백제거.png">
+        </a>
+        <!-- <h1 class="login-box-text-1">알송달송 로그인</h1> -->
         <form style="width: 70%;" method="post" action="/user/sign-in/">
             {% csrf_token %}
             <div class="basic-input">

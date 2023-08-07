@@ -83,8 +83,9 @@
     text-align: left;
     font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
     position: relative;
-    height: 24px;
-    padding-top: 20px;
+    width: 30%;
+    height: 80px;
+    padding-top: 30px;
   }
 
   .basic-input {
@@ -96,7 +97,7 @@
     flex-shrink: 0;
     position: relative;
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
   }
 
   .input-box {
