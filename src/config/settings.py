@@ -22,6 +22,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 CSRF_TRUSTED_ORIGINS = [
         'http://127.0.0.1',
         'http://35.216.62.167',
+        'http://alsong-dlsong.com'
         ]
 
 # Quick-start development settings - unsuitable for production
@@ -36,7 +37,7 @@ SECRET_KEY = secrets['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','35.216.62.167']
+ALLOWED_HOSTS = ['*','35.216.62.167','alsong-dlsong.com']
 
 
 # Application definition

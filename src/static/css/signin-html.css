@@ -83,8 +83,9 @@
     text-align: left;
     font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
     position: relative;
-    height: 24px;
-    padding-top: 20px;
+    width: 30%;
+    height: 80px;
+    padding-top: 30px;
   }
 
   .login-box img {
@@ -103,7 +104,7 @@
     flex-shrink: 0;
     position: relative;
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
   }
 
   .input-box {
@@ -192,6 +193,8 @@
     position: relative;
     color: #1f5d4e;
     font: 800 15px/20px "Noto Sans KR", sans-serif;
-    margin-left: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
