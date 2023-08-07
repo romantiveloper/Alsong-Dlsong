@@ -1,3 +1,7 @@
+html {
+    background-color: #f5f8ff;
+}
+
 li, ol, ul{
     list-style: none;
 }

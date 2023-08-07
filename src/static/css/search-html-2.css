@@ -1,3 +1,7 @@
+html {
+    background-color: #f5f8ff;
+}
+
 .search-html,
 .search-html * {
   box-sizing: border-box;
