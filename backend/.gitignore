@@ -1,7 +1,8 @@
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 secrets.json
 
-# Django migrations
-*/migrations/*
-!*/migrations/__init__.py
+
