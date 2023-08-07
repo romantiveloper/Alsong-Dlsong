@@ -85,14 +85,7 @@
     position: relative;
     width: 30%;
     height: 80px;
-    padding-top: 30px;
-  }
-
-  .login-box img {
-    position: absolute;
-    top: 0;
-    left: 145px;
-    width: 25%;
+    top: 15px;
   }
 
   .basic-input {
