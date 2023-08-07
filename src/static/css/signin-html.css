@@ -193,6 +193,8 @@
     position: relative;
     color: #1f5d4e;
     font: 800 15px/20px "Noto Sans KR", sans-serif;
-    margin-left: 19%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
