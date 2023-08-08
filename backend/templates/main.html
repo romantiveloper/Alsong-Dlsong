@@ -1,173 +1,142 @@
 {% extends 'navbar.html' %}
+
+{% block title %} | 메인{% endblock %}
+
 {% block style %}
 
 
 <!-- jquery 사용하기 위해 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/95c5c08857.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/main-html.css">
 
-<style>
-    .modal {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(1.5px);
-        -webkit-backdrop-filter: blur(1.5px);
-    }
-
-    .modal_window {
-        background: white;
-        backdrop-filter: blur(13.5px);
-        -webkit-backdrop-filter: blur(13.5px);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        width: 300px;
-        height: 200px;
-        position: relative;
-    }
-
-    .modal_title{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        font-weight: bold;
-        font-size: 10px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
-    }
-
-    .modal_title_side{
-        margin: 5px;
-        flex: 0 0 40px;
-        text-align: center;
-    }
-
-    .modal_content_write{
-        display: flex;
-        flex-direction: column;
-        border-left: 1px solid rgba(0, 0, 0, 0.18);;
-    }
-
-    .feed_content_textarea{
-        resize: none;
-        width: 294px;
-        border: none;
-    }
-
-    /* 기본 스타일 */
-    .dashboard_container,
-    .list_container {
-        max-width: 700px;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    .list_container {
-        flex-wrap: wrap;
-        background-color: white;
-        display: flex;
-    }
-
-    .list_item {
-        background-color: aliceblue;
-        width: 150px;
-        max-width: 150px;
-        margin: 10px;
-        display: flex;
-    }
-
-    .list_name {
-        position: relative;
-        z-index: 10;
-        padding-top: 0px;
-        padding-left: auto;
-        width: 170px;
-        text-align: center;
-    }
-
-    @media screen and (max-width: 767px) {
-    /* 브라우저가 767px 이하일 때 적용되는 스타일 */
-    .dashboard_container,
-    .list_container {
-            padding-left: 20px;
-            padding-right: 20px;
-            display: flex;
-            margin: 20px auto; 
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-    /* 브라우저가 480px 이하일 때 적용되는 스타일 */
-    .dashboard_container,
-    .list_container {
-        padding-left: 10px;
-        padding-right: 10px;
-        background-color: white;
-        display: flex;
-        margin: 0 auto; 
-        justify-content: space-evenly;
-    }
-
-    .list_item {
-        flex-basis: 100%;
-    }}
-
-
-    .list_button {
-        background-image: url("/static/img/music-book.png");
-        background-size: cover; /* 이미지를 버튼에 맞게 조절합니다. */
-        background-position: center; /* 이미지를 가운데로 정렬합니다. */
-    }
-
-    .button-add-list {
-        background-image: url("/static/img/add-button.png");
-        background-size: cover; /* 이미지를 버튼에 맞게 조절합니다. */
-        background-position: center; /* 이미지를 가운데로 정렬합니다. */
-    }
-
-    
-
-</style>
+<style></style>
 {% endblock %}
 
 
 {% block content %}
-
-<div style="padding-top: 50px;">
-    <!-- 상단 대시보드 Summary 컨테이너 -->
-    <div class="dashboard_container" style="background-color: aqua; display: flex; justify-content: center; height: 200px; margin-bottom: 30px;">
-        <p>대시보드 Summary 자리임니당</p>
-    </div>
-    
-    <!-- 부를곡 리스트들 있는 컨테이너 -->
-    <div class="list_container">
-        {% for list in folder_list %}
-        <div style="font-size: 17px;">
-            <div class="list_item">
-                <button class="list_button" data-list-number="{{ list.list_number }}" style="width: 100%; height: 150px;"></button>    
-            </div>
-            <div class="list_name">
-                {{ list.list_name }}
+<div class="home">
+    <div class="main">
+        <div class="logo-box">
+            <div class="logo-text">
+                <img style="width: 160%; height: 150%" src="/static/img/알송달송-로고-final_여백제거.png" />
             </div>
         </div>
-        {% endfor %}
-        <div style="font-size: 15px; justify-content: center;">
-            <div class="list_item">
-                <button class="button-add-list" id="button_add_list" type="button" style="width: 100%; height: 150px;"></button>
+
+        <div class="main-box">
+            <a href="/song-list/search/" style="width: 80%;">
+                <div class="searchbar">
+                    <div class="search-img">
+                        <img src="/static/img/icon-search-normal-1.svg">
+                    </div>
+                    <div class="search-text">
+                        부르고 싶은 곡을 검색하세요!
+                    </div>
+                </div>
+            </a>
+            
+            {% if request.user.is_authenticated %}
+            <div class="main-banner">
+                <div class="dashboard"></div>
+                <div class="banner-profile">
+                    {% for users in user %}
+                    <div class="profile-img-box">
+                        <div class="profile-img">
+                            <div class="Dicons">
+                                <img style="width: 95px; height: 95px; border-radius: 50%;" src="{{users.profile_img}}" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="frame-25">
+                        <div class="frame-25-text-1">{{users.nickname}}</div>
+                        <div class="frame-25-text-2">님 안녕하세요 🧑🏻‍🎤</div>
+                    </div>
+                    {% endfor %}
+                    <div class="frame-1992">
+                        <div class="group-25">
+                            <div class="frame-1992-text-1">총 달린 곡</div>
+                                <div class="frame-1992-text-2">{{ total_song }}</div>
+                            <div class="frame-1992-text-3">곡</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="list_name">
-                새로운 리스트 추가
+            {% else %}
+            <div class="main-banner">
+                <div class="dashboard"></div>
+                <div class="banner-profile">
+
+                    <div class="profile-img-box">
+                        <div class="profile-img">
+                            <div class="Dicons">
+                                <img style="width: 56px; height: 72px" src="/static/img/music.svg" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frame-25">
+			    <div class="frame-25-text-1">원활한 서비스 이용을 위해<br>로그인이 필요해요😊</div>
+                    </div>
+                    <div class="frame-1992">
+                        <div class="group-25">
+                            <a class="frame-1992-text-1" style="width: 180px;" href="/user/sign-in/">
+                                👉🏻 로그인 하러 가기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+            
+            <a href='/recommend' class="recommend-banner">
+                <div class="recommend-title">
+                    <div class="ai">Ai 부를곡 추천 받기!🤖✨</div>
+                    <img class="frame-4" src="/static/img/vector.svg">
+                </div>
+            </a>
+
+            <div class="folder-box">
+                <div class="folder-box-design"></div>
+                <div class="folder-box-title">
+                    <div class="folder-box-title-text">📁 달송 폴더</div>
+                </div>
+
+                <div class="folder-box" style="margin-top: 50px; margin-bottom: 20px; justify-content: space-around; flex-direction: row; flex-wrap: wrap; width: calc(2*168px + 2*1vw);">
+                    {% for list in folder_list %}
+                    <div class="folder list_button" data-list-number="{{ list.list_number }}">
+                        <div style="height: 80px;">
+                            <div class="folder-name-1">{{list.list_name}}</div>
+                            <div class="folder-in-song">{{list.song_count}} 곡</div>
+                        </div>
+                        <div class="img-box">
+                            <div class="ellipse-11">
+                                <div class="_3-dicons">
+                                    <img class="_3-dicons2" src="/static/img/mic-dicons.svg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="folder" id="button_add_list">
+                        <div style="height: 80px;">
+                            <div class="folder-name-2">새 폴더 추가</div>
+                            <div class="folder-in-song"></div>
+                        </div>
+                        <div class="img-box">
+                            <div class="ellipse-11">
+                                <div class="_3-dicons">
+                                    <img class="_3-dicons2" src="/static/img/add-dicons.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 
 
@@ -176,6 +145,7 @@
     <div class="modal_window">
         <div class="modal_title">
             <div class="modal_title_side"></div>
+            <div class="modal-title-center">폴더 생성</div>
             <div class="modal_title_side">
                 <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 15px">
                     X
@@ -183,12 +153,12 @@
             </div>
         </div>
         <div class="modal_content_write">
-            <div style="height: 150px">
-                <textarea id="input_list_name" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요"></textarea>
+            <div class="feed_content_textarea">
+                <input id="input_list_name" class="feed_content_textarea-box col-sm-5" rows="10" placeholder="7글자 이하 폴더 이름을 입력하세요"></input>
             </div>
-            <div style="width: 100%; text-align: center">
-                <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 추가하기</button>
-            </div>
+        </div>
+        <div class="modal-add-button-box">
+            <button id="button_write_feed" type="button" class="modal-add-button btn btn-primary"> 추가하기</button>
         </div>
     </div>
 </div>
@@ -234,6 +204,9 @@
             data: fd, // FormData를 전송 데이터로 사용
             processData: false, // FormData를 문자열로 변환하지 않음
             contentType: false, // 컨텐츠 유형을 설정하지 않음
+            headers:{
+                'X-CSRFToken':csrftoken
+            },
             success: function(response) {
                 // 성공적으로 응답을 받았을 때 실행할 코드
                 console.log(response);
@@ -271,6 +244,11 @@
     $('#button_write_feed').on('click', () => {
         const list_name = $('#input_list_name').val();
 
+        if (list_name.length >= 7) {
+                alert('폴더 이름이 너무 깁니다. 7글자 이하로 입력해 주세요.');
+                return error;
+            }
+
         let fd = new FormData();
 
         fd.append('list_name', list_name); 
@@ -287,13 +265,15 @@
     });
 
     // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
-    const listButtons = document.querySelectorAll('.list_button');
-    listButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const listNumber = button.dataset.listNumber;
+    const listButtons = document.querySelectorAll(".list_button");
+    listButtons.forEach((listButton) => {
+        listButton.addEventListener('click', () => {
+            const listNumber = listButton.dataset.listNumber;
             const url = `/mylist/${listNumber}/`; // 이동할 URL 설정
             window.location.href = url; // URL로 이동
         });
     });
+
+    
 </script>
 {% endblock %}

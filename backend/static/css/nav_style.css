@@ -1,172 +1,89 @@
-:root {
-    --text-color: rgb(52, 48, 52);
-    --background-color: white;
-    --accent-color: rgb(182, 0, 206);
-    --icons-color: rgb(152, 187, 201);
-    --bodybackground-color: white;
-  }
-
-*::before,
-*::after {
+* {
   box-sizing: border-box;
+  -webkit-touch-callout: none;
 }
 
-  @font-face {
-    font-family: 'SUITE-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  body { 
-    margin: 0;
-    background-color: var(--bodybackground-color);
-    /* font-family: 'STIX Two Math'; */
-    font-family: 'SUITE-Regular';
-    font-size:12px;
-  }
-  
-  a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-family: 'SUITE-Regular';
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--background-color);
-    padding: 10px 25px;
-    font-family: 'SUITE-Regular';
-  }
-  
-  .navbar__logo {
-    display: flex;
-    margin-top: 15px;
-    padding-left: 0;
-  }
+nav {
+  display: block;
+}
 
-  .navbar__logo a {
-    margin-right: 10px; /* 로고와 검색창 사이의 간격 */
-  }
-  
-  /* 검색창 */
-  /* 반응형으로 변경 필요함 */
-  .search-form {
-    position: absolute;
-    top: 5%;
-    left: 285px;
-    width: 250px;
-    height: 30px;
-    border-radius: 40px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    transform: translate(-50%, -50%);
-    background: #fff;
-    transition: all 0.3s ease;
-  }
+.bottom-nav {
+  position: fixed;
+  bottom: 28px;
+  z-index: 150;
+  width: 96%;
+  height: 47px;
+  flex-shrink: 0;
+  border-top: 1px solid rgb(228, 230, 231);
+  border-radius: 25px 25px 0px 0px;
+  background-color: rgb(255, 255, 255);
+}
 
-  .search-form.focus {
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
-  }
+.bottom-btn-list {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0;
+  border: 0 none;
+}
 
-  .search-input {
-    position: absolute;
-    top: 5px;
-    left: 38px;
-    font-size: 10px;
-    background: none;
-    color: #5f666f;
-    width: 145px;
-    height: 20px;
-    border: none;
-    appearance: none;
-    outline: none;
-  }
+span {
+  font-size: 10px;
+  font-weight: 500;
+}
 
-  .search-input::-webkit-search-cancel-button {
-    appearance: none;
-  }
 
-  .search-button {
-    position: absolute;
-    top: 5px;
-    left: 15px;
-    height: 20px;
-    width: 20px;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-    outline: none!important;
-    cursor: pointer;  
-  }
+ul {
+  /* display: block;
+  list-style-type: disc; */
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 25px;
+  margin-inline-end: 25px;
+  padding-inline-start: 40px;
+}
 
-  .search-button svg {
-    width: 15px;
-    height: 15px;
-    fill: #5a6674;
-  }
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
 
-  .navbar__menu {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0;
-    padding-left: 0;
-    margin-left: auto; /* 검색창과 메뉴 사이의 간격을 채우고 화면이 작아질 때도 원하는 위치에 유지됩니다. */
-  }
+a {
+  color: #191E23;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-  .navbar__menu li {
-    padding: 8px 20px;
-      margin: 0 20px;
-  }
-  
-  .navbar__menu li:hover {
-    background-color: var(--accent-color);
-    border-radius: 30px;
-    --text-color: rgb(255, 255, 255);
-  }
 
-  .navbar__toggleBtn {
-    color: var(--accent-color);
-    position: absolute;
-    right: 15px;
-    font-size: 20px;
-    display: none;
-  }
-  
-  @media screen and (max-width: 700px) {
+.nav-btn-a {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1 1 0%;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  gap: 2px;
+}
 
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      margin: 0;
-    }
-    
-    .navbar__menu {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      --text-color: rgb(56, 49, 49);
-    }
-      
-    .navbar__menu li {
-      width: 100%;
-      text-align: center;
-      --text-color: rgb(56, 49, 49);
-    }
+.nav-btn-li {
+  position: relative;
+  flex: 1 1 0%;
+  width: 100%;
+  height: 100%;
+}
 
-    .navbar__toggleBtn {
-      display: block;
-    }
-
-    .navbar__menu.active{
-      display: flex;
-    }
-
-  }
-
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
 

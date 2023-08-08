@@ -1,0 +1,115 @@
+{% extends 'navbar.html' %}
+{% block style %}
+<link rel="stylesheet" href="/static/css/signup-html.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+              integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        {#            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">#}
+<style></style>
+{% endblock %}
+{% block title %} | 회원가입{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="main-html">
+    <div class="sign-up-box">
+        <div class="sign-up-box-style"></div>
+        <div class="sign-up-box-text-1">회원가입</div>
+        <div class="basic-input">
+            <div class="input-box">
+                <input type="text" class="input-box-text" id="username" name="username" value="{{form.username}}" placeholder="이름">
+            </div>
+
+            <div class="input-box">
+              <input type="text" class="input-box-text" id="user_id" name="user_id" value="{{form.user_id}}" placeholder="아이디">
+            </div>
+
+            <div class="input-box">
+              <input type="password" class="input-box-text"  id="password1" name="password1" value="{{form.password1}}"  placeholder="비밀번호">
+            </div>
+            <div class="input-box">
+              <input type="password" class="input-box-text"  id="password2" name="password2" value="{{form.password2}}"  placeholder="비밀번호 확인">
+            </div>
+            <div class="input-box">
+              <input type="text" class="input-box-text"  type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}"  placeholder="닉네임">
+            </div>
+            <div class="input-box">
+                <input type="email" class="input-box-text" name="email" id="email" value="{{form.email}}" placeholder="이메일">
+            </div>
+            <div  class="input-box">
+                <input type="date" class="input-box-text" name="birthday" id="birthday" value="{{form.birthday}}" placeholder="인증 번호">
+            </div>
+
+            <div class="input-box" style="width: 40%;">
+                <select class="input-box-text" style="height: 30px; width: 80%;" aria-label="Default select example" name="gender" id="gender">
+                    <option value="1" selected="">성별</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
+            <div class="sign-up-button">
+                <button id='signBtn' class="btn sign-up-button-style" >회원가입</button>
+            </div>
+            <div class="sign-up-box-1">
+                <a class="sign-up-box-text-2" href="{% url 'user:sign-in' %}">로그인 페이지로</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        const signBtn = document.getElementById('signBtn');
+        $('#signBtn').on('click',()=>{
+            console.log('클릭');
+            const username = $('#username').val();
+            const user_id = $('#user_id').val();
+            const password1 = $('#password1').val();
+            const password2 = $('#password2').val();
+            const nickname = $('#nickname').val();
+            const email = $('#email').val();
+            const birthday = $('#birthday').val();
+            const gender = $('#gender').val();
+        
+            
+            $.ajax({
+                type:'POST',
+                url:'/user/sign-up/',
+                data: JSON.stringify({
+                    username:username,
+                    user_id:user_id,
+                    password1:password1,
+                    password2:password2,
+                    nickname:nickname,
+                    email:email,
+                    birthday:birthday,
+                    gender:gender,
+                }), // JSON.stringify(data),
+                success:function(data){
+                    var successMessage = "회원가입에 성공했습니다.";
+                    alert(successMessage);
+                    location.replace('{% url "user:sign-in" %}');
+                },
+                error:function(request, status, error){
+                    // 요청이 실패했을 때 실행할 코드
+                    const data = JSON.parse(request.responseText);
+                    console.log(data.message);
+                    var errorMessage = "회원가입에 실패했습니다.";
+                    alert(errorMessage);
+                }
+                })
+        }) 
+    });
+    
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{ csrf_token }}' }
+    });
+</script>
+{% endblock %}

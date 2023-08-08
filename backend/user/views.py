@@ -53,7 +53,8 @@ def sign_up_view(request):
     elif request.method == 'POST':  # 요청이 post로 들어온다면
         global certify_num
         data = json.loads(request.body.decode('utf-8')) # POST 요청에서 전달받은 본문(body) 가져와 "data"라는 변수에 저장, JSON 형식의 문자열을 딕셔너리로 변환
-        username = data['username'] 
+        #name = data['username']
+        username=data['username']
         user_id = data['user_id'] 
         password1 = data['password1']
         password2 = data['password2']
@@ -85,6 +86,7 @@ def sign_up_view(request):
             
         is_it = get_user_model().objects.filter(user_id=user_id) # 지금 POST 요청에서 받은 user_id과 기존 DB의 user_id이 일치할 경우
         is_it2 = get_user_model().objects.filter(email=email) # 지금 POST 요청에서 받은 email과 기존 DB의 email이 일치할 경우
+    
         
         if is_it:
             err_msg = '사용자가 존재합니다.'
@@ -183,12 +185,12 @@ def from_kakao(request):
     user_id = res_dict.get('id')
     properties = res_dict.get('properties')
 
-    username = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
+    username = res_dict.get('id')
     email = res_dict.get('kakao_account', {}).get('email', None)
     uid = 'kakao_{}'.format(res_dict.get('id'))
     
     #username = properties.get('nickname', None)
-    nickname = username
+    nickname = res_dict.get('kakao_account', {}).get('profile', {}).get('nickname', 'Unknown')
     profile_img = properties.get('profile_image', None)
     gender = kakao_account.get('gender', None)
     birthday = kakao_account.get('birthday', None)
@@ -203,6 +205,7 @@ def from_kakao(request):
     
     try:
         user = get_user_model().objects.get(email=email)
+        print(user)
 
         if user.login_method != models.User.LOGIN_KAKAO:
             print('카카오로 가입하지 않은 다른 아이디가 존재합니다😲')
@@ -210,7 +213,7 @@ def from_kakao(request):
 
 
     except:
-        user = models.User.objects.create(user_id=user_id, nickname=nickname, profile_img=profile_img, 
+        user = models.User.objects.create(user_id=user_id, username=username, nickname=nickname, profile_img=profile_img, 
                                    email=email, login_method=models.User.LOGIN_KAKAO, birthday=modified_birthday, gender=gender)
 
         user.set_unusable_password()

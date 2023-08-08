@@ -1,0 +1,300 @@
+{% extends 'navbar.html' %}
+
+{% block title %} | 알송Ai{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/static/css/recommend-html.css">
+<style></style>
+
+{% endblock %}
+
+
+
+{% block content %}
+<div class="ai-html">
+    <div class="ai-top"></div>
+
+    <div class="main-frame">
+        <div class="top-frame">
+            <a href="/">
+                <div class="arrwos-box">
+                    <img class="arrwos-box-style" src="/static/img/vector2.svg">
+                </div>
+            </a>
+
+            <div class="main-frame-text-style">알송Ai</div>
+            
+            <div class="arrwos-box">
+                <img class="arrwos-box-style" src="/static/img/interface-essential-dots.svg">
+            </div>
+        </div>
+
+         <div class="pop-text-box">
+            <div class="pop-text-1">다음엔 뭐 부르지?🎤 <br>고민된다면! 🤔</div>
+            <div class="pop-text-2">알송달송의 인공지능 모델이<br>담은 곡들을 학습한 뒤 다음에 부를 곡을 골라드려요</div>
+        </div>
+
+        <div class="model-box">
+            <div class="model-text-box">
+                <div class="model-text-1">다음 번 노래방에서 부를 곡 추천💁✨</div>
+
+                <div class="img-text-group">
+                    <div class="ddabong-img-box">
+                        <img class="ellipse-147" src="/static/img/ddabong.png">
+                    </div>
+                    <div class="text-box">
+                        <div class="text-box-text-1">유사도 기반 부를 곡 추천 모델(beta)</div>
+                        <div class="text-box-text-2">
+                             예상 소요 시간: 1분 이내
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reload-box">
+                    <div class="reload-text">
+                        <button class="recommend-button button-add-list" id="button-add-list">
+                        새로 부를 곡들 추천 받기 ✨
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
+        <!-- <div class="recommend-song-box">
+            <div class="recommend-song">
+                <div class="avatar-05">
+                    <img class="ellipse-144" src="/static/img/music.svg">
+                </div>
+                <div class="recommend-title-artist">
+                    <div class="recommend-title-text">곡 제목</div>
+                    <div class="recommend-artist-text">가수</div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">추천 받을 폴더 선택하기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list list_button" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list-name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+</script>
+
+<script>
+    function addToDatabase(kySongNum, tjSongNum, title, artist, cmp, writer) {
+        // 선택한 My_folder의 list_number와 list_name 가져오기
+        var folderSelect = $("#folderSelect");
+        var listNumber = folderSelect.val();
+        var listName = folderSelect.find("option:selected").text();
+
+        // AJAX 요청을 생성
+        $.ajax({
+            type: 'POST',
+            url: '/song-list/add-to-database/',
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                kySongNum: kySongNum,
+                tjSongNum: tjSongNum,
+                title: title,
+                artist: artist,
+                cmp: cmp,
+                writer: writer,
+                listNumber: listNumber,
+                listName: listName
+            }),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                    var successMessage = '추가되었습니다.';
+                    alert(successMessage)
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+        console.log(data);
+    }
+
+    function handleEnterKeyPress(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            $('#search-button').click(); 
+        }
+    }
+
+    $(document).ready(function () {
+        $('#search-query').keypress(handleEnterKeyPress);
+        
+        $("#search-button").click(function (event) {
+            event.preventDefault();
+
+            var query = $("input[name='query']").val();
+            var category = $('select[name=search_option]').val();
+            var url = '/song-list/search/?category=' + encodeURIComponent(category) + '&query=' + encodeURIComponent(query); // 쿼리 파라미터를 포함한 URL 생성
+
+            console.log(url);
+
+            $.ajax({
+                type: 'GET',
+                url: url,  // 생성한 URL 사용
+                success: function (response) {
+                    // 필터링된 노래 리스트를 받아와서 화면에 표시하는 로직 작성
+                    window.location.href = url;
+                    console.log(response);
+                },
+            });
+        });
+    });
+
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list-name').textContent.trim();
+
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, { listNumber, listName });
+
+            
+
+            $.ajax({
+            type: 'POST',
+            url: '/recommend/process/',
+            dataType: 'json',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            
+            success: function(response) {
+                const jsonResponse = response;
+
+                if (jsonResponse.status === 'success') {
+                    console.log('데이터 전송 완료');
+                    var successMessage = '추천 모델 돌아가는 중';
+                } else if (jsonResponse.status === 'error') {
+                    console.log('데이터 전송 실패: ' + jsonResponse.message);
+                    var errorMessage = '폴더에 5개 이상 노래를 추가해주세요.';
+                    alert(errorMessage);
+                    location.reload()
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+
+            console.log(sendData);
+        }
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var category = urlParams.get('category');
+        var query = urlParams.get('query');
+        
+        if (category) {
+            $('select[name=search_option]').val(category);
+        }
+
+        if (query) {
+            $("input[name='query']").val(decodeURIComponent(query));
+        }
+    });
+
+    // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
+    const listButtons = document.querySelectorAll(".list_button");
+    listButtons.forEach((listButton) => {
+        listButton.addEventListener('click', () => {
+            const listNumber = listButton.dataset.listNumber;
+            const url = `/recommend/${listNumber}/`; // 이동할 URL 설정
+            window.location.href = url; // URL로 이동
+        });
+    });
+
+
+    //모달 띄우기 코드
+    const modal = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-button");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+
+</script>
+{% endblock %}
+
