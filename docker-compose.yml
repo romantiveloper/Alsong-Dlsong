@@ -29,22 +29,6 @@ services:
         networks:
             - custom_network
     
-    nginx-proxy-manager:
-        image: 'jc21/nginx-proxy-manager:latest'
-        container_name: nginx_manager_ctn
-        restart: "no"
-        ports:
-          - "8080:80"
-          - "81:81"
-          - "443:443"
-        volumes:
-          - ./src:/src
-          - ./letsencrypt:/etc/letsencrypt
-        depends_on:
-              - nginx
-        networks:
-            - custom_network
-    
     rabbitmq:
         image: rabbitmq:management
         container_name: rabbitmq_ctn
