@@ -37,6 +37,9 @@ def process(request):
         input_data = Mylist.objects.filter(list_number_id=list_number, user_id=user).values("master_number","list_number_id","user_id" )
         input_data_list = list(input_data) 
 
+        if len(input_data_list) <= 4:
+            return JsonResponse({'status': 'error', 'message': '입력한 리스트의 개수가 4개 이하입니다.'})
+
         print(input_data_list)
 
         fastapi_service_url = 'http://34.64.174.219:8001/process'
