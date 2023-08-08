@@ -1,0 +1,47 @@
+{% extends 'navbar.html' %}
+{% block content%}
+    <p>로그인 성공</p>
+    <a href="/mypage">마이페이지😀</a>
+    <a href="{% url 'user:logout' %}">로그 아웃🚗</a>
+   
+{% endblock %}
+{% block script %}
+<script>
+    function sendMail(){
+        data = $('#text').val();
+        $.ajax({
+            type:'POST',
+            url:'/email_ajax/',
+            data:JSON.stringify(data),
+            success:function(json){
+                alert(json.result);
+            }
+
+       });
+    submitBtn.removeEventListener('click',sendMail)
+    submitBtn.addEventListener('click',certifyMail)
+    submitBtn.innerText = '인증번호 확인'
+    }
+    function certifyMail(){
+        data = $('#text2').val();
+        $.ajax({
+            type:'POST',
+            url:'/certify_ajax/',
+            data:JSON.stringify(data),
+            success:function(json){
+                alert(json.result);
+            }
+        })
+        submitBtn.removeEventListener('click',certifyMail)
+        submitBtn.addEventListener('click',sendMail)
+        submitBtn.innerText = '인증번호 보내기'
+    };
+    
+    const submitBtn = document.getElementById('submit')
+    submitBtn.addEventListener('click',sendMail)
+    
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+</script>
+{% endblock%}

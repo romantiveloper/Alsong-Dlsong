@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<path id="Path" d="M10 15H7C4.79086 15 3 16.7909 3 19V20" stroke="#45D3B1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Path_2" d="M20 21H14" stroke="#45D3B1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Path_3" fill-rule="evenodd" clip-rule="evenodd" d="M14.2929 15.3344L17.3344 12.2929C17.5219 12.1054 17.7763 12 18.0415 12C18.3067 12 18.5611 12.1054 18.7486 12.2929L19.7071 13.2514C20.0976 13.6419 20.0976 14.2751 19.7071 14.6656L16.6656 17.7071C16.4781 17.8946 16.2237 18 15.9585 18H14.5C14.2239 18 14 17.7761 14 17.5V16.0415C14 15.7763 14.1054 15.5219 14.2929 15.3344Z" stroke="#45D3B1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle id="Oval" cx="11" cy="7" r="4" stroke="#45D3B1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

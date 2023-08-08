@@ -1,0 +1,238 @@
+{% extends 'navbar.html' %}
+{% block style %}
+<link rel="stylesheet" href="/static/css/recommend-html.css">
+<style></style>
+
+{% endblock %}
+
+
+
+{% block content %}
+<div class="ai-html">
+    <div class="ai-top"></div>
+
+    <div class="main-frame">
+        <div class="top-frame">
+            <a href="/">
+                <div class="arrwos-box">
+                    <img class="arrwos-box-style" src="/static/img/vector2.svg">
+                </div>
+            </a>
+
+            <div class="main-frame-text-style">알송Ai</div>
+            
+            <div class="arrwos-box">
+                <img class="arrwos-box-style" src="/static/img/interface-essential-dots.svg">
+            </div>
+        </div>
+
+        <div class="pop-text-box">
+            <div class="pop-text-1">다음엔 뭐 부르지?🎤 <br>고민된다면! 🤔</div>
+            <div class="pop-text-2">우리의 Word2Vec 기반의 개쩌는 모델이<br>담은 곡들을 학습하여 다음에 부를 곡을 골라드려요</div>
+        </div>
+
+        <div class="model-box">
+            <div class="model-text-box">
+                <div class="model-text-1">다음에 코노 가서 부를 곡 추천!</div>
+
+                <div class="img-text-group">
+                    <div class="ddabong-img-box">
+                        <img class="ellipse-147" src="/static/img/ddabong.png">
+                    </div>
+                    <div class="text-box">
+                        <div class="text-box-text-1">추천 모델은 테스트 중입니다!</div>
+                        <div class="text-box-text-2">
+                             추천 결과가 이상할 수 있어요 ㅎㅎ..
+                        </div>
+                    </div>
+                </div>
+            
+                <a href="/recommend/" class="reload-box">
+                    <div class="reload-text">
+                        <button class="recommend-button">
+                        다른 폴더 추천 받기 ✨
+                        </button>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-text">이런 곡을 불러보는 건 어떨까요?</div>
+        {% for recommends in recommend %}
+        <div class="recommend-song-box button-add-list" id="button_add_list" 
+                master_number="{{recommends.master_number_id}}">
+            <div class="recommend-song">
+                <div class="avatar-05">
+                    <img class="ellipse-144" src="/static/img/music.svg">
+                </div>
+                <div class="recommend-title-artist">
+                    <div class="recommend-title-text">{{recommends.title}}</div>
+                    <div class="recommend-artist-text">{{recommends.artist}}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">내 리스트에 담기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list_name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+</script>
+
+<script>
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'button-add-list' class
+        if (e.target.closest('.button-add-list')) {
+            var button = e.target.closest('.button-add-list');
+            // Assign song data on selectedSongData
+            selectedSongData = {
+                master_number_id: button.getAttribute('master_number')
+            };
+        }
+    });
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list_name').textContent.trim();
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, selectedSongData, { listNumber, listName });
+
+            const url = `/recommend/${listNumber}/add-to-recommend/`
+
+            $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                    location.reload();
+                    var successMessage = '추가되었습니다.';
+                    alert(successMessage)
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+            console.log(data);
+        }
+    });
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var category = urlParams.get('category');
+        var query = urlParams.get('query');
+        
+        if (category) {
+            $('select[name=search_option]').val(category);
+        }
+
+        if (query) {
+            $("input[name='query']").val(decodeURIComponent(query));
+        }
+    });
+
+    // 모든 리스트 버튼에 대해 클릭 이벤트 리스너를 등록
+    const listButtons = document.querySelectorAll(".list_button");
+    listButtons.forEach((listButton) => {
+        listButton.addEventListener('click', () => {
+            const listNumber = listButton.dataset.listNumber;
+            const url = `/recommend/${listNumber}/`; // 이동할 URL 설정
+            window.location.href = url; // URL로 이동
+        });
+    });
+
+    window.addEventListener('load', () => {
+        if (window.location.href.includes('/recommend/') && !sessionStorage.getItem('refreshed')) {
+            sessionStorage.setItem('refreshed', 'true');
+            window.location.reload();
+        } else if (sessionStorage.getItem('refreshed')) {
+            sessionStorage.removeItem('refreshed');
+        }
+    });
+
+
+    //모달 띄우기 코드
+    const modal2 = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-song-box");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal2.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal2.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal2 = 
+    document.getElementById("close_modal");
+    buttonCloseModal2.addEventListener("click", e => {
+        modal2.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+
+</script>
+{% endblock %}
+

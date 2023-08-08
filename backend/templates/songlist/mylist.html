@@ -1,0 +1,458 @@
+{% extends 'navbar.html' %}
+{% block style %}
+<link rel="stylesheet" href="/static/css/mylist-html2.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="mylist">
+    <div class="mylist-top"></div>
+    <div class="mylist-title">
+        <a href="/">
+            <div class="arrows" style="width: 7px; height: 14px;">
+                <img class="arrwos-style" src="/static/img/vector2.svg">
+            </div>
+        </a>
+        <div class="mylist-title-text">달송 폴더</div>
+        <div class="more"></div>
+    </div>
+    <div class="card">
+        <div class="mask-group">
+            <div class="rectangle-356"></div>
+            <div class="rectangle-370"></div>
+            <div class="rectangle-368"></div>
+            <div class="rectangle-369"></div>
+        </div>
+        <div class="title-box">
+            <div class="title-box-1">
+                <div class="title-img-box">
+                    <img class="title-img-style" src="/static/img/mic-dicons.svg" />
+                </div>
+                {% for folder in folders %}
+                <div class="list-name">
+                    {{folder.list_name}}
+                </div>
+            </div>
+
+            <div class="title-text-box">
+                <div class="title-text-2">{{folder.song_count}}</div>
+                <div class="title-text-1">곡 달릴 예정</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="edit-delete-box">
+        <div class="edit-delete-box-style"></div>
+
+        <div id="folder_delete" class="edit-delete-button-box">
+            <div class="divider"></div>
+            {% for folder in folders %}
+            <div class="folder_delete_button">
+                <button class="delete-button-box" data-list-number="{{ folder.list_number }}">
+                    <img class="delete-img" src="/static/img/delete-img.svg">
+                    <div class="delete-text">삭제</div>
+                </button>
+            </div>
+            <div class="folder_edit_button">
+                <button class="edit-button-box" data-list-number="{{ folder.list_number }}" data-list-name="{{ folder.list_name }}">
+                    <img class="edit-img" src="/static/img/edit-img.svg">
+                    <div class="edit-text">폴더명 변경</div>
+                </button>
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mylist-flex-group">
+        <div class="song-delete-box">
+            <button class="song-delete-text" id="delete-button">선택 곡 삭제</button>
+        </div>
+
+        <div class="song-box">
+            <div class="song-list-text">
+                <div class="checkbox-off">
+                    <div style="width: 20px; height: 20px;"></div>
+                </div>
+                
+                <div class="song-list-title">곡명/아티스트</div>
+                <!-- <div class="song-list-artist">가수</div> -->
+                <div class="song-list-tj">TJ곡번호</div>
+                <div class="song-list-ky">KY곡번호</div>
+            </div>
+            {% for song in lists %}
+            <div class="song-list-text">
+                <div class="checkbox">
+                    <button id="choice-button-{{ song.id }}" class="checkbox-style" data-song-id="{{ song.id }}"></button>
+                </div>
+                <div class="title-artist-box">
+                    <div class="song-list-title">{{song.title}}</div>
+                    <div class="song-list-artist">{{song.artist}}</div>
+                </div>
+                <div class="song-list-tj">{{song.tj_number_id}}</div>
+                <div class="song-list-ky">{{song.ky_number_id}}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        
+        <a href="/recommend/" class="recommend-text-box">
+            <div class="recommend-text">
+                지금 이 폴더에<br> 
+                부를 곡 추천!<br>
+            </div>
+            <div class="vector">
+                <div class="vector-text">더보기</div>
+                <img class="vector-img" src="/static/img/vector.svg">
+            </div>
+        </a>
+        {% for recommends in recommend %}
+        <div class="recommend-song-box button-add-list" id="button_add_list" 
+                master_number="{{recommends.master_number_id}}">
+            <div class="recommend-song">
+                <div class="avatar-05">
+                    <img class="ellipse-144" src="/static/img/music.svg">
+                </div>
+                <div class="recommend-title-artist">
+                    <div class="recommend-title-text">{{recommends.title}}</div>
+                    <div class="recommend-artist-text">{{recommends.artist}}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- folder 삭제 모달 -->
+<div id="confirmation-modal" class="delete-modal">
+    <div class="delete-modal-content">
+        <p class="delete-modal-text">정말로 폴더를 삭제하시겠습니까?</p>
+        <div class="delete-modal-button-box">
+            <button class="delete-modal-buttons" id="confirm-yes">예</button>
+            <button class="delete-modal-buttons" id="confirm-no">아니오</button>
+        </div>
+    </div>
+</div>
+
+<!-- fodler 이름 수정 모달 -->
+<div id="edit-modal" class="edit-modal">
+    <div class="edit-modal-content">
+        <label for="new-list-name">새로운 이름</label>
+        <input type="text" id="new-list-name" />
+        <div class="edit-modal-buttons">
+            <button class="edit-modal-button" id="confirm-edit">확인</button>
+            <button class="edit-modal-button" id="close_modal">취소</button>
+        </div>
+    </div>
+</div>
+
+<!-- 리스트에 노래 추가하는 모달 -->
+<div id="modal-add-song" class="modal modal-overlay-song">
+    <div class="modal_window">
+        <div class="modal_title">내 리스트에 담기
+            <div class="modal-title-side"></div>
+            <div class="modal-title-side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: large;">
+                    X
+                </span>
+            </div>
+        </div>
+        <div class="modal-mylist">
+            {% for folder in folders %}
+            <li>
+                <div class="popup_list" id="folderSelect" data-list-number="{{folder.list_number}}">
+                    <div class="popup_list-thumbnail">
+                        <img src="/static/img/music.svg">
+                    </div>
+                    <div class="popup_list-text">
+                        <p class="popup_list-title list_name"> {{folder.list_name}} </p>
+                        <p class="popup_list-count"> {{folder.song_count}} </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+{% endblock %}
+
+
+
+
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'button-add-list' class
+        if (e.target.closest('.button-add-list')) {
+            var button = e.target.closest('.button-add-list');
+            // Assign song data on selectedSongData
+            selectedSongData = {
+                master_number_id: button.getAttribute('master_number')
+            };
+        }
+    });
+
+    document.querySelector('body').addEventListener('click', (e) => {
+        // Check if the clicked element has the 'popup_list' class
+        if (e.target.closest('.popup_list')) {
+            var folderElement = e.target.closest('.popup_list');
+            var listNumber = folderElement.getAttribute('data-list-number');
+            var listName = folderElement.querySelector('.list_name').textContent.trim();
+
+            // Merge the song and folder data into one object
+            var sendData = Object.assign({}, selectedSongData, { listNumber, listName });
+
+            $.ajax({
+            type: 'POST',
+            url: '/add-to-mylist/',
+            dataType: 'text',
+            headers: {
+                "X-CSRFToken": csrftoken
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(sendData),
+            success: function(response) {
+                var parsedResponse = JSON.parse(response);
+                if (parsedResponse.status === 'success') {
+                    console.log('데이터 추가 성공');
+                    location.reload();
+                    var successMessage = '추가되었습니다.';
+                    alert(successMessage)
+                } else if (parsedResponse.status === 'error') {
+                    console.log('데이터 추가 실패: ' + parsedResponse.message);
+                    var errorMessage = '이미 추가된 노래입니다.';
+                    alert(errorMessage);
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX 요청 실패');
+                var errorMessage = 'error';
+                alert(errorMessage);
+            }
+        });
+
+            console.log(data);
+        }
+    });
+    
+    
+    const choiceButtons = document.querySelectorAll('.checkbox-style');
+    const deleteButton = document.getElementById('delete-button');
+
+    
+    // 선택된 버튼들의 ID를 저장할 배열
+    const selectedIds = [];
+
+    choiceButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const buttonId = button.id;
+            const songId = button.getAttribute('data-song-id'); // 선택된 버튼의 song.id 값을 가져옵니다.
+            const index = selectedIds.indexOf(songId);
+
+            if (index > -1) {
+                // 이미 선택된 버튼인 경우 선택 해제
+                selectedIds.splice(index, 1);
+                button.classList.remove('selected');
+            } else {
+                // 선택되지 않은 버튼인 경우 선택 추가
+                selectedIds.push(songId);
+                button.classList.add('selected');
+            }
+        });
+    });
+
+    
+
+    $(deleteButton).click(function() {
+        $.ajax({
+            url: '/mylist/delete/',
+            type: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            data: JSON.stringify({ ids: selectedIds }), // 선택된 song.id 값을 JSON 형식으로 변환하여 전송합니다.
+            success: function() {
+                // 삭제가 성공적으로 이루어진 후, 현재 페이지를 새로 고칩니다.
+                location.reload();
+            },
+            error: function() {
+                // 삭제가 실패한 경우에 대한 처리를 추가할 수 있습니다.
+                console.error('Failed to delete selected values.');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        const deletefolderButton = document.querySelector('#folder_delete button');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmYesButton = document.getElementById('confirm-yes');
+        const confirmNoButton = document.getElementById('confirm-no');
+        const folderEditButton = document.querySelector('.folder_edit_button button');
+        const editModal = document.getElementById('edit-modal');
+        const newListNameInput = document.getElementById('new-list-name');
+        const confirmEditButton = document.getElementById('confirm-edit');
+
+        deletefolderButton.addEventListener('click', function() {
+            confirmationModal.style.visibility = 'visible';
+            confirmationModal.style.opacity = '1';
+        });
+
+        confirmYesButton.addEventListener('click', function() {
+            const listNumber = deletefolderButton.getAttribute('data-list-number');
+            console.log(listNumber);
+
+            $.ajax({
+                url: '/mylist/deletefolder/',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                data: JSON.stringify({ list_number: listNumber }),
+                dataType: 'json',
+                success: function() {
+                    // 삭제 성공
+                    location.href = '/';
+                },
+                error: function() {
+                    // 삭제 중 에러 발생
+                    console.error('폴더 삭제에 실패했습니다.');
+                }
+            });
+        });
+
+        confirmNoButton.addEventListener('click', function() {
+            confirmationModal.style.visibility = 'hidden';
+            confirmationModal.style.opacity = '0';
+        });
+
+        folderEditButton.addEventListener('click', function() {
+            // 폴더 수정 모달 표시
+            editModal.style.visibility = 'visible';
+            editModal.style.opacity = '1';
+        });
+
+        confirmEditButton.addEventListener('click', function() {
+            const listNumber = folderEditButton.getAttribute('data-list-number');
+            const listName = folderEditButton.getAttribute('data-list-name');
+            const newFolderName = newListNameInput.value; // 사용자가 입력한 새로운 이름
+
+            console.log(listNumber);
+            console.log(newFolderName);
+
+            // newFolderName의 길이가 8글자 이상인지 확인
+            if (newFolderName.length >= 7) {
+                alert('폴더 이름이 너무 깁니다. 7글자 이하로 입력해 주세요.');
+                return error;
+            }
+
+            // 해당 폴더의 이름을 변경하는 Ajax 요청을 보내는 코드 추가
+            $.ajax({
+                url: '/mylist/editfolder/',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                data: JSON.stringify({ newFolderName: newFolderName, listNumber: listNumber, listName:listName }),
+                dataType: 'json',
+                success: function() {
+                    // 수정 성공
+                    location.href = '/';
+                },
+                error: function() {
+                    // 수정 중 에러 발생
+                    console.error('폴더 수정에 실패했습니다.');
+                }
+            });
+
+            // 모달 닫기
+            editModal.style.visibility = 'hidden';
+            editModal.style.opacity = '0';
+        });
+
+
+        confirmEditButton.addEventListener('click', function() {
+            const listNumber = folderEditButton.getAttribute('data-list-number');
+            const listName = folderEditButton.getAttribute('data-list-name');
+            const newFolderName = newListNameInput.value; // 사용자가 입력한 새로운 이름
+
+            console.log(listNumber);
+            console.log(newFolderName);
+
+            // 해당 폴더의 이름을 변경하는 Ajax 요청을 보내는 코드 추가
+            $.ajax({
+                url: '/mylist/editlist/',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                data: JSON.stringify({ newFolderName: newFolderName, listNumber: listNumber, listName:listName }),
+                dataType: 'json',
+                success: function() {
+                    // 수정 성공
+                    location.href = '/';
+                },
+                error: function() {
+                    // 수정 중 에러 발생
+                    console.error('폴더 수정에 실패했습니다.');
+                }
+            });
+
+            // 모달 닫기
+            editModal.style.visibility = 'hidden';
+            editModal.style.opacity = '0';
+        });
+    });
+
+    //수정 모달 닫기 코드
+    const modal = document.getElementById('edit-modal');
+    const buttonCloseModal = 
+    document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.visibility = 'hidden';
+        document.body.style.overflowY = "visible";
+    });
+
+    
+    //모달 띄우기 코드
+    const modal2 = document.getElementById("modal-add-song");
+    const buttonsAddList = document.querySelectorAll(".recommend-song-box");
+
+    buttonsAddList.forEach(button => {
+        button.addEventListener("click", e => {
+            modal2.style.top = window.pageYOffset + 'px'; // 모달 창이 스크롤에 따라 움직이도록 위치 설정
+            modal2.style.display = "flex";
+            document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+            console.log(window.pageYOffset + " 위치"); // 위치 로그 찍기
+        });
+    });
+
+
+    //모달 닫기 코드
+    const buttonCloseModal2 = 
+    document.getElementById("close_modal");
+    buttonCloseModal2.addEventListener("click", e => {
+        modal2.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+
+
+
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": csrftoken }
+    });
+</script>
+{% endblock %}
