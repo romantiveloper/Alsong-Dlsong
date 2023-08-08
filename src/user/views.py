@@ -222,12 +222,16 @@ def my_page(request):
         pass
     else:
         user = request.user
+        users = User.objects.filter(user_id=user)
+
         print(user)
         print(user.username)
         err = False
         if user.login_method != 'email' and (user.birthday is None or user.gender is None):
             err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요!'
-        return render(request, 'user/mypage.html')
+
+        data = {'user':users}
+        return render(request, 'user/mypage.html', data)
     
 
 # 비밀번호 변경

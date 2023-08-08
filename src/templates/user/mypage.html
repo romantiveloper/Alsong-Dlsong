@@ -136,10 +136,11 @@
                 <img class="arrwos-box-style" src="/static/img/dark-interface-essential-group.svg">
 	    </div>
         </div>
-
+	{% for users in user %}
         <div class="profile-img">
 		<img class="profile-img" src="{{users.profile_img}}"/>
-        </div>
+	</div>
+	{% endfor %}
 
         <div class="profile-box">
             <div class="edit-profile">

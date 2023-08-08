@@ -226,7 +226,6 @@
                 if (jsonResponse.status === 'success') {
                     console.log('데이터 전송 완료');
                     var successMessage = '추천 모델 돌아가는 중';
-                    alert(successMessage);
                 } else if (jsonResponse.status === 'error') {
                     console.log('데이터 전송 실패: ' + jsonResponse.message);
                     var errorMessage = '폴더에 5개 이상 노래를 추가해주세요.';
