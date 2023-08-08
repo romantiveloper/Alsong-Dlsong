@@ -135,10 +135,6 @@ li, ol, ul{
 
 @media screen and (max-width: 767px) {
 /* 브라우저가 767px 이하일 때 적용되는 스타일 */
-* {
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
 .dashboard_container,
 .list_container {
         padding-left: 20px;
@@ -150,10 +146,6 @@ li, ol, ul{
 
 @media screen and (max-width: 480px) {
 /* 브라우저가 480px 이하일 때 적용되는 스타일 */
-* {
-    font-family: 'Noto Sans KR', sans-serif;
-}
-	
 .dashboard_container,
 .list_container {
     padding-left: 10px;
@@ -275,7 +267,7 @@ li, ol, ul{
     height: 95px; 
     left: 0px; 
     top: 0px; 
-    position: absolute;
+    position: absolute
 }
 
 .profile-img {
@@ -289,15 +281,14 @@ li, ol, ul{
 }
 
 .Dicons {
-    width: 56px;
-    height: 72px;
-    left: 20px;
-    top: 12px;
+    width: 95px;
+    height: 95px;
     position: absolute;
     flex-direction: column; 
     justify-content: center; 
     align-items: center; 
     display: inline-flex;
+    border-radius: 50%;
 }
 
 .frame-25 {
@@ -313,8 +304,8 @@ li, ol, ul{
 
 .frame-25-text-1 {
     color: #ffffff;
-    text-align: start;
-    font: 600 15px "Noto Sans KR", sans-serif;
+    text-align: center;
+    font: 400 17px "Noto Sans", sans-serif;
     position: relative;
     display: flex;
     align-items: center;
@@ -324,7 +315,7 @@ li, ol, ul{
 .frame-25-text-2 {
     color: #4c5057;
     text-align: left;
-    font: 600 12px "Noto Sans KR", sans-serif;
+    font: 500 12px "Noto Sans", sans-serif;
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -347,15 +338,14 @@ li, ol, ul{
     height: 44px;
     position: static;
     display: flex;
+    align-items: center;
 }
 
 .frame-1992-text-1 {
     color: var(--sub, #37385e);
     text-align: center;
-    font: 600 15px "Noto Sans KR", sans-serif;
+    font: 400 15px "Noto Sans", sans-serif;
     position: relative;
-    left: 0px;
-    top: 14px;
     width: 90px;
     display: flex;
     justify-content: flex-start;
@@ -364,7 +354,7 @@ li, ol, ul{
 .frame-1992-text-2 {
     color: var(--main, #1e1f4b);
     text-align: center;
-    font: 900 32px "Noto Sans KR", sans-serif;
+    font: 400 32px "Noto Sans", sans-serif;
     position: relative;
     left: 0px;
     top: 0px;
@@ -377,10 +367,8 @@ li, ol, ul{
 .frame-1992-text-3 {
     color: var(--sub, #37385e);
     text-align: center;
-    font: 600 15px "Noto Sans KR", sans-serif;
+    font: 400 15px "Noto Sans", sans-serif;
     position: relative;
-    left: 0px;
-    top: 14px;
     width: 14px;
     display: flex;
     justify-content: flex-start;
@@ -430,9 +418,9 @@ li, ol, ul{
 }
 
 .ai {
-    color: #319c82;
+    color: #000000;
     text-align: left;
-    font: var(--bold-15-pt, 600 13px "Noto Sans KR", sans-serif);
+    font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
     position: relative;
 }
 
@@ -485,9 +473,9 @@ li, ol, ul{
 }
 
 .folder-box-title-text {
-    color: #319c82;
+    color: #000000;
     text-align: left;
-    font: var(--bold-15-pt, 600 14px "Noto Sans KR", sans-serif);
+    font: var(--bold-15-pt, 400 15px "Noto Sans", sans-serif);
     position: relative;
 }
 
@@ -500,7 +488,6 @@ li, ol, ul{
     border-radius: 20px;
     margin: 5px;
     flex-direction: column;
-    padding: 0px 4px 2px 8px;
 }
 
 .folder-design {
