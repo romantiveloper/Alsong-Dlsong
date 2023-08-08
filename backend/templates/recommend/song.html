@@ -226,8 +226,9 @@
                     alert(successMessage);
                 } else if (jsonResponse.status === 'error') {
                     console.log('데이터 전송 실패: ' + jsonResponse.message);
-                    var errorMessage = '추천 모델 오류 발생';
+                    var errorMessage = '폴더에 5개 이상 노래를 추가해주세요.';
                     alert(errorMessage);
+                    location.reload()
                 }
             },
             error: function(xhr, textStatus, errorThrown) {
