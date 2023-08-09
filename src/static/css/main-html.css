@@ -350,7 +350,7 @@ li, ol, ul{
     text-align: center;
     font: 600 15px "Noto Sans KR", sans-serif;
     position: relative;
-    width: 70px;
+    width: 75px;
     display: flex;
     justify-content: flex-start;
 }
@@ -501,10 +501,21 @@ li, ol, ul{
 
 .folder {
     flex-shrink: 0;
-    width: 150px;
+    width: 145px;
     height: 140px;
     display: flex;
     background: #45d3b1;
+    border-radius: 20px;
+    margin: 5px;
+    flex-direction: column;
+}
+
+.folder-1 {
+    flex-shrink: 0;
+    width: 145px;
+    height: 140px;
+    display: flex;
+    background: #f6f7fd;
     border-radius: 20px;
     margin: 5px;
     flex-direction: column;
@@ -535,7 +546,7 @@ li, ol, ul{
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 .folder-name-2 {
@@ -547,7 +558,7 @@ li, ol, ul{
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 .img-box{
@@ -561,14 +572,13 @@ li, ol, ul{
     color: #ffffff;
     text-align: left;
     font: 500 12px "Noto Sans KR", sans-serif;
-    /* position: absolute; */
+    position: relative;
     width: auto;
-    height: 45.66px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 60px;
-    padding-left: 15px;
+    padding-top: 50px;
+    padding-left: 25px;
 }
 
 .ellipse-11,

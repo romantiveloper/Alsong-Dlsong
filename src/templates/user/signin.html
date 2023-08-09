@@ -53,7 +53,9 @@
         </div>
     </div>
 </div>
-
+{% if error %}
+  <span id="error-message" style="display:none;">{{ error }}</span>
+{% endif %}
 
 {% endblock %}
 
@@ -63,6 +65,13 @@
 
         document.addEventListener('DOMContentLoaded', function() {
         const kakaoBtn = document.getElementById('kakao-btn')
+        const errorMessageElement = document.getElementById('error-message');
+
+        if (errorMessageElement) {
+            // 본문에서 에러 메시지가 있다면 경고 창 띄우기
+            alert(errorMessageElement.innerText);
+        }
+
         kakaoBtn.addEventListener('click', () => {
             const url = '/user/kakao'
             window.location.href = url;

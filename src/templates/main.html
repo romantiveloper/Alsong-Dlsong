@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="folder" id="button_add_list">
+                    <div class="folder-1" id="button_add_list">
                         <div style="height: 80px;">
                             <div class="folder-name-2">새 폴더 추가</div>
                             <div class="folder-in-song"></div>
@@ -175,12 +175,18 @@
     //모달 띄우기 코드
     const modal = document.getElementById("modal_add_feed_content");
     const buttonAddFeed = document.getElementById("button_add_list");
-    buttonAddFeed.addEventListener("click", e=> {
-        modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y 위치를 바꿔줌
-        modal.style.display = "flex";
-        document.body.style.overflowY = "hidden"; //스크롤 없애기
-
-        console.log(window.pageYOffset + " 위치"); //로그 찍기
+    buttonAddFeed.addEventListener("click", e => {
+        // Check if the user is authenticated
+        const isAuthenticated = "{{ request.user.is_authenticated }}"; // Get the value from your template
+        if (isAuthenticated === "True") {
+            modal.style.top = window.pageYOffset + 'px';
+            modal.style.display = "flex";
+            document.body.style.overflowY = "hidden";
+            console.log(window.pageYOffset + " 위치");
+        } else {
+            // Redirect to the login page
+            window.location.href = "/user/sign-in/"; // Replace with the actual login page URL
+        }
     });
 
     //모달 닫기 코드

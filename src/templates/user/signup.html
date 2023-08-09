@@ -92,10 +92,17 @@
                     birthday:birthday,
                     gender:gender,
                 }), // JSON.stringify(data),
-                success:function(data){
-                    var successMessage = "회원가입에 성공했습니다.";
-                    alert(successMessage);
-                    location.replace('{% url "user:sign-in" %}');
+                success:function(response){
+                    const jsonResponse = response;
+                    if (jsonResponse.status === 'success') {
+                        var successMessage = "회원가입에 성공했습니다.";
+                        alert(successMessage);
+                        location.replace('{% url "user:sign-in" %}');
+                    } else if (jsonResponse.status === 'error'){
+                        var errorMessage = jsonResponse.error;
+                        console.log(errorMessage)
+                        alert(errorMessage)
+                    }
                 },
                 error:function(request, status, error){
                     // 요청이 실패했을 때 실행할 코드

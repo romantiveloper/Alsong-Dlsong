@@ -51,7 +51,7 @@ def sign_up_view(request):
     elif request.method == 'POST':  # 요청이 post로 들어온다면
         global certify_num
         data = json.loads(request.body.decode('utf-8')) # POST 요청에서 전달받은 본문(body) 가져와 "data"라는 변수에 저장, JSON 형식의 문자열을 딕셔너리로 변환
-        username = data['username'] 
+        name = data['username'] 
         user_id = data['user_id'] 
         password1 = data['password1']
         password2 = data['password2']
@@ -64,7 +64,7 @@ def sign_up_view(request):
 
         # user_id = str(uuid.uuid4())
 
-        if username == '': # 이름 공백일 때
+        if name == '': # 이름 공백일 때
             err_msg = '이름을 적어주세요.'
         if user_id == '' or password1 == '': # 아이디/비번 공백으로 로그인 시도 때
             err_msg = '아이디 및 패스워드를 확인해주세요'
@@ -89,20 +89,15 @@ def sign_up_view(request):
         if is_it2:
             err_msg = '이메일이 중복됩니다.'
         
-        
-        # context 변수: 오류 메시지를 포함하는 딕셔너리를 만들고, 그것을 클라이언트에게 JSON 형태로 반환하기 위해 사용
-        context = {'error': err_msg} 
+     
         
         if len(err_msg) > 1: # 만약 err_msg가 빈 문자열이 아니라면, 오류 발생한 것으로 간주
-            return JsonResponse(context) # 'error' 키와 함께 err_msg가 포함된 딕셔너리를 json 형식으로 응답으로 보내줌
+            return JsonResponse({'status':'error','error':err_msg}) # 'error' 키와 함께 err_msg가 포함된 딕셔너리를 json 형식으로 응답으로 보내줌
 
         # get_user_model() 함수: Django에서 제공하는 내장 함수로서, 장고의 auth 앱에서 사용자 모델을 가져오는 역할
-        get_user_model().objects.create_user(username=username, user_id=user_id, password=password1, nickname=nickname, 
-                                             email=email, birthday=birthday, gender=gender)
+        User.objects.create_user(username=user_id, user_id=user_id, password=password1, nickname=nickname, email=email, birthday=birthday, gender=gender, name=name)
        
-       # 다 끝나면 회원가입 완료 처리
-        context = {'ok': '회원가입완료'}
-        return JsonResponse(context)
+        return JsonResponse({'status':'success'})
 
 
 # 로그인
