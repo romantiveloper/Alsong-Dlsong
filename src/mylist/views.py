@@ -39,7 +39,7 @@ def mylist(request):
     return render(request, 'main.html', data)
 
 
-
+@login_required
 @api_view(['POST'])
 def add_list(request):
     print("add_list 실행")

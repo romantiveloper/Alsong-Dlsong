@@ -350,6 +350,16 @@ li, ol, ul{
     text-align: center;
     font: 600 15px "Noto Sans KR", sans-serif;
     position: relative;
+    width: 70px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.frame-1992-text-1-1 {
+    color: var(--sub, #37385e);
+    text-align: center;
+    font: 600 15px "Noto Sans KR", sans-serif;
+    position: relative;
     width: 90px;
     display: flex;
     justify-content: flex-start;
