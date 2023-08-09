@@ -1,10 +1,16 @@
 <div align="center">
+	
+<br>
+<br>
 
-![알송달송_logo](https://velog.velcdn.com/images/doodjb/post/73061706-ada4-486f-bcbe-fc83f79455a6/image.png)
+<img src="https://velog.velcdn.com/images/doodjb/post/ddc70aea-c690-4b59-ad1b-484d2b78a842/image.png" width="500"/>
+
+<br>
+<br>
+<br>
 
 **“ _뭐 부를지 고민될 땐❓ 알송달송 해 ❗_ ”**
 
-<br>
 <br>
 
 **`알송달송`** 은 **이원화된 노래방 곡 데이터를 한 데 모아 검색 및 저장**하고, <br>
@@ -248,8 +254,8 @@
 | [박지빈](https://github.com/JIBEEN) | 오준 | 이정연 | 장진혁 | 장희수 | 정기원 |
 |:--:|:--:|:--:|:--:|:--:|:--:|
 | ![Jibeen](https://velog.velcdn.com/images/doodjb/post/26d74b51-7df9-4d58-9ff6-19781f89b15f/image.jpg) | ![Oh](https://velog.velcdn.com/images/doodjb/post/62f8d3d0-39b1-47b8-b248-984dba43267e/image.png) | ![happyyeon](http://k.kakaocdn.net/dn/igE6M/btsjnIGUOeO/hGFgMxZFmO5ueibtEKBtu0/img_640x640.jpg) | ![Jinhuck](https://velog.velcdn.com/images/doodjb/post/5457db0d-86d3-4557-a841-8fc2bb19a9d8/image.png) | ![tbtgmltn97](https://velog.velcdn.com/images/doodjb/post/3cdab865-43c7-4e46-8475-881913760507/image.png) | ![kiwon](http://k.kakaocdn.net/dn/hFPGA/btspl7OFABY/z9eM8PVAiHb6X8D8OTlsZk/img_640x640.jpg) |
-| `배포`, <br>`Data Engineering`,<br>`Back-end`,<br>`UI디자인` | `Data Engineering`,<br>`ML Engineering` | `배포` | `Back-end`,<br>`Front-end` | `Data Engineering`,<br>`ML Engineering` | `Data Engineering` |
-| **`Docker`**, **`django`**,<br> **`GCP`**, **`Figma`**, **`Nginx`**, <br>**`Gunicorn`**, **`Airflow`** | **`FastAPI`**, **`Airflow`**,<br> **`CELERY`**, **`RabbitMQ`**,<br> **`Redis`**, **`GCP`**,<br> **`Docker`**, **`MongoDB`** | **`Docker`**,<br> **`AWS`**, **`Nginx`**,<br> **`Gunicorn`** | **`django`**,<br> **`elastic search`** | **`Airflow`**, **`PostgresDB`**,<br> **`MongoDB`**, **`Redis`**,<br> **`RabbitMQ`**, **`Docker`** | **`elastic search`**,<br> **`GCP`** |
+| `Data Engineering`, <br>`배포`,<br>`Back-end`,<br>`UI디자인` | `Data Engineering`,<br>`ML Engineering` | `배포` | `Back-end`,<br>`Front-end` | `Data Engineering`,<br>`ML Engineering` | `Data Engineering` |
+| **`Docker`**, **`django`**,<br> **`GCP`**, **`Figma`**, **`Nginx`**, <br>**`Gunicorn`**, **`Airflow`** | **`FastAPI`**, **`Airflow`**,<br> **`CELERY`**, **`RabbitMQ`**,<br> **`Redis`**, **`GCP`**,<br> **`Docker`**, **`MongoDB`** | **`Docker`**,<br> **`AWS`**, **`Nginx`**,<br> **`Gunicorn`** | **`django`**,<br> **`elastic search`** | **`Airflow`**, **`PostgresDB`**,<br> **`MongoDB`**, **`Redis`**,<br> **`RabbitMQ`**, **`Docker`**,<br> **`Nifi`** | **`elastic search`**,<br> **`GCP`** |
 <br>
 <br>
 
