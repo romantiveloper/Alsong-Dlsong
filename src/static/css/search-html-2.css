@@ -1,3 +1,7 @@
+html {
+    background-color: #f5f8ff;
+}
+
 .search-html,
 .search-html * {
   box-sizing: border-box;
@@ -30,7 +34,8 @@
     /* top: 50px; */
     width: 100%;
     padding: 10px;
-    padding-top: 50px
+    padding-top: 50px;
+    padding-bottom: 77px;
   }
 
   .frame-2006 {

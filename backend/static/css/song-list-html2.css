@@ -149,15 +149,15 @@
   .song-box {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    padding-top: 52px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 56px;
-  }
+    padding-top: 64px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 70px;
+}
 
   .song-box-head {
     flex-shrink: 0;

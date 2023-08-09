@@ -15,7 +15,6 @@ with open('secrets.json') as f:
    secrets = json.loads(f.read())
 
 
-@login_required
 def song_list(request):
     if request.method == 'POST':
         songs = Tj_pop.objects.all()

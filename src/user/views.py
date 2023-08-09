@@ -143,7 +143,7 @@ def user_view(request):
 # 카카오 로그인 시도
 def to_kakao(request):
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = 'http://35.216.62.167/user/kakao/callback'
+    REDIRECT_URI = 'http://alsong-dlsong.com/user/kakao/callback'
     
     return redirect(
         f'https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code')
@@ -153,7 +153,7 @@ def to_kakao(request):
 def from_kakao(request):
     print("카카오API 접속 시도")
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = 'http://35.216.62.167/user/kakao/callback'
+    REDIRECT_URI = 'http://alsong-dlsong.com/user/kakao/callback'
     code = request.GET.get('code', 'None')
     if code is None:
         # 코드 발급 x일 경우
@@ -222,12 +222,16 @@ def my_page(request):
         pass
     else:
         user = request.user
+        users = User.objects.filter(user_id=user)
+
         print(user)
         print(user.username)
         err = False
         if user.login_method != 'email' and (user.birthday is None or user.gender is None):
             err = '카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요!'
-        return render(request, 'user/mypage.html')
+
+        data = {'user':users}
+        return render(request, 'user/mypage.html', data)
     
 
 # 비밀번호 변경

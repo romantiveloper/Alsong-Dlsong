@@ -43,7 +43,7 @@
                         <img class="ellipse-147" src="/static/img/ddabong.png">
                     </div>
                     <div class="text-box">
-                        <div class="text-box-text-1">유사도 기반 부를 곡 추천 모델(beta)</div>
+                        <div class="text-box-text-1">유사도 기반 부를 곡 추천 모델</div>
                         <div class="text-box-text-2">
                              예상 소요 시간: 1분 이내
                         </div>
@@ -226,7 +226,6 @@
                 if (jsonResponse.status === 'success') {
                     console.log('데이터 전송 완료');
                     var successMessage = '추천 모델 돌아가는 중';
-                    alert(successMessage);
                 } else if (jsonResponse.status === 'error') {
                     console.log('데이터 전송 실패: ' + jsonResponse.message);
                     var errorMessage = '폴더에 5개 이상 노래를 추가해주세요.';

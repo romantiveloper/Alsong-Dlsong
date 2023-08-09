@@ -1,4 +1,7 @@
 {% extends 'navbar.html' %}
+
+{% block title %} | 마이페이지{% endblock %}
+
 {% block style %}
 <link rel="stylesheet" href="/static/css/mypage-html.css">
 <style>
@@ -131,12 +134,13 @@
             
             <div class="arrwos-box">
                 <img class="arrwos-box-style" src="/static/img/dark-interface-essential-group.svg">
-            </div>
+	    </div>
         </div>
-
+	{% for users in user %}
         <div class="profile-img">
-            <img class="profile-img" src="/static/img/rectangle.png"/>
-        </div>
+		<img class="profile-img" src="{{users.profile_img}}"/>
+	</div>
+	{% endfor %}
 
         <div class="profile-box">
             <div class="edit-profile">
@@ -144,7 +148,7 @@
                     <div class="edti-img">
                         <img class="edit-img" src="/static/img/user-group.svg">
                     </div>
-                    <div class="edit-share-text">이미지 수정</div>
+                    <div class="edit-share-text">이미지 수정(예정)</div>
                 </div>
             </div>
 
@@ -152,29 +156,29 @@
                 <div class="share-img">
                     <img class="share-img" src="/static/img/share.svg">
                 </div>
-                <div class="edit-share-text">프로필 공유</div>
+                <div class="edit-share-text">프로필 공유(예정)</div>
             </div>
         </div>
 
         <div class="basic-settings">
-            <div class="basic-settings-text">내 정보 변경</div>
+            <div class="basic-settings-text">내 정보 변경(예정)</div>
 
             <div class="settings-box">
                 <div class="settings-box-frame">
                     <img class="settings-box-img" src="/static/img/settings-user.svg">
-                    <div class="settings-box-text">아이디 변경하기</div>
+                    <div class="settings-box-text">아이디 변경하기(예정)</div>
                 </div>
             </div>
             <div class="settings-box">
                 <div class="settings-box-frame">
                     <img class="settings-box-img" src="/static/img/settings-key.svg">
-                    <div class="settings-box-text">비밀번호 변경하기</div>
+                    <div class="settings-box-text">비밀번호 변경하기(예정)</div>
                 </div>
             </div>
             <div class="settings-box">
                 <div class="settings-box-frame">
                     <img class="settings-box-img" src="/static/img/settings-question.svg">
-                    <div class="settings-box-text">문의하기</div>
+                    <div class="settings-box-text">문의하기(예정)</div>
                 </div>
             </div>
             <div class="settings-box">
@@ -192,10 +196,10 @@
             <div class="banner-text-box">
                 <div class="body-subtext">
                     <div class="subtext-1">배너 자리 입니당 ❗</div>
-                    <div class="subtext-2">뭐 쓸진 모르겠음.. 아마도<br> “알송달송이 처음이라면?” 등 사용 메뉴얼 관련일듯용</div>
+                    <div class="subtext-2">알송달송 사용 메뉴얼</div>
                 </div>
                 <div class="banner-box-frame">
-                    <div class="banner-box-frame-text">살펴보기</div>
+                    <div class="banner-box-frame-text">살펴보기(예정)</div>
                 </div>
             </div>
         </div>
@@ -218,13 +222,13 @@
             <div class="my-page-img">
                 <h1 class="my-page-h1">{{ user.username }}</h1>
                 <img src="{{user.profile_img}}"/>
-                <a href=/logout class="btn btn-rounded">로그아웃</a>
+                <a href=/user/logout class="btn btn-rounded">로그아웃</a>
             </div>
 
             <div class="my-page-info">
                 {% if err %}
                     <button class="to-change-birth btn btn-primary btn-lg">생년월일 변경</button>
-                    <form action="/birth-change/" method="post" class="change-birth" hidden>
+                    <form action="/user/birth-change/" method="post" class="change-birth" hidden>
                         {% csrf_token %}
                         <div class="form-floating">
                             <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
@@ -236,7 +240,7 @@
 
 
                     <button class="to-change-gender btn btn-primary btn-lg">성별</button>
-                    <form action="/gender-change/" method="post" class="change-gender" hidden>
+                    <form action="/user/gender-change/" method="post" class="change-gender" hidden>
                         {% csrf_token %}
                         <select class="form-select" aria-label="Default select example" name="gender" id="gender">
                             <option value="1" selected="">성별</option>
@@ -249,7 +253,7 @@
 
 
                 <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
-                <form action="/idchange/" method="post" class="change-id" hidden>
+                <form action="/user/idchange/" method="post" class="change-id" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
                         <input type="text" class="form-control" id="id" placeholder="Password" name="id">
@@ -258,7 +262,7 @@
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
                 <button class="to-change-pw btn btn-primary btn-lg">비밀 번호 변경</button>
-                <form action="/pwchange/" method="post" class="change-pw" hidden>
+                <form action="/user/pwchange/" method="post" class="change-pw" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
@@ -276,7 +280,7 @@
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
                 <button class="to-change-img btn btn-primary btn-lg"><p>프로필사진 변경</p></button>
-                <form method="POST" enctype="multipart/form-data" action="/my-modify/" class="change-img" hidden>
+                <form method="POST" enctype="multipart/form-data" action="/user/my-modify/" class="change-img" hidden>
                     {% csrf_token %}
                     <input type="file" name="file">
                     <button type="submit">사진 업로드</button>

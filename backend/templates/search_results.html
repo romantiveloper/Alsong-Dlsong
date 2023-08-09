@@ -1,4 +1,7 @@
 {% extends 'navbar.html' %}
+
+{% block title %} | 부를 곡 검색{% endblock %}
+
 {% block style %}
 <style>
     .main_body {
@@ -14,7 +17,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>노래 차트</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QMQMS9VC0P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-QMQMS9VC0P');
+    </script>
+    
     <style>
         table {
             border-collapse: collapse;

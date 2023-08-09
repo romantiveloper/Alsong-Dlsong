@@ -7,9 +7,7 @@
         {#            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">#}
 <style></style>
 {% endblock %}
-{% block title %}
-    회원가입
-{% endblock %}
+{% block title %} | 회원가입{% endblock %}
 
 
 
@@ -67,51 +65,48 @@
 
 {% block script %}
 <script>
-    const signBtn = document.getElementById('signBtn');
-    $('#signBtn').on('click',()=>{
-        console.log('클릭');
-        const username = $('#username').val();
-        const user_id = $('#user_id').val();
-        const password1 = $('#password1').val();
-        const password2 = $('#password2').val();
-        const nickname = $('#nickname').val();
-        const email = $('#email').val();
-        const birthday = $('#birthday').val();
-        const gender = $('#gender').val();
-       
+    $(document).ready(function () {
+        const signBtn = document.getElementById('signBtn');
+        $('#signBtn').on('click',()=>{
+            console.log('클릭');
+            const username = $('#username').val();
+            const user_id = $('#user_id').val();
+            const password1 = $('#password1').val();
+            const password2 = $('#password2').val();
+            const nickname = $('#nickname').val();
+            const email = $('#email').val();
+            const birthday = $('#birthday').val();
+            const gender = $('#gender').val();
         
-        $.ajax({
-            type:'POST',
-            url:'/user/sign-up/',
-            data: JSON.stringify({
-                username:username,
-                user_id:user_id,
-                password1:password1,
-                password2:password2,
-                nickname:nickname,
-                email:email,
-                birthday:birthday,
-                gender:gender,
-            }), // JSON.stringify(data),
-            success:function(data){
-                if (data.error) { // 에러 메시지가 있는 경우
-                    alert(data.error);
-                } else {
+            
+            $.ajax({
+                type:'POST',
+                url:'/user/sign-up/',
+                data: JSON.stringify({
+                    username:username,
+                    user_id:user_id,
+                    password1:password1,
+                    password2:password2,
+                    nickname:nickname,
+                    email:email,
+                    birthday:birthday,
+                    gender:gender,
+                }), // JSON.stringify(data),
+                success:function(data){
                     var successMessage = "회원가입에 성공했습니다.";
                     alert(successMessage);
                     location.replace('{% url "user:sign-in" %}');
+                },
+                error:function(request, status, error){
+                    // 요청이 실패했을 때 실행할 코드
+                    const data = JSON.parse(request.responseText);
+                    console.log(data.message);
+                    var errorMessage = "회원가입에 실패했습니다.";
+                    alert(errorMessage);
                 }
-            },
-            error:function(request, status, error){
-                // 요청이 실패했을 때 실행할 코드
-                const data = JSON.parse(request.responseText);
-                console.log(data.message);
-                var errorMessage = "회원가입에 실패했습니다.";
-                alert(errorMessage);
-            }
-            })
-       }); 
-    
+                })
+        }) 
+    });
     
     $.ajaxSetup({
         headers: { "X-CSRFToken": '{{ csrf_token }}' }
