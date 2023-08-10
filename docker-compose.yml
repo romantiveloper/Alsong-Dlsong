@@ -1,56 +1,15 @@
-version: "3"
+version: '3'
 services:
-    web:
-        build: .
-        container_name: django_ctn
-        restart: "no"
-        command: bash -c "
-            python3 manage.py collectstatic --no-input &&
-            python3 manage.py makemigrations && 
-            python3 manage.py migrate && 
-            gunicorn config.wsgi:application -b 0:8000"      
-        volumes:
-            - ./src:/src
-        networks:
-            - custom_network
-
-    nginx:
-        image: nginx:1.17.10
-        container_name: nginx_ctn
-        restart: "no"
-        ports:
-            - "80:80"
-        volumes:
-            - ./src:/src
-            - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./src/static:/src/static_root  
-        depends_on:
-            - web
-        networks:
-            - custom_network
-    
-    rabbitmq:
-        image: rabbitmq:management
-        container_name: rabbitmq_ctn
-        restart: "no"
-        volumes:
-          - ./config/rabbitmq/etc/:/etc/rabbitmq/
-          - ./config/rabbitmq/data/:/var/lib/rabbitmq/
-          - ./config/rabbitmq/logs/:/var/log/rabbitmq/
-        user: "1001:1002"
-        ports:
-          - "5672:5672"
-          - "15672:15672"
-          - "25672:25672"
-        environment:
-          RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
-          RABBITMQ_DEFAULT_USER: "admin"
-          RABBITMQ_DEFAULT_PASS: "AlsongDlsong"
-        networks:
-            - custom_network
-
-networks:
-    custom_network:
-        driver: bridge
-
-
+  airflow:
+    build: .
+    command: >
+      bash -c '
+      airflow db init &&
+      airflow users create --username admin --password admin --firstname Anonymous --lastname Admin --role Admin --email test@test.com &&
+      (airflow webserver & airflow scheduler & wait)'
+    ports:
+      - 8080:8080
+    volumes:
+      - ./dags:/opt/airflow/dags/
+      - ./data:/opt/airflow/data
+      - ./secrets.json:/etc/airflow/secrets.json

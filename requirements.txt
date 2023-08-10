@@ -1,0 +1,10 @@
+requests
+pandas
+numpy
+json
+pathlib
+beautifulsoup4
+psycopg2
+sqlalchemy
+apache-airflow
+apache-airflow-providers-ssh
