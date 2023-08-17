@@ -76,6 +76,12 @@
 <br>
 <br>
 
+## 🎤 전체 아키텍처
+<div align="center">
+<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfNTgg/MDAxNjkyMjQ1NzczOTM0.DqEh3-tAAL_VvrpKljdhA6PbkmWeUtmZTDiHltBWNnYg.wmxF7QIpdGVLqEfflzu7rSwdde6eyGK9C3g_aUBEyN0g.PNG.tbtgmltn97/image.png?type=w773"/>
+</div>
+
+
 ### 세부 워크플로우
 
 <details>
@@ -215,9 +221,21 @@
 <summary>🔎열어보기</summary>
 <div markdown="1">
   
-(추가 예정)
-
+<details>
+<summary>🧺 데이터 수집</summary>
+<div markdown="1" align="center">
+	<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfMjMw/MDAxNjkyMjQ2MjE3NTUx.o0hyA4hhxEtAwHoAsroynVTU0mh8E9Lq9eQKwR2p6xYg.JQSgusSk2cQAA1ucnztiS6seDq3Q4tkcopbQGlKuyKAg.PNG.tbtgmltn97/image.png?type=w773"/>
+ 
 </div>
+</details>
+
+<details>
+<summary>📖모델 학습</summary>
+<div markdown="1" align="center">
+	<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfNjQg/MDAxNjkyMjQ2MjQyMjg0.Mdrh_MhV4EsgSbLAWXLFFGpr9QbKyHEBSv_GuW66e64g.JL_Wle3hVNgZt9ovP6zZ7q_yhZt3mYjVWoexveWljeQg.PNG.tbtgmltn97/image.png?type=w773"/>
+ 
+</div>
+</details>
 </details>
 
 <br>
@@ -255,11 +273,11 @@
 > **이름(+깃허브링크)**,  **사진**,  **팀 내 Role**,  **담당 기술 스택** 순
 <br>
 
-| [박지빈](https://github.com/JIBEEN) | 오준 | 이정연 | 장진혁 | 장희수 | 정기원 |
+| [박지빈](https://github.com/JIBEEN) | 오준 | 이정연 | 장진혁 | [장희수](https://github.com/tbtgmltn97) | 정기원 |
 |:--:|:--:|:--:|:--:|:--:|:--:|
 | ![Jibeen](https://velog.velcdn.com/images/doodjb/post/26d74b51-7df9-4d58-9ff6-19781f89b15f/image.jpg) | ![Oh](https://velog.velcdn.com/images/doodjb/post/62f8d3d0-39b1-47b8-b248-984dba43267e/image.png) | ![happyyeon](http://k.kakaocdn.net/dn/igE6M/btsjnIGUOeO/hGFgMxZFmO5ueibtEKBtu0/img_640x640.jpg) | ![Jinhuck](https://velog.velcdn.com/images/doodjb/post/5457db0d-86d3-4557-a841-8fc2bb19a9d8/image.png) | ![tbtgmltn97](https://velog.velcdn.com/images/doodjb/post/3cdab865-43c7-4e46-8475-881913760507/image.png) | ![kiwon](http://k.kakaocdn.net/dn/hFPGA/btspl7OFABY/z9eM8PVAiHb6X8D8OTlsZk/img_640x640.jpg) |
 | `Data Engineering`, <br>`배포`,<br>`Back-end`,<br>`UI디자인` | `Data Engineering`,<br>`ML Engineering` | `배포` | `Back-end`,<br>`Front-end` | `Data Engineering`,<br>`ML Engineering` | `Data Engineering` |
-| **`Airflow`**,  <br>**`Docker`**, <br> **`django`**, **`GCP`**, <br>**`Nginx`**, <br>**`Gunicorn`**, <br>**`Figma`** | **`FastAPI`**, **`Airflow`**,<br> **`CELERY`**, **`RabbitMQ`**,<br> **`Redis`**, **`GCP`**,<br> **`Docker`**, **`MongoDB`** | **`Docker`**,<br> **`AWS`**, **`Nginx`**,<br> **`Gunicorn`** | **`django`**,<br> **`elastic search`** | **`Airflow`**, **`PostgresDB`**,<br> **`MongoDB`**, **`Redis`**,<br> **`RabbitMQ`**, **`Docker`**,<br> **`Nifi`** | **`elastic search`**,<br> **`GCP`** |
+| **`Airflow`**,  <br>**`Docker`**, <br> **`django`**, **`GCP`**, <br>**`Nginx`**, <br>**`Gunicorn`**, <br>**`Figma`** | **`FastAPI`**, **`Airflow`**,<br> **`CELERY`**, **`RabbitMQ`**,<br> **`Redis`**, **`GCP`**,<br> **`Docker`**, **`MongoDB`** | **`Docker`**,<br> **`AWS`**, **`Nginx`**,<br> **`Gunicorn`** | **`django`**,<br> **`elastic search`** | **`Airflow`**, **`PostgresDB`**,<br> **`MongoDB`**, **`Redis`**,<br> **`RabbitMQ`**, **`CELERY`**, **`Docker`**,<br> **`Nifi`**, **`GCP`** | **`elastic search`**,<br> **`GCP`** |
 <br>
 <br>
 
