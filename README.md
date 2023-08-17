@@ -220,7 +220,8 @@
 <details>
 <summary>🔎열어보기</summary>
 <div markdown="1">
-  
+<br>
+<br>
 <details>
 <summary>🧺 데이터 수집</summary>
 <div markdown="1" align="center">
