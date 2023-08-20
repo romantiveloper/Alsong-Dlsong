@@ -274,7 +274,7 @@
 > **이름(+깃허브링크)**,  **사진**,  **팀 내 Role**,  **담당 기술 스택** 순
 <br>
 
-| [박지빈](https://github.com/JIBEEN) | 오준 | 이정연 | 장진혁 | [장희수](https://github.com/tbtgmltn97) | 정기원 |
+| [박지빈](https://github.com/JIBEEN) | [오준](https://github.com/OhJune) | [이정연](https://github.com/happyyeon) | [장진혁](https://github.com/jjh919) | [장희수](https://github.com/tbtgmltn97) | [정기원](https://github.com/OriginJung) |
 |:--:|:--:|:--:|:--:|:--:|:--:|
 | ![Jibeen](https://velog.velcdn.com/images/doodjb/post/26d74b51-7df9-4d58-9ff6-19781f89b15f/image.jpg) | ![Oh](https://velog.velcdn.com/images/doodjb/post/62f8d3d0-39b1-47b8-b248-984dba43267e/image.png) | ![happyyeon](http://k.kakaocdn.net/dn/igE6M/btsjnIGUOeO/hGFgMxZFmO5ueibtEKBtu0/img_640x640.jpg) | ![Jinhuck](https://velog.velcdn.com/images/doodjb/post/5457db0d-86d3-4557-a841-8fc2bb19a9d8/image.png) | ![tbtgmltn97](https://velog.velcdn.com/images/doodjb/post/3cdab865-43c7-4e46-8475-881913760507/image.png) | ![kiwon](http://k.kakaocdn.net/dn/hFPGA/btspl7OFABY/z9eM8PVAiHb6X8D8OTlsZk/img_640x640.jpg) |
 | `Data Engineering`, <br>`배포`,<br>`Back-end`,<br>`UI디자인` | `Data Engineering`,<br>`ML Engineering` | `배포` | `Back-end`,<br>`Front-end` | `Data Engineering`,<br>`ML Engineering` | `Data Engineering` |
