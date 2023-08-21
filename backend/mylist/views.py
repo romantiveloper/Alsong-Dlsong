@@ -7,9 +7,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from song.models import Song
-import random
+from recommend.models import Recommend
 from user.models import User
+from song.models import Song
 
 
 # Create your views here.
@@ -22,8 +22,20 @@ def mylist(request):
     user = User.objects.filter(user_id=user_id)
     print(folder_list)
     print(user_id)
+    
+    song_count = Myfolder.objects.filter(user_id=user_id).values("song_count")
+    print(song_count)
 
-    data = {'folder_list':folder_list, 'user':user}
+    total=[]
+
+    for x in song_count:
+        song=x['song_count']
+        total.append(song)
+        print(type(song))
+
+    print(sum(total))
+    total_song = sum(total)
+    data = {'folder_list':folder_list, 'user':user, 'total_song':total_song}
     return render(request, 'main.html', data)
 
 
@@ -44,13 +56,12 @@ def add_list(request):
 @api_view(['GET'])
 def mylist_detail(request, list_number):
     print(list_number)
+    user=request.user
     lists = Mylist.objects.filter(list_number=list_number)
     folders = Myfolder.objects.filter(list_number=list_number)
-    test = Song.objects.all()
-    recommend = random.sample(list(test), 3)
+    recommend = Recommend.objects.filter(list_number_id=list_number, user_id=user)[:3]
 
-    print(recommend)
-    print(lists)
+
     data = {'lists':lists, 'folders':folders, 'recommend':recommend}
     return render(request, 'songlist/mylist.html', data)
 
@@ -122,3 +133,51 @@ def edit_list(request):
 
     except Mylist.DoesNotExist:
         return JsonResponse({'success': False, 'error': '폴더를 찾을 수 없습니다.'}, status=404)
+
+
+@api_view(['POST'])
+@login_required
+def add_to_mylist(request):
+    if request.method == 'POST':
+        data = request.data
+        list_number = data['listNumber']
+        list_name = data['listName']
+        user = request.user
+        master_number_id = data['master_number_id']
+
+        print(data)
+
+
+        song_data = Song.objects.get(master_number=master_number_id)
+        print("~~~~~~~~~~~~~~~~~")
+        print(song_data)
+
+        # 중복된 데이터 확인
+        duplicate_records = Mylist.objects.filter(
+            title=song_data.title,
+            artist=song_data.artist,
+            master_number=master_number_id,
+            list_number_id=list_number,
+            user=user
+        )
+
+        if duplicate_records.exists():
+            return JsonResponse({'status':'error', 'message':'이미 추가된 노래입니다.'})
+
+        mylist = Mylist(
+            list_name = list_name,
+            user = user,
+            title = song_data.title,
+            artist = song_data.artist,
+            cmp = song_data.cmp,
+            writer = song_data.writer,
+            ky_number_id = song_data.ky_song_num_id,
+            tj_number_id = song_data.tj_song_num_id,
+            list_number_id = list_number,
+            master_number = song_data.master_number
+        )
+        mylist.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 500, 'message':'잘못된 요청입니다.'})

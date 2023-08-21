@@ -29,8 +29,6 @@ with open('secrets.json') as f:
 
 SECRET_KEY = secrets['SECRET_KEY']
 
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -53,8 +51,8 @@ INSTALLED_APPS = [
     "recommend",
     "rest_framework",
     "rest_framework.authtoken",
-
     "elastic",
+    "drf_yasg",
 ]
 
 
@@ -94,19 +92,21 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'final3', # db 이름
-        'USER' : 'root', # 사용자 이름
-        'PASSWORD' : '1234', # 비밀번호
-        'HOST' : '127.0.0.1', # db 호스트
-        'PORT' : '4000', # 포트 번호
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "final",
+        "USER": "heesu",
+        "PASSWORD": secrets['DB_KEY'],
+        "HOST": "35.216.91.72",
+        "PORT": "5432",
     }
 }
 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': '127.0.0.1:9200'
+    },
+}
 
 
 # Password validation

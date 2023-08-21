@@ -25,6 +25,9 @@ def song_list(request):
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
 
+    
+    print(songs)
+
     data = {'songs': songs, 'folders': folders}
 
     return render(request, 'songlist/song-list.html', data)
@@ -41,6 +44,8 @@ def ky_song_list(request):
 
     user_id = request.user
     folders = Myfolder.objects.filter(user_id=user_id)
+
+    print(songs)
 
     data = {'songs':songs, 'folders': folders}
 
@@ -88,8 +93,8 @@ class SearchView(APIView):
                                 })
 
             data_list = docs['hits']
-            Song = namedtuple("Song", ["title", "artist", "ky", "tj"])
-            results = [Song(x['_source']['title'], x['_source']['artist'], x['_source']['ky_song_num_id'], x['_source']['tj_song_num_id']) for x in data_list['hits']]
+            Song = namedtuple("Song", ["title", "artist", "ky", "tj", "master_number"])
+            results = [Song(x['_source']['title'], x['_source']['artist'], x['_source']['ky_song_num_id'], x['_source']['tj_song_num_id'], x['_source']['master_number']) for x in data_list['hits']]
         
         else:
            results = []
@@ -97,10 +102,6 @@ class SearchView(APIView):
         
 
         print(results)
-        # title = [x['_source']['title'] for x in data_list['hits']]
-        # artist = [x['_source']['artist'] for x in data_list['hits']]
-        # ky = [x['_source']['ky_song_num_id'] for x in data_list['hits']]
-        # tj = [x['_source']['tj_song_num_id'] for x in data_list['hits']]
 
         data = {'results':results, 'folders':folders}
 
@@ -151,6 +152,10 @@ def add_to_search(request):
         artist = data['artist']
         ky_number = data['kySongNum']
         tj_number = data['tjSongNum']
+        master_number = data['master']
+
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("master:", master_number)
 
         # 중복된 데이터 확인
         duplicate_records = Mylist.objects.filter(
@@ -177,7 +182,8 @@ def add_to_search(request):
             writer=writer,
             ky_number_id=ky_number,
             tj_number_id=tj_number,
-            list_number_id=list_number
+            list_number_id=list_number,
+            master_number=master_number
         )
         mylist.save()
 
@@ -200,6 +206,7 @@ def add_to_tjlist(request):
 
         print(tj_song_num)
         song_data = Song.objects.get(tj_song_num=tj_song_num)
+        print("~~~~~~~~~~~~~~~~~")
         print(song_data)
 
         # 중복된 데이터 확인
@@ -223,7 +230,8 @@ def add_to_tjlist(request):
             writer = song_data.writer,
             ky_number_id = song_data.ky_song_num_id,
             tj_number_id = song_data.tj_song_num_id,
-            list_number_id = list_number
+            list_number_id = list_number,
+            master_number = song_data.master_number
         )
         mylist.save()
 
@@ -246,6 +254,7 @@ def add_to_kylist(request):
 
         print(ky_song_num)
         song_data = Song.objects.get(ky_song_num=ky_song_num)
+        print("~~~~~~~~~~~~~~~~~~~")
         print(song_data)
 
         # 중복된 데이터 확인
@@ -269,7 +278,8 @@ def add_to_kylist(request):
             writer = song_data.writer,
             ky_number_id = song_data.ky_song_num_id,
             tj_number_id = song_data.tj_song_num_id,
-            list_number_id = list_number
+            list_number_id = list_number,
+            master_number = song_data.master_number
         )
         mylist.save()
 
