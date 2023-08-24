@@ -1,17 +1,27 @@
 <div align="center">
+	
+<br>
+<br>
 
-![알송달송_logo](https://velog.velcdn.com/images/doodjb/post/73061706-ada4-486f-bcbe-fc83f79455a6/image.png)
+<img src="https://velog.velcdn.com/images/doodjb/post/ddc70aea-c690-4b59-ad1b-484d2b78a842/image.png" width="500"/>
+
+<br>
+<br>
+<br>
 
 **“ _뭐 부를지 고민될 땐❓ 알송달송 해 ❗_ ”**
 
 <br>
-<br>
 
 **`알송달송`** 은 **이원화된 노래방 곡 데이터를 한 데 모아 검색 및 저장**하고, <br>
-**저장된 곡을 기반으로 어울리는 부를 곡 추천**을 받을 수 있는 **`노래방 곡정보 저장 & 추천 모바일 웹 서비스`** 입니다. <br>
+**저장된 곡을 기반으로 어울리는 부를 곡 추천**을 받을 수 있는<br> 
+**`노래방 곡정보 저장 & 추천 모바일 웹 서비스`** 입니다. <br>
 <br>
-( :iphone: 모바일 환경에서 접속할 것을 권장합니다 )
-
+<a href="http://alsong-dlsong.com" target="_blank">👉🏻알송달송 바로가기👈🏻</a>
+<br>
+<br>
+( :iphone: 모바일 환경에서 접속할 것을 권장합니다 )<br>
+( 💻 PC의 경우, 가로폭을 모바일 정도로 줄여주세요! )
 
 
 <br>
@@ -43,13 +53,13 @@
 <br>
 ## 🎤 주요 기능
 
-### 📥 *노래방에서 부를 곡 >저장< 기능*
+### 📥 *노래방에서 부를 곡 "저장" 기능*
 
 	폴더 생성 👉🏻 곡 검색 or 인기차트를 통해 원하는 곡 선택
 	👉🏻 저장할 폴더 지정 👉🏻 저장
 <br>
 
-### 🤖 *노래방에서 부를 곡 >추천< 기능*
+### 🤖 *노래방에서 부를 곡 "추천" 기능*
 
 -   **추천 페이지를 통해 추천 받기**
     
@@ -65,6 +75,12 @@
 
 <br>
 <br>
+
+## 🎤 전체 아키텍처
+<div align="center">
+<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfNTgg/MDAxNjkyMjQ1NzczOTM0.DqEh3-tAAL_VvrpKljdhA6PbkmWeUtmZTDiHltBWNnYg.wmxF7QIpdGVLqEfflzu7rSwdde6eyGK9C3g_aUBEyN0g.PNG.tbtgmltn97/image.png?type=w773"/>
+</div>
+
 
 ### 세부 워크플로우
 
@@ -204,10 +220,23 @@
 <details>
 <summary>🔎열어보기</summary>
 <div markdown="1">
-  
-(추가 예정)
-
+<br>
+<br>
+<details>
+<summary>🧺 데이터 수집</summary>
+<div markdown="1" align="center">
+	<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfMjMw/MDAxNjkyMjQ2MjE3NTUx.o0hyA4hhxEtAwHoAsroynVTU0mh8E9Lq9eQKwR2p6xYg.JQSgusSk2cQAA1ucnztiS6seDq3Q4tkcopbQGlKuyKAg.PNG.tbtgmltn97/image.png?type=w773"/>
+ 
 </div>
+</details>
+
+<details>
+<summary>📖모델 학습</summary>
+<div markdown="1" align="center">
+	<img src="https://postfiles.pstatic.net/MjAyMzA4MTdfNjQg/MDAxNjkyMjQ2MjQyMjg0.Mdrh_MhV4EsgSbLAWXLFFGpr9QbKyHEBSv_GuW66e64g.JL_Wle3hVNgZt9ovP6zZ7q_yhZt3mYjVWoexveWljeQg.PNG.tbtgmltn97/image.png?type=w773"/>
+ 
+</div>
+</details>
 </details>
 
 <br>
@@ -245,7 +274,7 @@
 > **이름(+깃허브링크)**,  **사진**,  **팀 내 Role**,  **담당 기술 스택** 순
 <br>
 
-| [박지빈](https://github.com/JIBEEN) | 오준 | 이정연 | 장진혁 | 장희수 | 정기원 |
+| [박지빈](https://github.com/JIBEEN) | [오준](https://github.com/OhJune) | [이정연](https://github.com/happyyeon) | [장진혁](https://github.com/jjh919) | [장희수](https://github.com/tbtgmltn97) | [정기원](https://github.com/OriginJung) |
 |:--:|:--:|:--:|:--:|:--:|:--:|
 | ![Jibeen](https://velog.velcdn.com/images/doodjb/post/26d74b51-7df9-4d58-9ff6-19781f89b15f/image.jpg) | ![Oh](https://velog.velcdn.com/images/doodjb/post/62f8d3d0-39b1-47b8-b248-984dba43267e/image.png) | ![happyyeon](http://k.kakaocdn.net/dn/igE6M/btsjnIGUOeO/hGFgMxZFmO5ueibtEKBtu0/img_640x640.jpg) | ![Jinhuck](https://velog.velcdn.com/images/doodjb/post/5457db0d-86d3-4557-a841-8fc2bb19a9d8/image.png) | ![tbtgmltn97](https://velog.velcdn.com/images/doodjb/post/3cdab865-43c7-4e46-8475-881913760507/image.png) | ![kiwon](http://k.kakaocdn.net/dn/hFPGA/btspl7OFABY/z9eM8PVAiHb6X8D8OTlsZk/img_640x640.jpg) |
 | `배포`, <br>`Data Engineering`,<br>`Back-end`,<br>`UI디자인` | `Data Engineering`,<br>`ML Engineering` | `배포` | `Back-end`,<br>`Front-end` | `Data Engineering`,<br>`ML Engineering` | `Data Engineering` |

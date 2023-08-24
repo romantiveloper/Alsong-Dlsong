@@ -30,7 +30,7 @@ services:
             - custom_network
     
     rabbitmq:
-        image: rabbitmq:management
+        image: rabbitmq:3.7.14-management-alpine
         container_name: rabbitmq_ctn
         restart: "no"
         volumes:
@@ -41,9 +41,7 @@ services:
         ports:
           - "5672:5672"
           - "15672:15672"
-          - "25672:25672"
         environment:
-          RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
           RABBITMQ_DEFAULT_USER: "admin"
           RABBITMQ_DEFAULT_PASS: "AlsongDlsong"
         networks:

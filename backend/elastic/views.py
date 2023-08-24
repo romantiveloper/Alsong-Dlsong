@@ -27,7 +27,7 @@ class SearchView(APIView):
                 docs = es.search(index='song',
                                 body={
                                     "query": {
-                                        "multi_match": {
+                                        "match": {
                                             "query": query,
                                             "fields": ["title"]
                                         }
@@ -37,7 +37,7 @@ class SearchView(APIView):
                 docs = es.search(index='song',
                                 body={
                                     "query": {
-                                        "multi_match": {
+                                        "match": {
                                             "query": query,
                                             "fields": ["artist"]
                                         }
